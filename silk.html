@@ -160,12 +160,21 @@
       justify-content: center;
       font-family: 'Inter', sans-serif;
       font-weight: 600;
+<<<<<<< HEAD
       animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
+=======
+      animation: cartBounce 0.3s ease;
+    }
+
+    @keyframes cartBounce {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.2); }
+>>>>>>> 9e737556b727a39b3bf2c9e1d0ecb0ecc9951c63
       100% { transform: scale(1); }
     }
 
@@ -699,12 +708,19 @@
       transition: all 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
     }
 
     .add-to-cart-btn:hover {
       background: #b19cd9;
       transform: translateY(-2px);
       box-shadow: 0 10px 25px rgba(177, 156, 217, 0.3);
+    }
+
+    .add-to-cart-btn.adding {
+      background: #2ed573;
+      transform: scale(0.95);
     }
 
     .offer-banner {
@@ -875,6 +891,286 @@
       color: #b19cd9;
     }
 
+    /* Cleaned up login modal styles and removed hardcoded comments */
+    .login-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .login-modal {
+      background: white;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 420px;
+      max-height: 85vh;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      transform: scale(0.8) translateY(50px);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .login-modal-overlay.active .login-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--lilac-subtle) 0%, #b19cd9 100%);
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 1rem 0;
+    }
+
+    .modal-tabs {
+      display: flex;
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 3px;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .tab-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: calc(50% - 3px);
+      height: calc(100% - 6px);
+      background: white;
+      border-radius: 7px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .tab-slider.signup {
+      transform: translateX(100%);
+    }
+
+    .modal-tab {
+      flex: 1;
+      padding: 10px 16px;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 2;
+      border: none;
+      background: none;
+      font-size: 0.9rem;
+    }
+
+    .modal-tab.active {
+      color: var(--text-dark);
+    }
+
+    .modal-content {
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-container {
+      display: flex;
+      width: 200%;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-container.signup {
+      transform: translateX(-50%);
+    }
+
+    .login-form, .signup-form {
+      width: 50%;
+      padding-right: 0.75rem;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .signup-form {
+      padding-right: 0;
+      padding-left: 0.75rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background: #fafbfc;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--lilac-subtle);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(230, 215, 255, 0.1);
+    }
+
+    .form-button {
+      width: 100%;
+      background: linear-gradient(135deg, var(--text-dark) 0%, #1a1a1a 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+    }
+
+    .form-button:hover {
+      background: linear-gradient(135deg, #b19cd9 0%, #9d7cc7 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(177, 156, 217, 0.3);
+    }
+
+    .form-divider {
+      text-align: center;
+      margin: 1.2rem 0;
+      position: relative;
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+    }
+
+    .form-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e1e5e9;
+      z-index: 0;
+    }
+
+    .form-divider span {
+      background: white;
+      padding: 0 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-login {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 0.85rem;
+    }
+
+    .social-btn:hover {
+      border-color: var(--lilac-subtle);
+      background: var(--lilac-light);
+    }
+
+    .forgot-password {
+      text-align: center;
+      margin-top: 0.8rem;
+    }
+
+    .forgot-password a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      transition: color 0.3s ease;
+    }
+
+    .forgot-password a:hover {
+      color: #b19cd9;
+    }
+
     @media (max-width: 768px) {
       .cart-panel {
         width: 100%;
@@ -913,8 +1209,26 @@
         font-size: 24px;
       }
 
+<<<<<<< HEAD
       .nav-bar {
         padding: 0 20px;
+=======
+      .login-modal {
+        width: 95%;
+        max-width: 350px;
+      }
+      
+      .modal-header {
+        padding: 1.2rem;
+      }
+      
+      .modal-content {
+        padding: 1.2rem;
+      }
+      
+      .social-login {
+        flex-direction: column;
+>>>>>>> 9e737556b727a39b3bf2c9e1d0ecb0ecc9951c63
       }
     }
   </style>
@@ -934,10 +1248,10 @@
       <span></span>
       <span></span>
     </div>
-    <div class="nav-center" onclick="window.location.href='index.html'">SereNya</div>
+    <div class="nav-center" onclick="window.location.href='homepage.html'">SereNya</div>
     <div class="nav-right">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <i class="fa-solid fa-user"></i>
+      <i class="fa-solid fa-user" onclick="window.location.href='login.html'"></i>
       <div class="cart-container">
         <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
         <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
@@ -982,7 +1296,7 @@
 
   <main class="main-content">
     <div class="breadcrumb">
-      <a href="index.html">Home</a> > <a href="#fabric">Shop by Fabric</a> > <span style="color: var(--text-dark);">Silk</span>
+      <a href="homepage.html">Home</a> > <a href="#fabric">Shop by Fabric</a> > <span style="color: var(--text-dark);">Silk</span>
     </div>
 
     <div class="product-container">
@@ -1205,6 +1519,7 @@
   </footer>
 
   <script>
+<<<<<<< HEAD
     // Global Cart System for SereNya
     const SereNyaCart = {
       cart: [],
@@ -1449,13 +1764,75 @@
           alert(`Proceeding to checkout with ${cartCount} items totaling Rs. ${cartTotal.toLocaleString()}`);
           this.closeCart();
         }
+=======
+    let cartCount = 0;
+    let cartItems = [];
+
+    function updateCartBadge() {
+      const cartBadge = document.getElementById('cartBadge');
+      if (cartCount > 0) {
+        cartBadge.textContent = cartCount;
+        cartBadge.style.display = 'flex';
+        cartBadge.style.animation = 'none';
+        cartBadge.offsetHeight;
+        cartBadge.style.animation = 'cartBounce 0.3s ease';
+      } else {
+        cartBadge.style.display = 'none';
+>>>>>>> 9e737556b727a39b3bf2c9e1d0ecb0ecc9951c63
       }
     };
     
 
+<<<<<<< HEAD
     // Legacy functions for backward compatibility
     function addToCart() {
       SereNyaCart.addToCart();
+=======
+    function addToCart() {
+      try {
+        cartCount++;
+        
+        const currentColor = document.querySelector('.color-swatch.active')?.getAttribute('title') || 'Wine';
+        cartItems.push({
+          id: Date.now(),
+          name: `SILK HIJAB - ${currentColor.toUpperCase()}`,
+          price: 750,
+          quantity: 1,
+          color: currentColor
+        });
+        
+        updateCartBadge();
+        
+        const btn = document.querySelector('.add-to-cart-btn');
+        const originalText = btn.textContent;
+        const originalBg = btn.style.background;
+        
+        btn.classList.add('adding');
+        btn.textContent = 'ADDING...';
+        btn.disabled = true;
+        btn.style.transform = 'scale(0.98)';
+        
+        setTimeout(() => {
+          btn.textContent = 'ADDED TO CART!';
+          btn.style.background = '#2ed573';
+          btn.style.transform = 'scale(1)';
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = originalBg || 'var(--text-dark)';
+            btn.classList.remove('adding');
+            btn.disabled = false;
+            btn.style.transform = '';
+          }, 2000);
+        }, 800);
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        const btn = document.querySelector('.add-to-cart-btn');
+        btn.textContent = 'ADD TO CART';
+        btn.disabled = false;
+        btn.classList.remove('adding');
+      }
+>>>>>>> 9e737556b727a39b3bf2c9e1d0ecb0ecc9951c63
     }
 
     function increaseQuantity(index) {
