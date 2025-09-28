@@ -937,7 +937,7 @@
     <div class="nav-center" onclick="window.location.href='index.html'">SereNya</div>
     <div class="nav-right">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <i class="fa-solid fa-user"></i>
+      <i class="fa-solid fa-user" id="userIcon" style="cursor: pointer;"></i>
       <div class="cart-container">
         <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
         <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
@@ -1519,10 +1519,14 @@
       }, 5000);
     }
 
+     document.getElementById("userIcon").addEventListener("click", function() {
+    window.location.href = "login.html"; 
+    });
     // Initialize cart when page loads
     document.addEventListener('DOMContentLoaded', function() {
       SereNyaCart.init();
     });
+    
   </script>
 </body>
 </html>
