@@ -13,6 +13,8 @@
       --accent-color: #e6d7ff;
       --lilac-light: #f8f5ff;
       --lilac-subtle: #e6d7ff;
+      --lilac-medium: #d1b3ff;
+      --lilac-dark: #b19cd9;
       --neutral-light: #ffffff;
       --neutral-dark: #2d2d2d;
       --background: #ffffff;
@@ -158,10 +160,321 @@
       justify-content: center;
       font-family: 'Inter', sans-serif;
       font-weight: 600;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     .nav-right .cart-container {
       position: relative;
+    }
+
+    /* Cart Side Panel */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 450px;
+      height: 100%;
+      background: linear-gradient(135deg, var(--lilac-light) 0%, #ffffff 100%);
+      box-shadow: -5px 0 25px rgba(177, 156, 217, 0.2);
+      z-index: 10001;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .cart-overlay.active .cart-panel {
+      transform: translateX(0);
+    }
+
+    .cart-header {
+      background: linear-gradient(135deg, var(--lilac-dark), var(--lilac-medium));
+      color: white;
+      padding: 2rem 1.5rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      box-shadow: 0 2px 10px rgba(177, 156, 217, 0.3);
+    }
+
+    .cart-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .cart-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .cart-close {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .cart-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .cart-count {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .cart-content {
+      padding: 1.5rem;
+      min-height: calc(100vh - 300px);
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .cart-empty-icon {
+      font-size: 4rem;
+      color: var(--lilac-dark);
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+
+    .cart-empty-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-empty-text {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+    }
+
+    .cart-item {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 3px 15px rgba(177, 156, 217, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid var(--lilac-subtle);
+    }
+
+    .cart-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(177, 156, 217, 0.15);
+    }
+
+    .cart-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 2px solid var(--lilac-subtle);
+    }
+
+    .cart-item-info {
+      flex: 1;
+      margin-left: 1rem;
+    }
+
+    .cart-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .cart-item-color {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .cart-item-remove {
+      background: none;
+      border: none;
+      color: #ff4757;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .cart-item-remove:hover {
+      background: rgba(255, 71, 87, 0.1);
+      transform: scale(1.1);
+    }
+
+    .cart-item-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quantity-btn {
+      background: var(--lilac-subtle);
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .quantity-btn:hover {
+      background: var(--lilac-dark);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .quantity-display {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      min-width: 30px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .cart-item-price {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--lilac-dark);
+    }
+
+    .cart-footer {
+      background: white;
+      padding: 1.5rem;
+      border-top: 2px solid var(--lilac-subtle);
+      position: sticky;
+      bottom: 0;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: var(--lilac-light);
+      border-radius: 10px;
+      border: 1px solid var(--lilac-subtle);
+    }
+
+    .cart-total-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .cart-total-amount {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--lilac-dark);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--lilac-dark), var(--lilac-medium));
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .checkout-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .checkout-btn:hover::before {
+      left: 100%;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(177, 156, 217, 0.4);
     }
 
     /* Main Content */
@@ -563,6 +876,11 @@
     }
 
     @media (max-width: 768px) {
+      .cart-panel {
+        width: 100%;
+        max-width: 400px;
+      }
+
       .product-container {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -594,6 +912,10 @@
       .nav-center {
         font-size: 24px;
       }
+
+      .nav-bar {
+        padding: 0 20px;
+      }
     }
   </style>
 </head>
@@ -617,8 +939,43 @@
       <i class="fa-solid fa-magnifying-glass"></i>
       <i class="fa-solid fa-user"></i>
       <div class="cart-container">
-        <i class="fa-solid fa-bag-shopping"></i>
+        <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
         <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Side Panel -->
+  <div class="cart-overlay" id="cartOverlay">
+    <div class="cart-panel">
+      <div class="cart-header">
+        <div class="cart-header-top">
+          <h2 class="cart-title">Your Cart</h2>
+          <button class="cart-close" id="cartClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="cart-count" id="cartCount">0 items in cart</div>
+      </div>
+      
+      <div class="cart-content" id="cartContent">
+        <div class="cart-empty" id="cartEmpty">
+          <div class="cart-empty-icon">
+            <i class="fas fa-shopping-bag"></i>
+          </div>
+          <div class="cart-empty-title">Your cart is empty</div>
+          <div class="cart-empty-text">Add some beautiful hijabs to get started!</div>
+        </div>
+      </div>
+      
+      <div class="cart-footer" id="cartFooter" style="display: none;">
+        <div class="cart-total">
+          <span class="cart-total-label">Total</span>
+          <span class="cart-total-amount" id="cartTotalAmount">Rs. 0</span>
+        </div>
+        <button class="checkout-btn" onclick="SereNyaCart.checkout()">
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   </div>
@@ -668,51 +1025,51 @@
           <h3 class="section-title">Color: Wine</h3>
           <div class="color-palette">
             <!-- Row 1 -->
-            <div class="color-swatch" style="background-color: #2F4F2F;" title="Dark Green"></div>
-            <div class="color-swatch" style="background-color: #F5DEB3;" title="Wheat"></div>
-            <div class="color-swatch" style="background-color: #000000;" title="Black"></div>
-            <div class="color-swatch active" style="background-color: #DC143C;" title="Wine"></div>
-            <div class="color-swatch" style="background-color: #8B4513;" title="Brown"></div>
-            <div class="color-swatch" style="background-color: #F5DEB3;" title="Beige"></div>
-            <div class="color-swatch" style="background-color: #191970;" title="Navy"></div>
-            <div class="color-swatch" style="background-color: #808080;" title="Gray"></div>
-            <div class="color-swatch" style="background-color: #0000FF;" title="Blue"></div>
-            <div class="color-swatch" style="background-color: #F0E68C;" title="Khaki"></div>
+            <div class="color-swatch" style="background-color: #2F4F2F;" title="Dark Green" data-color="dark-green"></div>
+            <div class="color-swatch" style="background-color: #F5DEB3;" title="Wheat" data-color="wheat"></div>
+            <div class="color-swatch" style="background-color: #000000;" title="Black" data-color="black"></div>
+            <div class="color-swatch active" style="background-color: #DC143C;" title="Wine" data-color="wine"></div>
+            <div class="color-swatch" style="background-color: #8B4513;" title="Brown" data-color="brown"></div>
+            <div class="color-swatch" style="background-color: #F5DEB3;" title="Beige" data-color="beige"></div>
+            <div class="color-swatch" style="background-color: #191970;" title="Navy" data-color="navy"></div>
+            <div class="color-swatch" style="background-color: #808080;" title="Gray" data-color="gray"></div>
+            <div class="color-swatch" style="background-color: #0000FF;" title="Blue" data-color="blue"></div>
+            <div class="color-swatch" style="background-color: #F0E68C;" title="Khaki" data-color="khaki"></div>
             
             <!-- Row 2 -->
-            <div class="color-swatch" style="background-color: #A0522D;" title="Sienna"></div>
-            <div class="color-swatch" style="background-color: #D2B48C;" title="Tan"></div>
-            <div class="color-swatch" style="background-color: #800080;" title="Purple"></div>
-            <div class="color-swatch" style="background-color: #FF69B4;" title="Hot Pink"></div>
-            <div class="color-swatch" style="background-color: #556B2F;" title="Olive"></div>
-            <div class="color-swatch" style="background-color: #F0E68C;" title="Light Yellow"></div>
-            <div class="color-swatch" style="background-color: #708090;" title="Slate Gray"></div>
-            <div class="color-swatch" style="background-color: #DDA0DD;" title="Plum"></div>
-            <div class="color-swatch" style="background-color: #BC8F8F;" title="Rosy Brown"></div>
-            <div class="color-swatch" style="background-color: #98FB98;" title="Pale Green"></div>
+            <div class="color-swatch" style="background-color: #A0522D;" title="Sienna" data-color="sienna"></div>
+            <div class="color-swatch" style="background-color: #D2B48C;" title="Tan" data-color="tan"></div>
+            <div class="color-swatch" style="background-color: #800080;" title="Purple" data-color="purple"></div>
+            <div class="color-swatch" style="background-color: #FF69B4;" title="Hot Pink" data-color="hot-pink"></div>
+            <div class="color-swatch" style="background-color: #556B2F;" title="Olive" data-color="olive"></div>
+            <div class="color-swatch" style="background-color: #F0E68C;" title="Light Yellow" data-color="light-yellow"></div>
+            <div class="color-swatch" style="background-color: #708090;" title="Slate Gray" data-color="slate-gray"></div>
+            <div class="color-swatch" style="background-color: #DDA0DD;" title="Plum" data-color="plum"></div>
+            <div class="color-swatch" style="background-color: #BC8F8F;" title="Rosy Brown" data-color="rosy-brown"></div>
+            <div class="color-swatch" style="background-color: #98FB98;" title="Pale Green" data-color="pale-green"></div>
             
             <!-- Row 3 -->
-            <div class="color-swatch" style="background-color: #FFD700;" title="Gold"></div>
-            <div class="color-swatch" style="background-color: #F4A460;" title="Sandy Brown"></div>
-            <div class="color-swatch" style="background-color: #800000;" title="Maroon"></div>
-            <div class="color-swatch" style="background-color: #008B8B;" title="Dark Cyan"></div>
-            <div class="color-swatch" style="background-color: #A0522D;" title="Saddle Brown"></div>
-            <div class="color-swatch" style="background-color: #CD853F;" title="Peru"></div>
-            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Red"></div>
-            <div class="color-swatch" style="background-color: #2E8B57;" title="Sea Green"></div>
-            <div class="color-swatch" style="background-color: #D2691E;" title="Chocolate"></div>
-            <div class="color-swatch" style="background-color: #4682B4;" title="Steel Blue"></div>
+            <div class="color-swatch" style="background-color: #FFD700;" title="Gold" data-color="gold"></div>
+            <div class="color-swatch" style="background-color: #F4A460;" title="Sandy Brown" data-color="sandy-brown"></div>
+            <div class="color-swatch" style="background-color: #800000;" title="Maroon" data-color="maroon"></div>
+            <div class="color-swatch" style="background-color: #008B8B;" title="Dark Cyan" data-color="dark-cyan"></div>
+            <div class="color-swatch" style="background-color: #A0522D;" title="Saddle Brown" data-color="saddle-brown"></div>
+            <div class="color-swatch" style="background-color: #CD853F;" title="Peru" data-color="peru"></div>
+            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Red" data-color="dark-red"></div>
+            <div class="color-swatch" style="background-color: #2E8B57;" title="Sea Green" data-color="sea-green"></div>
+            <div class="color-swatch" style="background-color: #D2691E;" title="Chocolate" data-color="chocolate"></div>
+            <div class="color-swatch" style="background-color: #4682B4;" title="Steel Blue" data-color="steel-blue"></div>
             
             <!-- Row 4 -->
-            <div class="color-swatch" style="background-color: #D2B48C;" title="Light Brown"></div>
-            <div class="color-swatch" style="background-color: #F5DEB3;" title="Light Beige"></div>
-            <div class="color-swatch" style="background-color: #FFFFFF;" title="White" style="border: 2px solid #ddd;"></div>
-            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Wine"></div>
+            <div class="color-swatch" style="background-color: #D2B48C;" title="Light Brown" data-color="light-brown"></div>
+            <div class="color-swatch" style="background-color: #F5DEB3;" title="Light Beige" data-color="light-beige"></div>
+            <div class="color-swatch" style="background-color: #FFFFFF; border: 2px solid #ddd;" title="White" data-color="white"></div>
+            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Wine" data-color="dark-wine"></div>
           </div>
         </div>
 
         <div class="add-to-cart-section">
-          <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
+          <button class="add-to-cart-btn" onclick="SereNyaCart.addToCart()">ADD TO CART</button>
         </div>
 
         <div class="offer-banner">
@@ -848,107 +1205,323 @@
   </footer>
 
   <script>
-    let cartCount = 0;
+    // Global Cart System for SereNya
+    const SereNyaCart = {
+      cart: [],
+      
+      init: function() {
+        this.loadCart();
+        this.bindEvents();
+        this.updateUI();
+      },
+      
+      loadCart: function() {
+        try {
+          const savedCart = localStorage.getItem('serenya_cart');
+          this.cart = savedCart ? JSON.parse(savedCart) : [];
+        } catch (e) {
+          this.cart = [];
+        }
+      },
+      
+      saveCart: function() {
+        try {
+          localStorage.setItem('serenya_cart', JSON.stringify(this.cart));
+        } catch (e) {
+          console.error('Could not save cart to localStorage');
+        }
+      },
+      
+      bindEvents: function() {
+        const cartIcon = document.getElementById('cartIcon');
+        const cartClose = document.getElementById('cartClose');
+        const cartOverlay = document.getElementById('cartOverlay');
+        
+        if (cartIcon) cartIcon.addEventListener('click', () => this.toggleCart());
+        if (cartClose) cartClose.addEventListener('click', () => this.closeCart());
+        if (cartOverlay) {
+          cartOverlay.addEventListener('click', (e) => {
+            if (e.target === cartOverlay) this.closeCart();
+          });
+        }
+        
+        // Color swatch selection
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+          swatch.addEventListener('click', function() {
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            const colorName = this.getAttribute('title');
+            const sectionTitle = document.querySelector('.section-title');
+            if (sectionTitle) sectionTitle.textContent = `Color: ${colorName}`;
+          });
+        });
+        
+        // Escape key to close cart
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') this.closeCart();
+        });
+      },
+      
+      addToCart: function() {
+        const selectedColorElement = document.querySelector('.color-swatch.active');
+        const selectedColor = selectedColorElement ? selectedColorElement.getAttribute('title') : 'Wine';
+        const selectedColorId = selectedColorElement ? selectedColorElement.getAttribute('data-color') : 'wine';
+        
+        const product = {
+          id: `silk-hijab-${selectedColorId}`,
+          name: 'Silk Hijab',
+          color: selectedColor,
+          price: 750,
+          image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png',
+          quantity: 1
+        };
+        
+        const existingIndex = this.cart.findIndex(item => item.id === product.id);
+        
+        if (existingIndex > -1) {
+          this.cart[existingIndex].quantity += 1;
+        } else {
+          this.cart.push(product);
+        }
+        
+        this.saveCart();
+        this.updateUI();
+        this.showAddSuccess();
+        
+        setTimeout(() => this.openCart(), 500);
+      },
+      
+      increaseQuantity: function(index) {
+        if (this.cart[index]) {
+          this.cart[index].quantity += 1;
+          this.saveCart();
+          this.updateUI();
+        }
+      },
+      
+      decreaseQuantity: function(index) {
+        if (this.cart[index]) {
+          if (this.cart[index].quantity > 1) {
+            this.cart[index].quantity -= 1;
+          } else {
+            this.cart.splice(index, 1);
+          }
+          this.saveCart();
+          this.updateUI();
+        }
+      },
+      
+      removeItem: function(index) {
+        if (this.cart[index]) {
+          this.cart.splice(index, 1);
+          this.saveCart();
+          this.updateUI();
+        }
+      },
+      
+      updateUI: function() {
+        const cartCount = this.cart.reduce((total, item) => total + item.quantity, 0);
+        const cartTotal = this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        
+        // Update badge
+        const cartBadge = document.getElementById('cartBadge');
+        if (cartBadge) {
+          if (cartCount > 0) {
+            cartBadge.textContent = cartCount;
+            cartBadge.style.display = 'flex';
+          } else {
+            cartBadge.style.display = 'none';
+          }
+        }
+        
+        // Update cart count and total
+        const cartCountElement = document.getElementById('cartCount');
+        const cartTotalElement = document.getElementById('cartTotalAmount');
+        
+        if (cartCountElement) {
+          cartCountElement.textContent = `${cartCount} ${cartCount === 1 ? 'item' : 'items'} in cart`;
+        }
+        
+        if (cartTotalElement) {
+          cartTotalElement.textContent = `Rs. ${cartTotal.toLocaleString()}`;
+        }
+        
+        // Update cart content
+        this.renderCartItems();
+        
+        // Show/hide empty state and footer
+        const cartEmpty = document.getElementById('cartEmpty');
+        const cartFooter = document.getElementById('cartFooter');
+        
+        if (cartEmpty && cartFooter) {
+          if (this.cart.length === 0) {
+            cartEmpty.style.display = 'block';
+            cartFooter.style.display = 'none';
+          } else {
+            cartEmpty.style.display = 'none';
+            cartFooter.style.display = 'block';
+          }
+        }
+      },
+      
+      renderCartItems: function() {
+        const cartContent = document.getElementById('cartContent');
+        if (!cartContent) return;
+        
+        // Clear existing items except empty state
+        const cartEmpty = document.getElementById('cartEmpty');
+        cartContent.innerHTML = '';
+        if (cartEmpty) cartContent.appendChild(cartEmpty);
+        
+        this.cart.forEach((item, index) => {
+          const cartItem = document.createElement('div');
+          cartItem.className = 'cart-item';
+          cartItem.innerHTML = `
+            <div class="cart-item-header">
+              <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+              <div class="cart-item-info">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-color">Color: ${item.color}</div>
+              </div>
+              <button class="cart-item-remove" onclick="SereNyaCart.removeItem(${index})" title="Remove item">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+            <div class="cart-item-details">
+              <div class="cart-item-quantity">
+                <button class="quantity-btn" onclick="SereNyaCart.decreaseQuantity(${index})" title="Decrease quantity">−</button>
+                <span class="quantity-display">${item.quantity}</span>
+                <button class="quantity-btn" onclick="SereNyaCart.increaseQuantity(${index})" title="Increase quantity">+</button>
+              </div>
+              <div class="cart-item-price">Rs. ${(item.price * item.quantity).toLocaleString()}</div>
+            </div>
+          `;
+          cartContent.appendChild(cartItem);
+        });
+      },
+      
+      openCart: function() {
+        const cartOverlay = document.getElementById('cartOverlay');
+        if (cartOverlay) {
+          cartOverlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      },
+      
+      closeCart: function() {
+        const cartOverlay = document.getElementById('cartOverlay');
+        if (cartOverlay) {
+          cartOverlay.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      },
+      
+      toggleCart: function() {
+        const cartOverlay = document.getElementById('cartOverlay');
+        if (cartOverlay && cartOverlay.classList.contains('active')) {
+          this.closeCart();
+        } else {
+          this.openCart();
+        }
+      },
+      
+      showAddSuccess: function() {
+        const btn = document.querySelector('.add-to-cart-btn');
+        if (btn) {
+          const originalText = btn.textContent;
+          btn.textContent = 'ADDED TO CART!';
+          btn.style.background = '#2ed573';
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = 'var(--text-dark)';
+          }, 2000);
+        }
+      },
+      
+      checkout: function() {
+        const cartCount = this.cart.reduce((total, item) => total + item.quantity, 0);
+        const cartTotal = this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
-    // Update cart badge
-    function updateCartBadge() {
-      const cartBadge = document.getElementById('cartBadge');
-      if (cartCount > 0) {
-        cartBadge.textContent = cartCount;
-        cartBadge.style.display = 'flex';
-      } else {
-        cartBadge.style.display = 'none';
+        
+        
+        if (cartCount > 0) {
+          alert(`Proceeding to checkout with ${cartCount} items totaling Rs. ${cartTotal.toLocaleString()}`);
+          this.closeCart();
+        }
       }
-    }
+    };
+    
 
-    // Add to cart functionality
+    // Legacy functions for backward compatibility
     function addToCart() {
-      cartCount++;
-      updateCartBadge();
-      
-      const btn = document.querySelector('.add-to-cart-btn');
-      const originalText = btn.textContent;
-      btn.textContent = 'ADDED TO CART!';
-      btn.style.background = '#2ed573';
-      
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = 'var(--text-dark)';
-      }, 2000);
+      SereNyaCart.addToCart();
     }
 
-    // Change main image
+    function increaseQuantity(index) {
+      SereNyaCart.increaseQuantity(index);
+    }
+
+    function decreaseQuantity(index) {
+      SereNyaCart.decreaseQuantity(index);
+    }
+
+    function removeFromCart(index) {
+      SereNyaCart.removeItem(index);
+    }
+
+    function proceedToCheckout() {
+      SereNyaCart.checkout();
+    }
+
+    // Other functions
     function changeMainImage(src, element) {
-      document.getElementById('mainImage').src = src;
+      const mainImage = document.getElementById('mainImage');
+      if (mainImage) mainImage.src = src;
       
-      // Remove active class from all thumbnails
       document.querySelectorAll('.thumbnail').forEach(thumb => {
         thumb.classList.remove('active');
       });
       
-      // Add active class to clicked thumbnail
       element.classList.add('active');
     }
 
-    // Color swatch selection
-    document.querySelectorAll('.color-swatch').forEach(swatch => {
-      swatch.addEventListener('click', function() {
-        // Remove active class from all swatches
-        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-        
-        // Add active class to clicked swatch
-        this.classList.add('active');
-        
-        // Update color name in the section title
-        const colorName = this.getAttribute('title');
-        document.querySelector('.section-title').textContent = `Color: ${colorName}`;
-      });
-    });
-
-    // Claim offer functionality
     function claimOffer() {
       const btn = document.querySelector('.claim-btn');
-      const originalText = btn.textContent;
-      btn.textContent = 'Offer Claimed!';
-      btn.style.background = '#2ed573';
-      
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = 'var(--text-dark)';
-      }, 3000);
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = 'Offer Claimed!';
+        btn.style.background = '#2ed573';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--text-dark)';
+        }, 3000);
+      }
     }
 
-    // Accordion functionality
     function toggleAccordion(header) {
       const item = header.parentElement;
-      const content = item.querySelector('.accordion-content');
-      
-      // Toggle active class
       item.classList.toggle('active');
     }
 
-    // Submit question form
     function submitQuestion(event) {
       event.preventDefault();
       
       const form = document.getElementById('questionForm');
       const successMsg = document.getElementById('questionSuccess');
       
-      // Show success message
-      successMsg.style.display = 'block';
+      if (successMsg) successMsg.style.display = 'block';
+      if (form) form.reset();
       
-      // Reset form
-      form.reset();
-      
-      // Hide success message after 5 seconds
       setTimeout(() => {
-        successMsg.style.display = 'none';
+        if (successMsg) successMsg.style.display = 'none';
       }, 5000);
     }
 
-    // Initialize cart badge on page load
+    // Initialize cart when page loads
     document.addEventListener('DOMContentLoaded', function() {
-      updateCartBadge();
+      SereNyaCart.init();
     });
   </script>
 </body>
