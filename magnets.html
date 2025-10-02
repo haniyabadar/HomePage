@@ -11,83 +11,102 @@
       --lilac-light:#f8f5ff;--lilac-subtle:#e6d7ff;--lilac-medium:#d1b3ff;--lilac-dark:#b19cd9;
       --text-dark:#2d2d2d;--text-light:#666;--card-bg:#fafafa;
     }
-    .font-playfair{font-family:'Playfair Display',serif} .font-inter{font-family:'Inter',sans-serif}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;color:var(--text-dark)}
+    .font-playfair{font-family:'Playfair Display',serif}
+    .font-inter{font-family:'Inter',sans-serif}
+    
     .top-bar{height:40px;position:fixed;top:0;left:0;right:0;background:var(--lilac-subtle);display:flex;align-items:center;justify-content:center;z-index:1000}
+    
     .nav-bar{height:100px;position:fixed;top:40px;left:0;right:0;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 40px;box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:999}
-    .nav-left{cursor:pointer;display:flex;flex-direction:column;gap:6px}
-    .nav-left.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
-    .nav-left.active span:nth-child(2){opacity:0;}
-    .nav-left.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px);}
-    .nav-left span{display:block;width:25px;height:2px;background:var(--text-dark)}
-    .nav-center{position:absolute;left:50%;transform:translateX(-50%);font-size:32px;font-weight:700;letter-spacing:2px}
+    .nav-left{cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:all 0.3s ease}
+    .nav-left.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .nav-left.active span:nth-child(2){opacity:0}
+    .nav-left.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
+    .nav-left span{display:block;width:25px;height:2px;background:var(--text-dark);transition:all 0.3s ease}
+    .nav-center{position:absolute;left:50%;transform:translateX(-50%);font-size:32px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:color 0.3s ease}
+    .nav-center:hover{color:var(--lilac-dark)}
     .nav-right{display:flex;align-items:center;gap:20px}
-    .nav-right i{font-size:22px;cursor:pointer;color:var(--text-dark)}
+    .nav-right i{font-size:22px;cursor:pointer;color:var(--text-dark);transition:all 0.3s ease}
+    .nav-right i:hover{color:var(--lilac-dark);transform:scale(1.1)}
+    
     .cart-badge{position:absolute;top:-8px;right:-8px;background:var(--lilac-dark);color:#fff;border-radius:50%;width:20px;height:20px;display:none;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
     .nav-right .cart-container{position:relative}
+    
     .search-overlay{position:fixed;top:140px;left:0;right:0;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.1);z-index:998;transform:translateY(-100%);opacity:0;transition:all .3s ease;padding:2rem}
     .search-overlay.active{transform:translateY(0);opacity:1}
     .search-container{max-width:800px;margin:0 auto;position:relative}
-    .search-input{width:100%;padding:1rem 3rem 1rem 1.5rem;border:2px solid var(--lilac-subtle);border-radius:50px}
-    .search-close{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.5rem;color:var(--text-light);cursor:pointer}
+    .search-input{width:100%;padding:1rem 3rem 1rem 1.5rem;border:2px solid var(--lilac-subtle);border-radius:50px;font-size:1rem;transition:border-color 0.3s ease}
+    .search-input:focus{outline:none;border-color:var(--lilac-medium)}
+    .search-close{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.5rem;color:var(--text-light);cursor:pointer;transition:all 0.3s ease}
+    .search-close:hover{color:var(--lilac-dark);transform:translateY(-50%) scale(1.2)}
+    
     .mobile-menu-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);backdrop-filter:blur(5px);z-index:9999;opacity:0;visibility:hidden;transition:all .3s ease}
     .mobile-menu-overlay.active{opacity:1;visibility:visible}
     .mobile-menu{position:fixed;top:0;left:0;width:320px;max-width:80vw;height:100%;background:#fff;z-index:10000;padding:1rem;transform:translateX(-100%);transition:transform .3s ease;overflow-y:auto;box-shadow:2px 0 10px rgba(0,0,0,.1)}
     .mobile-menu.active{transform:translateX(0)}
     .mobile-menu-items{list-style:none;margin:0;padding:0}
     .mobile-menu-item{border-bottom:1px solid #f0f0f0;padding:.75rem 0}
-    .mobile-menu-link{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:500;color:var(--text-dark);text-decoration:none;display:flex;justify-content:space-between;text-transform:uppercase;letter-spacing:1px}
+    .mobile-menu-link{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:500;color:var(--text-dark);text-decoration:none;display:flex;justify-content:space-between;text-transform:uppercase;letter-spacing:1px;transition:color 0.3s ease}
+    .mobile-menu-link:hover{color:var(--lilac-medium)}
+    
     .cart-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:10000;opacity:0;visibility:hidden;transition:all .3s ease;backdrop-filter:blur(5px)}
     .cart-overlay.active{opacity:1;visibility:visible}
     .cart-panel{position:fixed;top:0;right:0;width:450px;height:100%;background:linear-gradient(135deg,var(--lilac-light) 0%,#fff 100%);box-shadow:-5px 0 25px rgba(177,156,217,.2);z-index:10001;transform:translateX(100%);transition:transform .3s ease;overflow-y:auto}
+    .cart-panel.active{transform:translateX(0)}
     .cart-header{background:linear-gradient(135deg,var(--lilac-dark),var(--lilac-medium));color:#fff;padding:2rem 1.5rem 1.5rem;position:sticky;top:0;z-index:1}
+    .cart-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;transition:all 0.3s ease}
+    .cart-close:hover{background:rgba(255,255,255,.3);transform:rotate(90deg)}
     .cart-footer{background:#fff;padding:1.5rem;border-top:2px solid var(--lilac-subtle);position:sticky;bottom:0}
-    .checkout-btn{width:100%;background:linear-gradient(135deg,var(--lilac-dark),var(--lilac-medium));color:#fff;border:none;padding:1rem 2rem;border-radius:12px;font-weight:600}
+    .checkout-btn{width:100%;background:linear-gradient(135deg,var(--lilac-dark),var(--lilac-medium));color:#fff;border:none;padding:1rem 2rem;border-radius:12px;font-weight:600;cursor:pointer;transition:all 0.3s ease;font-size:1rem}
+    .checkout-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(177,156,217,0.5)}
+    .checkout-btn:active{transform:translateY(0)}
+    
     .main-content{margin-top:140px}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem}
-    .card{background:#fff;border:1px solid var(--lilac-subtle);border-radius:14px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.06)}
-    .card img{width:100%;height:200px;object-fit:cover}
+    .card{background:#fff;border:1px solid var(--lilac-subtle);border-radius:14px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.06);transition:all 0.3s ease}
+    .card:hover{transform:translateY(-5px);box-shadow:0 12px 24px rgba(177,156,217,.3)}
+    .card img{width:100%;height:200px;object-fit:cover;transition:transform 0.4s ease}
+    .card:hover img{transform:scale(1.05)}
     .card-body{padding:1rem}
-    .price{color:var(--lilac-dark);font-weight:700}
-        /* Footer Styling */
-    .footer h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    }
-
-    .footer a {
-    display: block;
-    margin-bottom: 0.4rem;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    }
-
-    .footer a:hover {
-    color: #fff;
-    }
-
-    .footer .social-icons i {
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    }
-
-    .footer .social-icons i:hover {
-    color: var(--lilac-medium);
-    }
-
+    .price{color:var(--lilac-dark);font-weight:700;font-size:1.2rem;margin:.5rem 0}
+    
+    .add-to-cart-btn{width:100%;padding:.75rem;border:none;border-radius:8px;background:var(--text-dark);color:#fff;font-weight:600;cursor:pointer;transition:all 0.3s ease;font-family:'Inter',sans-serif;font-size:.95rem}
+    .add-to-cart-btn:hover{background:var(--lilac-medium);color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(177,156,217,0.4)}
+    .add-to-cart-btn:active{transform:translateY(0);box-shadow:0 2px 6px rgba(177,156,217,0.3)}
+    
+    .cart-item{display:flex;align-items:center;background:#fff;padding:1rem;border-radius:10px;border:1px solid var(--lilac-subtle);margin:1rem;transition:all 0.3s ease}
+    .cart-item:hover{box-shadow:0 4px 12px rgba(177,156,217,0.2)}
+    .cart-item img{width:80px;height:80px;object-fit:cover;border-radius:8px;margin-right:1rem}
+    .qty-btn{background:var(--lilac-subtle);border:none;width:28px;height:28px;border-radius:6px;cursor:pointer;transition:all 0.3s ease;font-weight:600}
+    .qty-btn:hover{background:var(--lilac-medium);color:#fff;transform:scale(1.1)}
+    .remove-btn{margin-left:auto;background:none;border:none;color:var(--text-light);cursor:pointer;transition:all 0.3s ease;font-size:1.1rem}
+    .remove-btn:hover{color:#ff4444;transform:scale(1.2)}
+    
+    .footer{background:#000;color:#fff;padding:3rem 2rem 1rem;text-align:center}
+    .footer h3{font-size:1.25rem;font-weight:700;margin-bottom:0.75rem}
+    .footer a{display:block;margin-bottom:0.4rem;text-decoration:none;transition:all 0.3s ease;cursor:pointer;color:#ccc}
+    .footer a:hover{color:var(--lilac-medium);transform:translateX(5px)}
+    .footer .social-icons i{font-size:1.2rem;cursor:pointer;transition:all 0.3s ease}
+    .footer .social-icons i:hover{color:var(--lilac-medium);transform:scale(1.3) rotate(10deg)}
+    .footer input[type="email"]{flex:1;padding:.6rem;border:none;border-radius:4px;transition:all 0.3s ease}
+    .footer input[type="email"]:focus{outline:none;box-shadow:0 0 0 2px var(--lilac-medium)}
+    .footer button[type="submit"]{padding:.6rem 1rem;background:var(--lilac-medium);color:#fff;border:none;border-radius:4px;cursor:pointer;transition:all 0.3s ease;font-weight:600}
+    .footer button[type="submit"]:hover{background:var(--lilac-dark);transform:scale(1.05)}
+    
     @media(max-width:768px){
       .nav-bar{padding:0 16px;height:72px}
       .nav-center{position:static;transform:none;margin:0 auto;font-size:24px}
       .nav-right{gap:14px}
       .cart-panel{width:100%;max-width:400px}
+      .grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
     }
   </style>
 </head>
 <body>
   <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
   <div class="mobile-menu" id="mobileMenu">
-    <button class="close-btn" style="background:none;border:none;font-size:1.5rem" onclick="closeMobileMenu()"><i class="fas fa-times"></i></button>
+    <button class="close-btn" style="background:none;border:none;font-size:1.5rem;cursor:pointer;padding:1rem" onclick="closeMobileMenu()"><i class="fas fa-times"></i></button>
     <ul class="mobile-menu-items">
       <li class="mobile-menu-item"><a class="mobile-menu-link" href="index.html">Home</a></li>
       <li class="mobile-menu-item"><a class="mobile-menu-link" href="index.html#collections">Featured</a></li>
@@ -100,7 +119,7 @@
 
   <div class="nav-bar">
     <div class="nav-left" id="hamburger" onclick="openMobileMenu()"><span></span><span></span><span></span></div>
-    <div class="nav-center" onclick="window.location.href='index.html'">SereNya</div>
+    <div class="nav-center font-playfair" onclick="window.location.href='index.html'">SereNya</div>
     <div class="nav-right">
       <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()"></i>
       <i class="fa-solid fa-user" onclick="window.location.href='login.html'"></i>
@@ -123,20 +142,21 @@
       <div class="cart-header">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
           <h2 class="font-playfair" style="margin:0">Your Cart</h2>
-          <button class="cart-close" id="cartClose" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%"><i class="fas fa-times"></i></button>
+          <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
         </div>
         <div id="cartCount">0 items in cart</div>
       </div>
       <div class="cart-content" id="cartContent">
         <div class="cart-empty" id="cartEmpty" style="text-align:center;padding:3rem 1rem">
           <div style="font-size:4rem;color:var(--lilac-dark);opacity:.6"><i class="fas fa-shopping-bag"></i></div>
-          <div class="font-playfair" style="font-weight:600">Your cart is empty</div>
+          <div class="font-playfair" style="font-weight:600;font-size:1.2rem;margin-top:1rem">Your cart is empty</div>
+          <p style="color:var(--text-light);margin-top:.5rem">Add some beautiful magnets to get started!</p>
         </div>
       </div>
       <div class="cart-footer" id="cartFooter" style="display:none">
         <div class="cart-total" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding:1rem;background:var(--lilac-light);border-radius:10px;border:1px solid var(--lilac-subtle)">
-          <span class="font-playfair" style="font-size:1.2rem">Total</span>
-          <span id="cartTotalAmount" class="price">Rs. 0</span>
+          <span class="font-playfair" style="font-size:1.2rem;font-weight:600">Total</span>
+          <span id="cartTotalAmount" class="price" style="font-size:1.4rem">Rs. 0</span>
         </div>
         <button class="checkout-btn" onclick="SereNyaCart.checkout()">Proceed to Checkout</button>
       </div>
@@ -145,90 +165,200 @@
 
   <main class="main-content" style="padding:2rem">
     <header style="text-align:center;margin-bottom:2rem">
-      <h1 class="font-playfair" style="font-size:2.2rem">Hijab Magnets & Pins</h1>
-      <p class="font-inter" style="color:var(--text-light)">Secure your hijab without snags. Premium-strength, scratch-safe magnets.</p>
+      <h1 class="font-playfair" style="font-size:2.2rem;color:var(--text-dark)">Hijab Magnets & Pins</h1>
+      <p class="font-inter" style="color:var(--text-light);margin-top:.5rem;font-size:1.1rem">Secure your hijab without snags. Premium-strength, scratch-safe magnets.</p>
     </header>
 
     <section class="grid">
       <article class="card">
         <img src="https://m.media-amazon.com/images/I/51Y1s1rxHTL._AC_SL1500_.jpg" alt="Matte Black Magnet Pair">
         <div class="card-body">
-          <h3 class="font-playfair" style="font-size:1.1rem">Matte Black Magnet Pair</h3>
+          <h3 class="font-playfair" style="font-size:1.1rem;margin-bottom:.5rem">Matte Black Magnet Pair</h3>
           <p class="price">Rs. 450</p>
-          <button class="font-inter" style="width:100%;padding:.6rem;border:none;border-radius:8px;background:var(--text-dark);color:#fff;font-weight:600" onclick="SereNyaCart.addToCart({id:'magnet-matte-black',name:'Matte Black Magnet Pair',color:'Black',price:450,image:'https://images.unsplash.com/photo-1585386959984-a4155223168f?w=400&q=80'})">Add to Cart</button>
+          <button class="add-to-cart-btn" onclick="SereNyaCart.addToCart({id:'magnet-matte-black',name:'Matte Black Magnet Pair',color:'Black',price:450,image:'https://m.media-amazon.com/images/I/51Y1s1rxHTL._AC_SL1500_.jpg'})">Add to Cart</button>
         </div>
       </article>
+      
       <article class="card">
         <img src="https://alouly.com/cdn/shop/products/image_aff9aaab-9e1f-4c49-b99d-3997a922c38e.jpg?v=1658470009&width=1445" alt="Rose Gold Magnet Pair">
         <div class="card-body">
-          <h3 class="font-playfair" style="font-size:1.1rem">Rose Gold Magnet Pair</h3>
+          <h3 class="font-playfair" style="font-size:1.1rem;margin-bottom:.5rem">Rose Gold Magnet Pair</h3>
           <p class="price">Rs. 520</p>
-          <button class="font-inter" style="width:100%;padding:.6rem;border:none;border-radius:8px;background:var(--text-dark);color:#fff;font-weight:600" onclick="SereNyaCart.addToCart({id:'magnet-rose-gold',name:'Rose Gold Magnet Pair',color:'Rose Gold',price:520,image:'https://images.unsplash.com/photo-1608571424329-0b5d1a1e45b0?w=400&q=80'})">Add to Cart</button>
+          <button class="add-to-cart-btn" onclick="SereNyaCart.addToCart({id:'magnet-rose-gold',name:'Rose Gold Magnet Pair',color:'Rose Gold',price:520,image:'https://alouly.com/cdn/shop/products/image_aff9aaab-9e1f-4c49-b99d-3997a922c38e.jpg?v=1658470009&width=1445'})">Add to Cart</button>
         </div>
       </article>
+      
       <article class="card">
         <img src="https://www.miyastore.net/web/image/product.product/1406/image_1920?unique=234b876" alt="Pearl Pin Set (4)">
         <div class="card-body">
-          <h3 class="font-playfair" style="font-size:1.1rem">Pearl Pin Set (4)</h3>
+          <h3 class="font-playfair" style="font-size:1.1rem;margin-bottom:.5rem">Pearl Pin Set (4)</h3>
           <p class="price">Rs. 380</p>
-          <button class="font-inter" style="width:100%;padding:.6rem;border:none;border-radius:8px;background:var(--text-dark);color:#fff;font-weight:600" onclick="SereNyaCart.addToCart({id:'pin-pearl-4',name:'Pearl Pin Set (4)',color:'Pearl',price:380,image:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&q=80'})">Add to Cart</button>
+          <button class="add-to-cart-btn" onclick="SereNyaCart.addToCart({id:'pin-pearl-4',name:'Pearl Pin Set (4)',color:'Pearl',price:380,image:'https://www.miyastore.net/web/image/product.product/1406/image_1920?unique=234b876'})">Add to Cart</button>
         </div>
       </article>
+      
       <article class="card">
         <img src="https://images.meesho.com/images/products/406848083/8glu5_512.webp?width=512" alt="Silver Magnet Pair">
         <div class="card-body">
-          <h3 class="font-playfair" style="font-size:1.1rem">Silver Magnet Pair</h3>
+          <h3 class="font-playfair" style="font-size:1.1rem;margin-bottom:.5rem">Silver Magnet Pair</h3>
           <p class="price">Rs. 480</p>
-          <button class="font-inter" style="width:100%;padding:.6rem;border:none;border-radius:8px;background:var(--text-dark);color:#fff;font-weight:600" onclick="SereNyaCart.addToCart({id:'magnet-silver',name:'Silver Magnet Pair',color:'Silver',price:480,image:'https://images.unsplash.com/photo-1585387238293-4a2a5b3720d5?w=400&q=80'})">Add to Cart</button>
+          <button class="add-to-cart-btn" onclick="SereNyaCart.addToCart({id:'magnet-silver',name:'Silver Magnet Pair',color:'Silver',price:480,image:'https://images.meesho.com/images/products/406848083/8glu5_512.webp?width=512'})">Add to Cart</button>
         </div>
       </article>
     </section>
   </main>
 
-  <footer class="footer" style="background:#000;color:#fff;padding:3rem 2rem 1rem;text-align:center">
-    <div class="footer-content" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:2rem">
+  <footer class="footer">
+    <div class="footer-content" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:2rem;text-align:left">
       <div class="footer-section">
-        <h3>About SereNya</h3>
-        <p style="color:#ccc">Dedicated to providing elegant and modest fashion for the modern Muslim woman. Quality, comfort, and style in every piece.</p>
-        <div class="social-icons" style="display:flex;justify-content:center;gap:1rem;margin-top:1rem">
-          <i class="fab fa-facebook"></i><i class="fab fa-instagram"></i><i class="fab fa-twitter"></i><i class="fab fa-pinterest"></i>
+        <h3 class="font-playfair">About SereNya</h3>
+        <p style="color:#ccc;line-height:1.6">Dedicated to providing elegant and modest fashion for the modern Muslim woman. Quality, comfort, and style in every piece.</p>
+        <div class="social-icons" style="display:flex;gap:1rem;margin-top:1rem">
+          <i class="fab fa-facebook"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-pinterest"></i>
         </div>
       </div>
       <div class="footer-section">
-        <h3>Quick Links</h3>
-        <a href="index.html#collections" style="color:#ccc">Collections</a>
-        <a href="about.html" style="color:#ccc">About Us</a>
-        <a href="#" style="color:#ccc">Contact</a>
-        <a href="#" style="color:#ccc">Size Guide</a>
+        <h3 class="font-playfair">Quick Links</h3>
+        <a href="index.html#collections">Collections</a>
+        <a href="about.html">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">FAQs</a>
       </div>
       <div class="footer-section">
-        <h3>Customer Service</h3>
-        <a href="#" style="color:#ccc">Shipping Info</a>
-        <a href="#" style="color:#ccc">Returns & Exchanges</a>
-        <a href="#" style="color:#ccc">FAQ</a>
-        <a href="#" style="color:#ccc">Support</a>
-      </div>
-      <div class="footer-section">
-        <h3>Contact Info</h3>
-        <p style="color:#ccc">info@serenya.pk</p>
-        <p style="color:#ccc">+92 300 1234567</p>
-        <p style="color:#ccc">Lahore, Pakistan</p>
+        <h3 class="font-playfair">Customer Service</h3>
+        <a href="#">Shipping & Returns</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
       </div>
     </div>
-    <div style="text-align:center;padding-top:2rem;border-top:1px solid #333">
-      <p class="font-inter" style="color:#ccc">&copy; 2025 SereNya.pk. All rights reserved.</p>
-    </div>
+    <div style="border-top:1px solid #333;padding-top:1rem;color:#aaa;font-size:.9rem">© 2024 SereNya. All Rights Reserved.</div>
   </footer>
 
   <script>
-    /* search + mobile menu */
-    function toggleSearch(){const o=document.getElementById('searchOverlay'),i=document.getElementById('searchInput');if(o.classList.contains('active')){o.classList.remove('active');document.body.style.overflow='auto';}else{o.classList.add('active');document.body.style.overflow='hidden';setTimeout(()=>i&&i.focus(),200);}}
-    function openMobileMenu(){document.getElementById('hamburger')?.classList.add('active');document.getElementById('mobileMenu')?.classList.add('active');document.getElementById('mobileMenuOverlay')?.classList.add('active');document.body.style.overflow='hidden';}
-    function closeMobileMenu(){document.getElementById('hamburger')?.classList.remove('active');document.getElementById('mobileMenu')?.classList.remove('active');document.getElementById('mobileMenuOverlay')?.classList.remove('active');document.body.style.overflow='auto';}
-
-    /* cart (shared) */
-    const SereNyaCart={cart:[],init(){this.load();this.bind();this.update();},load(){try{this.cart=JSON.parse(localStorage.getItem('serenya_cart'))||[]}catch(e){this.cart=[]}},save(){try{localStorage.setItem('serenya_cart',JSON.stringify(this.cart))}catch(e){}},bind(){const icon=document.getElementById('cartIcon'),close=document.getElementById('cartClose'),overlay=document.getElementById('cartOverlay');if(icon)icon.addEventListener('click',()=>this.toggle());if(close)close.addEventListener('click',()=>this.close());if(overlay)overlay.addEventListener('click',e=>{if(e.target===overlay)this.close();});document.addEventListener('keydown',e=>{if(e.key==='Escape')this.close();});},addToCart(p){const i=this.cart.findIndex(x=>x.id===p.id);if(i>-1)this.cart[i].quantity+=1;else this.cart.push({...p,quantity:1});this.save();this.update();setTimeout(()=>this.open(),300);},increase(i){if(this.cart[i]){this.cart[i].quantity++;this.save();this.update();}},decrease(i){if(this.cart[i]){if(this.cart[i].quantity>1)this.cart[i].quantity--;else this.cart.splice(i,1);this.save();this.update();}},remove(i){if(this.cart[i]){this.cart.splice(i,1);this.save();this.update();}},update(){const count=this.cart.reduce((t,x)=>t+x.quantity,0), total=this.cart.reduce((a,x)=>a+x.quantity*x.price,0);const badge=document.getElementById('cartBadge');if(badge){badge.style.display=count>0?'flex':'none';badge.textContent=count;}const cc=document.getElementById('cartCount');if(cc)cc.textContent=`${count} ${count===1?'item':'items'} in cart`;const ta=document.getElementById('cartTotalAmount');if(ta)ta.textContent=`Rs. ${total.toLocaleString()}`;const content=document.getElementById('cartContent');if(!content)return;const empty=document.getElementById('cartEmpty');content.innerHTML='';if(this.cart.length===0){ if(empty){empty.style.display='block';content.appendChild(empty);} const footer=document.getElementById('cartFooter'); if(footer)footer.style.display='none'; return;} if(empty) empty.style.display='none'; this.cart.forEach((it,idx)=>{const div=document.createElement('div');div.className='cart-item';div.style.cssText='background:#fff;border-radius:15px;padding:1.5rem;margin-bottom:1rem;border:1px solid var(--lilac-subtle)';div.innerHTML=`<div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:1rem"><img src="${it.image}" alt="${it.name}" style="width:60px;height:60px;border-radius:10px;object-fit:cover;border:2px solid var(--lilac-subtle)"><div style="flex:1"><div class="font-playfair" style="font-weight:600">${it.name}</div><div class="font-inter" style="color:var(--text-light)">Color: ${it.color||'-'}</div></div><button title="Remove" style="background:none;border:none;color:#ff4757;font-size:1.1rem" onclick="SereNyaCart.remove(${idx})"><i class="fas fa-trash"></i></button></div><div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:.5rem;align-items:center"><button style="background:var(--lilac-subtle);border:none;width:30px;height:30px;border-radius:50%" onclick="SereNyaCart.decrease(${idx})">−</button><span style="min-width:30px;text-align:center;font-weight:600">${it.quantity}</span><button style="background:var(--lilac-subtle);border:none;width:30px;height:30px;border-radius:50%" onclick="SereNyaCart.increase(${idx})">+</button></div><div class="price">Rs. ${(it.price*it.quantity).toLocaleString()}</div></div>`;content.appendChild(div);});const footer=document.getElementById('cartFooter');if(footer)footer.style.display='block';},open(){document.getElementById('cartOverlay')?.classList.add('active');document.body.style.overflow='hidden';},close(){document.getElementById('cartOverlay')?.classList.remove('active');document.body.style.overflow='auto';},toggle(){document.getElementById('cartOverlay')?.classList.contains('active')?this.close():this.open();},checkout(){const c=this.cart.reduce((t,x)=>t+x.quantity,0), t=this.cart.reduce((a,x)=>a+x.quantity*x.price,0); if(c>0){alert(`Proceeding to checkout with ${c} items totaling Rs. ${t.toLocaleString()}`); this.close();}}};
-    document.addEventListener('DOMContentLoaded',()=>SereNyaCart.init());
+    function toggleSearch(){
+      const overlay = document.getElementById('searchOverlay');
+      overlay.classList.toggle('active');
+      if(overlay.classList.contains('active')){
+        document.getElementById('searchInput').focus();
+      }
+    }
+    
+    function openMobileMenu(){
+      document.getElementById('mobileMenuOverlay').classList.add('active');
+      document.getElementById('mobileMenu').classList.add('active');
+      document.getElementById('hamburger').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeMobileMenu(){
+      document.getElementById('mobileMenuOverlay').classList.remove('active');
+      document.getElementById('mobileMenu').classList.remove('active');
+      document.getElementById('hamburger').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    const SereNyaCart = {
+      items: [],
+      
+      addToCart(item){
+        let existing = this.items.find(p => p.id === item.id);
+        if(existing){
+          existing.qty++;
+        } else {
+          this.items.push({...item, qty: 1});
+        }
+        this.updateUI();
+        this.open();
+      },
+      
+      removeItem(id){
+        this.items = this.items.filter(p => p.id !== id);
+        this.updateUI();
+      },
+      
+      updateQty(id, delta){
+        let item = this.items.find(p => p.id === id);
+        if(item){
+          item.qty += delta;
+          if(item.qty <= 0){
+            this.removeItem(id);
+          }
+        }
+        this.updateUI();
+      },
+      
+      updateUI(){
+        let badge = document.getElementById('cartBadge');
+        let content = document.getElementById('cartContent');
+        let empty = document.getElementById('cartEmpty');
+        let footer = document.getElementById('cartFooter');
+        let count = document.getElementById('cartCount');
+        let total = document.getElementById('cartTotalAmount');
+        
+        let totalCount = this.items.reduce((acc, item) => acc + item.qty, 0);
+        let totalPrice = this.items.reduce((acc, item) => acc + (item.price * item.qty), 0);
+        
+        badge.style.display = totalCount > 0 ? 'flex' : 'none';
+        badge.textContent = totalCount;
+        count.textContent = `${totalCount} item${totalCount !== 1 ? 's' : ''} in cart`;
+        
+        if(totalCount === 0){
+          content.innerHTML = `
+            <div class="cart-empty" style="text-align:center;padding:3rem 1rem">
+              <div style="font-size:4rem;color:var(--lilac-dark);opacity:.6"><i class="fas fa-shopping-bag"></i></div>
+              <div class="font-playfair" style="font-weight:600;font-size:1.2rem;margin-top:1rem">Your cart is empty</div>
+              <p style="color:var(--text-light);margin-top:.5rem">Add some beautiful magnets to get started!</p>
+            </div>
+          `;
+          footer.style.display = 'none';
+        } else {
+          content.innerHTML = this.items.map(item => `
+            <div class="cart-item">
+              <img src="${item.image}" alt="${item.name}">
+              <div style="flex:1">
+                <div class="font-playfair" style="font-weight:600;font-size:1rem">${item.name}</div>
+                <div style="color:var(--text-light);font-size:.9rem;margin-top:.25rem">${item.color}</div>
+                <div class="price" style="font-size:1.1rem;margin-top:.25rem">Rs. ${item.price}</div>
+                <div style="display:flex;align-items:center;gap:.5rem;margin-top:.5rem">
+                  <button class="qty-btn" onclick="SereNyaCart.updateQty('${item.id}', -1)">-</button>
+                  <span style="font-weight:600;min-width:30px;text-align:center">${item.qty}</span>
+                  <button class="qty-btn" onclick="SereNyaCart.updateQty('${item.id}', 1)">+</button>
+                  <button class="remove-btn" onclick="SereNyaCart.removeItem('${item.id}')"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+          footer.style.display = 'block';
+        }
+        
+        total.textContent = `Rs. ${totalPrice}`;
+      },
+      
+      open(){
+        document.getElementById('cartOverlay').classList.add('active');
+        document.querySelector('.cart-panel').classList.add('active');
+        document.body.style.overflow = 'hidden';
+      },
+      
+      close(){
+        document.getElementById('cartOverlay').classList.remove('active');
+        document.querySelector('.cart-panel').classList.remove('active');
+        document.body.style.overflow = 'auto';
+      },
+      
+      checkout(){
+        alert(`Proceeding to checkout with ${this.items.length} item(s)!\nTotal: Rs. ${this.items.reduce((acc, item) => acc + (item.price * item.qty), 0)}`);
+      }
+    };
+    
+    document.getElementById('cartIcon').onclick = () => SereNyaCart.open();
+    document.getElementById('cartClose').onclick = () => SereNyaCart.close();
+    document.getElementById('cartOverlay').onclick = (e) => {
+      if(e.target.id === 'cartOverlay') SereNyaCart.close();
+    };
   </script>
 </body>
 </html>
