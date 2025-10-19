@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hamburger.css">
 
   <style>
     :root {
@@ -170,6 +171,19 @@
       100% { transform: scale(1); }
     }
 
+    /* Added bounce animation for cart icon when item is added */
+    @keyframes cartBounce {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(0.95); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .cart-bounce {
+      animation: cartBounce 0.6s ease-out !important;
+    }
+
     .nav-right .cart-container {
       position: relative;
     }
@@ -319,6 +333,11 @@
       color: var(--text-light);
       font-size: 0.9rem;
     }
+    .search-overlay{position:fixed;top:140px;left:0;right:0;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.1);z-index:998;transform:translateY(-100%);opacity:0;transition:all .3s ease;padding:2rem}
+    .search-overlay.active{transform:translateY(0);opacity:1}
+    .search-container{max-width:800px;margin:0 auto;position:relative}
+    .search-input{width:100%;padding:1rem 3rem 1rem 1.5rem;border:2px solid var(--lilac-subtle);border-radius:50px;font-family:'Inter',sans-serif;font-size:1rem}
+    .search-close{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.5rem;color:var(--text-light);cursor:pointer}
 
     .shipping-status {
       display: flex;
@@ -446,21 +465,26 @@
       margin-top: 2rem;
     }
 
+    /* Fixed alignment of detail rows - using flexbox with proper alignment */
     .detail-row {
       display: flex;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: flex-start;
+      gap: 1.5rem;
     }
 
     .detail-label {
       font-family: 'Inter', sans-serif;
       font-weight: 600;
       color: var(--text-dark);
-      width: 120px;
+      min-width: 120px;
+      flex-shrink: 0;
     }
 
     .detail-value {
       font-family: 'Inter', sans-serif;
       color: var(--text-light);
+      flex: 1;
     }
 
     .accordion-section {
@@ -612,11 +636,10 @@
   </style>
   <!-- Include Cart System -->
   <link rel="stylesheet" href="cart.css">
-=======
   <link rel="stylesheet" href="silk.css">
->>>>>>> 81aa51fa1ee7d56bdf3c1642d238f1aa6e1d1ed6
 </head>
 <body>
+  
   <div class="top-bar">
     <div class="messages">
       <span class="msg1">Free shipping above Rs. 4000</span>
@@ -626,19 +649,71 @@
   </div>
 
   <div class="nav-bar">
-    <div class="nav-left" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+
+
+    <!-- SereNya Hamburger Menu Component -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+  </div>
+  
+  <ul class="mobile-menu-items">
+    <li class="mobile-menu-item">
+      <a href="index.html" class="mobile-menu-link">
+        Home
+      </a>
+    </li>
+    
+    <li class="mobile-menu-item">
+      <a href="index.html#fabric" class="mobile-menu-link">
+        Shop by Fabric
+        <span class="dropdown-arrow">▼</span>
+      </a>
+    </li>
+    
+    <li class="mobile-menu-item">
+      <a href="#" class="mobile-menu-link">
+        Umrah/Hajj
+      </a>
+    </li>
+    
+    <li class="mobile-menu-item">
+      <a href="#" class="mobile-menu-link">
+        New Arrivals
+        <span class="dropdown-arrow">▼</span>
+      </a>
+    </li>
+    
+    <li class="mobile-menu-item">
+      <a href="index.html#collections" class="mobile-menu-link">
+        Hijabs
+        <span class="dropdown-arrow">▼</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- Hamburger Icon -->
+<div class="nav-left" id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
     <div class="nav-center" onclick="window.location.href='index.html'">SereNya</div>
     <div class="nav-right">
-      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()"></i>
       <i class="fa-solid fa-user" id="userIcon" style="cursor: pointer;"></i>
       <div class="cart-container">
         <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
         <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
       </div>
+    </div>
+  </div>
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search for colors, hijabs..." id="searchInput">
+      <button class="search-close" onclick="toggleSearch()"><i class="fas fa-times"></i></button>
     </div>
   </div>
 
@@ -691,7 +766,7 @@
           <div class="color-palette">
             <!-- Row 1 -->
             <div class="color-swatch" style="background-color: #2F4F2F;" title="Dark Green" data-color="dark-green"></div>
-            <div class="color-swatch" style="background-color: #F5DEB3;" title="Wheat" data-color="wheat"></div>
+            <!-- <div class="color-swatch" style="background-color: #F5DEB3;" title="Wheat" data-color="wheat"></div> -->
             <div class="color-swatch" style="background-color: #000000;" title="Black" data-color="black"></div>
             <div class="color-swatch active" style="background-color: #DC143C;" title="Wine" data-color="wine"></div>
             <div class="color-swatch" style="background-color: #8B4513;" title="Brown" data-color="brown"></div>
@@ -699,37 +774,20 @@
             <div class="color-swatch" style="background-color: #191970;" title="Navy" data-color="navy"></div>
             <div class="color-swatch" style="background-color: #808080;" title="Gray" data-color="gray"></div>
             <div class="color-swatch" style="background-color: #0000FF;" title="Blue" data-color="blue"></div>
-            <div class="color-swatch" style="background-color: #F0E68C;" title="Khaki" data-color="khaki"></div>
+            <!-- <div class="color-swatch" style="background-color: #F0E68C;" title="Khaki" data-color="khaki"></div> -->
             
             <!-- Row 2 -->
-            <div class="color-swatch" style="background-color: #A0522D;" title="Sienna" data-color="sienna"></div>
-            <div class="color-swatch" style="background-color: #D2B48C;" title="Tan" data-color="tan"></div>
-            <div class="color-swatch" style="background-color: #800080;" title="Purple" data-color="purple"></div>
-            <div class="color-swatch" style="background-color: #FF69B4;" title="Hot Pink" data-color="hot-pink"></div>
-            <div class="color-swatch" style="background-color: #556B2F;" title="Olive" data-color="olive"></div>
-            <div class="color-swatch" style="background-color: #F0E68C;" title="Light Yellow" data-color="light-yellow"></div>
-            <div class="color-swatch" style="background-color: #708090;" title="Slate Gray" data-color="slate-gray"></div>
-            <div class="color-swatch" style="background-color: #DDA0DD;" title="Plum" data-color="plum"></div>
-            <div class="color-swatch" style="background-color: #BC8F8F;" title="Rosy Brown" data-color="rosy-brown"></div>
-            <div class="color-swatch" style="background-color: #98FB98;" title="Pale Green" data-color="pale-green"></div>
-            
+           
             <!-- Row 3 -->
-            <div class="color-swatch" style="background-color: #FFD700;" title="Gold" data-color="gold"></div>
-            <div class="color-swatch" style="background-color: #F4A460;" title="Sandy Brown" data-color="sandy-brown"></div>
-            <div class="color-swatch" style="background-color: #800000;" title="Maroon" data-color="maroon"></div>
-            <div class="color-swatch" style="background-color: #008B8B;" title="Dark Cyan" data-color="dark-cyan"></div>
-            <div class="color-swatch" style="background-color: #A0522D;" title="Saddle Brown" data-color="saddle-brown"></div>
-            <div class="color-swatch" style="background-color: #CD853F;" title="Peru" data-color="peru"></div>
-            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Red" data-color="dark-red"></div>
-            <div class="color-swatch" style="background-color: #2E8B57;" title="Sea Green" data-color="sea-green"></div>
-            <div class="color-swatch" style="background-color: #D2691E;" title="Chocolate" data-color="chocolate"></div>
-            <div class="color-swatch" style="background-color: #4682B4;" title="Steel Blue" data-color="steel-blue"></div>
             
-            <!-- Row 4 -->
-            <div class="color-swatch" style="background-color: #D2B48C;" title="Light Brown" data-color="light-brown"></div>
-            <div class="color-swatch" style="background-color: #F5DEB3;" title="Light Beige" data-color="light-beige"></div>
-            <div class="color-swatch" style="background-color: #FFFFFF; border: 2px solid #ddd;" title="White" data-color="white"></div>
-            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Wine" data-color="dark-wine"></div>
+            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Red" data-color="dark-red"></div>
+            <!-- <div class="color-swatch" style="background-color: #2E8B57;" title="Sea Green" data-color="sea-green"></div> -->
+            <div class="color-swatch" style="background-color: #D2691E;" title="Chocolate" data-color="chocolate"></div>
+            <!-- <div class="color-swatch" style="background-color: #4682B4;" title="Steel Blue" data-color="steel-blue"></div> -->
+            
+            
+            <!-- <div class="color-swatch" style="background-color: #FFFFFF; border: 2px solid #ddd;" title="White" data-color="white"></div> -->
+            <!-- <div class="color-swatch" style="background-color: #8B0000;" title="Dark Wine" data-color="dark-wine"></div> -->
           </div>
         </div>
 
@@ -871,107 +929,169 @@
 
   <!-- Include Cart JavaScript -->
   <script src="cart.js"></script>
+  <script src="hamburger.js"></script>
   
-  <script>
-    // Page-specific functions
-    function changeMainImage(src, element) {
-      const mainImage = document.getElementById('mainImage');
-      if (mainImage) mainImage.src = src;
-      
-      document.querySelectorAll('.thumbnail').forEach(thumb => {
-        thumb.classList.remove('active');
-      });
-      
-      element.classList.add('active');
+  <!-- Replace the entire script section at the bottom of your silk.html with this: -->
+
+<script>
+  // Global hamburger menu functions
+  
+
+  // Close menu when overlay is clicked
+  document.addEventListener('DOMContentLoaded', function() {
+    const overlay = document.getElementById('mobileMenuOverlay');
+    if (overlay) {
+      overlay.addEventListener('click', closeMobileMenu);
     }
 
-    function claimOffer() {
-      const btn = document.querySelector('.claim-btn');
+    // Close button
+    const closeBtn = document.querySelector('.hamburger-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeMobileMenu);
+    }
+
+    // Hamburger icon toggle
+    const hamburger = document.getElementById('hamburger');
+    if (hamburger) {
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const menu = document.getElementById('mobileMenu');
+        if (menu && menu.classList.contains('active')) {
+          closeMobileMenu();
+        } else {
+          openMobileMenu();
+        }
+      });
+    }
+
+    // Close menu when a link is clicked
+    const menuLinks = document.querySelectorAll('.mobile-menu-link');
+    menuLinks.forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+  });
+
+  function toggleSearch() {
+    const overlay = document.getElementById('searchOverlay');
+    const input = document.getElementById('searchInput');
+    
+    if (overlay.classList.contains('active')) {
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    } else {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input && input.focus(), 200);
+    }
+  }
+
+  // Page-specific functions
+  function changeMainImage(src, element) {
+    const mainImage = document.getElementById('mainImage');
+    if (mainImage) mainImage.src = src;
+    
+    document.querySelectorAll('.thumbnail').forEach(thumb => {
+      thumb.classList.remove('active');
+    });
+    
+    element.classList.add('active');
+  }
+
+  function claimOffer() {
+    const btn = document.querySelector('.claim-btn');
+    if (btn) {
+      const originalText = btn.textContent;
+      btn.textContent = 'Offer Claimed!';
+      btn.style.background = '#2ed573';
+      
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = 'var(--text-dark)';
+      }, 3000);
+    }
+  }
+
+  function toggleAccordion(header) {
+    const item = header.parentElement;
+    item.classList.toggle('active');
+  }
+
+  function submitQuestion(event) {
+    event.preventDefault();
+    
+    const form = document.getElementById('questionForm');
+    const successMsg = document.getElementById('questionSuccess');
+    
+    if (successMsg) successMsg.style.display = 'block';
+    if (form) form.reset();
+    
+    setTimeout(() => {
+      if (successMsg) successMsg.style.display = 'none';
+    }, 5000);
+  }
+
+  function addToCartFromPage() {
+    const selectedColorElement = document.querySelector('.color-swatch.active');
+    const selectedColor = selectedColorElement ? selectedColorElement.getAttribute('title') : 'Wine';
+    const selectedColorId = selectedColorElement ? selectedColorElement.getAttribute('data-color') : 'wine';
+    
+    const product = {
+      id: `silk-hijab-${selectedColorId}`,
+      name: 'Silk Hijab',
+      color: selectedColor,
+      price: 750,
+      image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png',
+      quantity: 1
+    };
+    
+    // Use the global cart system
+    if (typeof SereNyaCart !== 'undefined') {
+      SereNyaCart.addProduct(product);
+      
+      // Trigger bounce animation on cart icon
+      const cartIcon = document.getElementById('cartIcon');
+      if (cartIcon) {
+        cartIcon.classList.add('cart-bounce');
+        setTimeout(() => {
+          cartIcon.classList.remove('cart-bounce');
+        }, 600);
+      }
+      
+      // Show success feedback on button
+      const btn = document.querySelector('.add-to-cart-btn');
       if (btn) {
         const originalText = btn.textContent;
-        btn.textContent = 'Offer Claimed!';
+        btn.textContent = 'ADDED TO CART!';
         btn.style.background = '#2ed573';
         
         setTimeout(() => {
           btn.textContent = originalText;
           btn.style.background = 'var(--text-dark)';
-        }, 3000);
+        }, 2000);
       }
     }
+  }
 
-    function toggleAccordion(header) {
-      const item = header.parentElement;
-      item.classList.toggle('active');
-    }
-
-    function submitQuestion(event) {
-      event.preventDefault();
-      
-      const form = document.getElementById('questionForm');
-      const successMsg = document.getElementById('questionSuccess');
-      
-      if (successMsg) successMsg.style.display = 'block';
-      if (form) form.reset();
-      
-      setTimeout(() => {
-        if (successMsg) successMsg.style.display = 'none';
-      }, 5000);
-    }
-
-    // Add to cart function for this page
-    function addToCartFromPage() {
-      const selectedColorElement = document.querySelector('.color-swatch.active');
-      const selectedColor = selectedColorElement ? selectedColorElement.getAttribute('title') : 'Wine';
-      const selectedColorId = selectedColorElement ? selectedColorElement.getAttribute('data-color') : 'wine';
-      
-      const product = {
-        id: `silk-hijab-${selectedColorId}`,
-        name: 'Silk Hijab',
-        color: selectedColor,
-        price: 750,
-        image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png',
-        quantity: 1
-      };
-      
-      // Use the global cart system
-      if (typeof SereNyaCart !== 'undefined') {
-        SereNyaCart.addProduct(product);
-        
-        // Show success feedback
-        const btn = document.querySelector('.add-to-cart-btn');
-        if (btn) {
-          const originalText = btn.textContent;
-          btn.textContent = 'ADDED TO CART!';
-          btn.style.background = '#2ed573';
-          
-          setTimeout(() => {
-            btn.textContent = originalText;
-            btn.style.background = 'var(--text-dark)';
-          }, 2000);
-        }
-      }
-    }
-
-    // Color swatch selection
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.color-swatch').forEach(swatch => {
-        swatch.addEventListener('click', function() {
-          document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-          this.classList.add('active');
-          const colorName = this.getAttribute('title');
-          const sectionTitle = document.querySelector('.section-title');
-          if (sectionTitle) sectionTitle.textContent = `Color: ${colorName}`;
-        });
+  // Color swatch selection
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+      swatch.addEventListener('click', function() {
+        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+        const colorName = this.getAttribute('title');
+        const sectionTitle = document.querySelector('.section-title');
+        if (sectionTitle) sectionTitle.textContent = `Color: ${colorName}`;
       });
-
-      // User icon click
-      const userIcon = document.getElementById("userIcon");
-      if (userIcon) {
-        userIcon.addEventListener("click", function() {
-          window.location.href = "login.html"; 
-        });
-      }
     });
-  </script>
+
+    // User icon click
+    const userIcon = document.getElementById("userIcon");
+    if (userIcon) {
+      userIcon.addEventListener("click", function() {
+        window.location.href = "login.html"; 
+      });
+    }
+  });
+</script>
 </body>
 </html>
