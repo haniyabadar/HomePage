@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SereNya.pk - Elegant Islamic Fashion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Link to cart.css -->
+  <link rel="stylesheet" href="cart.css">
+
+  <style>
+    /* variables */
+    :root {
+      --primary-color: #2d2d2d;
+      --accent-color: #e6d7ff;
+      --lilac-light: #f8f5ff;
+      --lilac-subtle: #e6d7ff;
+      --neutral-light: #ffffff;
+      --neutral-dark: #2d2d2d;
+      --background: #ffffff;
+      --card-bg: #fafafa;
+      --text-dark: #2d2d2d;
+      --text-light: #666666;
+      --lilac-medium: #d1b3ff;
+      --lilac-dark: #b19cd9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-inter { font-family: 'Inter', sans-serif; }
+
+    .top-bar {
+      width: 100%;
+      height: 40px;
+      background: var(--lilac-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      overflow: hidden;
+    }
+
+    .messages {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .msg1,.msg2,.msg3{
+      position: absolute;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideFade 30s infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    @keyframes slideFade {
+      0% { opacity: 0; transform: translateY(20px); }
+      5% { opacity: 1; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(0); }
+      35% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 0; }
+    }
+
+    .msg1:nth-child(1) { animation-delay: 0s; }
+    .msg2:nth-child(2) { animation-delay: 10s; }
+    .msg3:nth-child(3) { animation-delay: 20s; }
+
+    .nav-bar {
+      width: 100%;
+      height: 100px;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 40px;
+      left: 0;
+      z-index: 999;
+      padding: 0 40px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-left {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 18px;
+      width: 25px;
+      z-index: 10001;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-left span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+
+    .nav-left.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .nav-left.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .nav-left.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .nav-center {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-family: 'Playfair Display', serif;
+      color: var(--text-dark);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      width: 120px;
+    }
+
+    .nav-right i {
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      color: var(--text-dark);
+    }
+
+    .nav-right i:hover {
+      color: #b19cd9;
+    }
+
+    .search-overlay {
+      position: fixed;
+      top: 140px;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 998;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      padding: 2rem;
+    }
+
+    .search-overlay.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem 3rem 1rem 1.5rem;
+      border: 2px solid var(--lilac-subtle);
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: #b19cd9;
+    }
+
+    .search-close {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .search-close:hover {
+      color: var(--text-dark);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #b19cd9;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      animation: cartBounce 0.3s ease;
+    }
+
+    @keyframes cartBounce {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .nav-right .cart-container {
+      position: relative;
+    }
+
+    .main-content {
+      margin-top: 140px;
+    }
+
+    .hero-section {
+      height: 80vh;
+      background: linear-gradient(135deg, #2d1b3d 0%, #4a2c5a 30%, #6b3d7a 70%, #8b4d9a 100%);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(230, 215, 255, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(230, 215, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+    }
+
+    .hero-content p {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, #e6d7ff 0%, #f0e7ff 100%);
+      color: #2d1b3d;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 8px 25px rgba(230, 215, 255, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(135deg, #f0e7ff 0%, #e6d7ff 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(230, 215, 255, 0.4);
+      color: #1a0f26;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1.1s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-in-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 1.2s ease-out;
+    }
+
+    .slide-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 1.3s ease-out;
+    }
+
+    .slide-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scale-in {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 1.4s ease-out;
+    }
+
+    .scale-in.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .categories-section {
+      padding: 4rem 2rem;
+      background: linear-gradient(to bottom, white, var(--lilac-light));
+    }
+
+    .product-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 2rem;
+    }
+
+    .product-category {
+      background: white;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid transparent;
+    }
+
+    .product-category:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(177, 156, 217, 0.2);
+      border-color: var(--lilac-subtle);
+    }
+
+    .product-category-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--lilac-light);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .product-category:hover .product-category-icon {
+      background: var(--lilac-subtle);
+      transform: scale(1.1);
+    }
+
+    .product-category-icon i {
+      font-size: 2.5rem;
+      color: var(--text-dark);
+    }
+
+    .product-category h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-category p {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .collection-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .collection-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(102, 51, 153, 0.25), 0 15px 30px rgba(43, 28, 72, 0.2);
+      background: black;
+      color: white;
+    }
+
+    .collection-card:hover .collection-info h3 {
+      color: white;
+    }
+
+    .collection-image {
+      height: 280px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .collection-info {
+      position: static;
+      background: transparent;
+      backdrop-filter: none;
+      transform: none;
+      transition: none;
+      opacity: 1;
+      padding: 1rem;
+    }
+
+    .collection-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 1rem;
+    }
+
+    .collection-image:hover .collection-overlay {
+      opacity: 1;
+    }
+
+    .collection-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .collection-info p {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .testimonials {
+      background: linear-gradient(to bottom, var(--lilac-light), white);
+      padding: 4rem 2rem;
+    }
+
+    .reviews-container {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .reviews-slider {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .review-slide {
+      min-width: 100%;
+      padding: 0 4rem;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+
+    .stars {
+      color: #fbbf24;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+
+    .slider-controls {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1rem;
+      pointer-events: none;
+    }
+
+    .slider-btn {
+      background: white;
+      border: 2px solid var(--lilac-subtle);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text-dark);
+      pointer-events: all;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .slider-btn:hover {
+      background: var(--lilac-subtle);
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(177, 156, 217, 0.3);
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: var(--lilac-subtle);
+      transform: scale(1.2);
+    }
+
+    .newsletter {
+      background: var(--text-dark);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .newsletter h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 25px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .newsletter-button {
+      background: var(--lilac-subtle);
+      color: var(--text-dark);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .newsletter-button:hover {
+      background: #b19cd9;
+      color: white;
+    }
+
+    .footer {
+      background: var(--lilac-light);
+      padding: 3rem 2rem 1rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .footer-section p, .footer-section a {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      text-decoration: none;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .footer-section a:hover {
+      color: #b19cd9;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-icons i {
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons i:hover {
+      color: #b19cd9;
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 80vw;
+      height: 100%;
+      background: white;
+      z-index: 10000;
+      padding: 1rem;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+
+    .mobile-menu-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-menu-item {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 0.75rem 0;
+    }
+
+    .mobile-menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mobile-menu-link:hover {
+      color: #b19cd9;
+    }
+
+    .dropdown-arrow {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .silk-products-section {
+      display: none;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, var(--lilac-light), white);
+      padding: 2rem;
+    }
+
+    .silk-products-section.active {
+      display: block;
+    }
+
+    .back-button {
+      background: var(--lilac-subtle);
+      color: var(--text-dark);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-button:hover {
+      background: #b19cd9;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(177, 156, 217, 0.2);
+    }
+
+    .product-image {
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--lilac-subtle);
+      color: var(--text-dark);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .product-info {
+      padding: 1.5rem;
+    }
+
+    .product-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #b19cd9;
+      margin-bottom: 1rem;
+    }
+
+    .product-description {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .product-colors {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .color-swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #e0e0e0;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.2);
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      background: var(--text-dark);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .add-to-cart-btn:hover {
+      background: #b19cd9;
+      transform: translateY(-2px);
+    }
+
+    .add-to-cart-btn.adding {
+      background: #2ed573;
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar { height: 72px; padding: 0 16px; }
+      .nav-center { position: static; transform: none; margin: 0 auto; font-size: 24px; }
+      .nav-right { width: auto; gap: 14px; }
+      .top-bar { height: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+  
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <button class="close-btn" onclick="closeMobileMenu()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <ul class="mobile-menu-items">
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link" onclick="showHomepage()">Home</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link" onclick="document.getElementById('fabric').scrollIntoView({ behavior: 'smooth' })">
+          Shop by Colour
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Umrah/Hajj</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          New Arrivals
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Hijabs
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Apparel
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Gift Boxes</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Accessories
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Brands
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Reviews</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="top-bar">
+    <div class="messages">
+      <span class="msg1">Free shipping above Rs. 4000</span>
+      <span class="msg2">Use code WELCOME10 for 10% off</span>
+      <span class="msg3">New Abaya arrivals — shop now</span>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div class="nav-left" id="hamburger" onclick="openMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div> 
+    <div class="nav-center" onclick="showHomepage()" style="cursor: pointer;">SereNya</div> 
+    <div class="nav-right">
+      <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()"></i>
+      <i class="fa-solid fa-user" onclick="window.location.href='login.html'"></i>
+      <div class="cart-container">
+        <i id="cartIcon" class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Container - will be populated by cart.js -->
+  <div id="cartContainer"></div>
+
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search for hijabs, abayas, scarves..." id="searchInput">
+      <button class="search-close" onclick="toggleSearch()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="homepage" class="homepage-section">
+    <main class="main-content">
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1>Discover Elegance in Modesty</h1>
+          <p>Embrace timeless beauty with our exquisite collection of abayas, scarves, and hijabs. Each piece is crafted with love and attention to detail, celebrating the grace of modest fashion.</p>
+          <a href="#collections" class="cta-button">Shop Now</a>
+        </div>
+      </section>
+
+      <section id="collections" class="collections-section fade-in" style="background: white;">
+        <div style="text-align: center; padding: 4rem 2rem 2rem;">
+          <h2 class="font-playfair" style="font-size: 2.5rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem;">Featured Collections</h2>
+          <p class="font-inter" style="color: var(--text-light); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">Discover our carefully curated collections that blend traditional elegance with contemporary style</p>
+        </div>
+        
+        <div class="collections-grid">
+          <div class="collection-card slide-in-left">
+            <div class="collection-image" style="background-image: url(https://modern-abayati.com/cdn/shop/files/Screenshot_2025-03-09_at_1.26.07_PM.png?height=1200&v=1741541190);">
+              <div class="collection-overlay">
+                <h4 class="font-playfair" style="font-weight: 600; font-size: 1.3rem; margin-bottom: 0.5rem;">Premium Abayas</h4>
+                <p class="font-inter">Elegant and comfortable designs for every occasion</p>
+              </div>
+            </div>
+            <div class="collection-info">
+              <h3>Abayas</h3>
+            </div>
+          </div>
+
+          <div class="collection-card scale-in">
+            <div class="collection-image" style="background-image: url(https://img.fruugo.com/product/6/37/330001376_max.jpg);">
+              <div class="collection-overlay">
+                <h4 class="font-playfair" style="font-weight: 600; font-size: 1.3rem; margin-bottom: 0.5rem;">Luxury Scarves</h4>
+                <p class="font-inter">Premium fabrics in beautiful patterns and colors</p>
+              </div>
+            </div>
+            <div class="collection-info">
+              <h3>Scarves</h3>
+            </div>
+          </div>
+
+          <div class="collection-card slide-in-right"
+               onclick="document.getElementById('fabric').scrollIntoView({ behavior: 'smooth' })"
+               role="button" tabindex="0"
+               onkeypress="if(event.key==='Enter'){document.getElementById('fabric').scrollIntoView({behavior:'smooth'})}">
+            <div class="collection-image" style="background-image: url(https://sc04.alicdn.com/kf/H7f1c610e66c749a395fa019e59fe2255Z.png);">
+              <div class="collection-overlay">
+                <h4 class="font-playfair" style="font-weight: 600; font-size: 1.3rem; margin-bottom: 0.5rem;">Designer Hijabs</h4>
+                <p class="font-inter">Contemporary styles with traditional values</p>
+              </div>
+            </div>
+            <div class="collection-info">
+              <h3>Hijabs</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="fabric" class="categories-section fade-in">
+        <div style="text-align: center; margin-bottom: 3rem;">
+          <h2 class="font-playfair" style="font-size: 2.5rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem;">Shop by Fabric</h2>
+          <p class="font-inter" style="color: var(--text-light); font-size: 1.1rem;">Choose from our premium fabric collections</p>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+          
+          <div class="scale-in" style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;" onclick="window.location.href='silk.html'">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png" alt="Silk Hijab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Silk</h4>
+          </div>
+
+          <div class="scale-in" style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://youremma.com/wp-content/uploads/2020/02/DSC_0645.jpg" alt="Georgette Hijab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Georgette</h4>
+          </div>
+
+          <div class="scale-in" style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7P7ftZantL6ZORoTC10iZ4KWez0A43.png" alt="Cotton Hijab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Cotton</h4>
+          </div>
+
+          <div class="scale-in" style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2apXPgMaTbLVgA2i8RtiLFC7uI3ifn.png" alt="Lawn Hijab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Lawn</h4>
+          </div>
+
+          <div class="scale-in" style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://hareer.com.pk/cdn/shop/files/brown-2d.jpg?v=1717793916" alt="Chiffon Hijab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Chiffon</h4>
+          </div>
+        </div>
+      </section>
+
+      <section class="categories-section fade-in">
+        <div style="text-align: center; margin-bottom: 3rem;">
+          <h2 class="font-playfair" style="font-size: 2.5rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem;">Hijab Essentials</h2>
+          <p class="font-inter" style="color: var(--text-light); font-size: 1.1rem;">Complete your hijab look with our essential accessories</p>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+           
+          <div style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;" onclick="window.location.href='magnets.html'">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://image.made-in-china.com/318f0j00vEMfeGklHWoq/%E5%A4%B4%E5%B7%BE%E7%A3%81%E9%93%81.mp4.webp" alt="Hijab Magnets and Pins" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Magnets and Pins</h4>
+          </div>
+
+          <div style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://kefpk.com/cdn/shop/collections/underscarves_900x.jpg?v=1758197234" alt="Underscarves" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Underscarves</h4>
+          </div>
+
+          <div style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
+              <img src="https://ibnezafar.com/wp-content/uploads/2022/02/NIQAB-3.jpg" alt="Niqab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Niqab</h4>
+          </div>
+        </div>
+      </section>
+
+      <section style="height: 60vh; background: linear-gradient(rgba(230, 215, 255, 0.4), rgba(230, 215, 255, 0.4)), url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-IhKyCvdqDhrhiv42VDuBi3cYhIF9DW.png'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-dark);">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <h1 class="font-playfair" style="font-size: 3rem; font-weight: 700; margin-bottom: 1rem;">Bundle Collection</h1>
+          <p class="font-inter" style="font-size: 1.3rem; margin-bottom: 2rem; max-width: 600px; line-height: 1.6; color: var(--text-light);">Curated hijab bundles in beautiful color combinations</p>
+          <div style="background: var(--text-dark); color: white; padding: 15px 40px; border-radius: 50px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1.1rem;">Coming Soon</div>
+        </div>
+      </section>
+
+      <section class="fade-in" style="padding: 4rem 2rem; background: var(--card-bg);">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+          <h2 class="font-playfair" style="font-size: 2rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1.5rem;">Celebrating Modest Fashion</h2>
+          <p class="font-inter" style="color: var(--text-light); font-size: 1.1rem; line-height: 1.7;">
+            At SereNya, we believe that modesty is a form of elegance that transcends trends.
+             Our designs honor the rich cultural heritage of Islamic fashion while embracing contemporary aesthetics. Each piece in our collection tells a story of grace, dignity, and timeless beauty, empowering women to express their faith and style with confidence.
+          </p>
+        </div>
+      </section>
+
+      <section class="testimonials fade-in">
+        <div style="text-align: center; margin-bottom: 3rem;">
+          <h2 class="font-playfair" style="font-size: 2rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem;">What Our Customers Say</h2>
+        </div>
+        
+        <div class="reviews-container">
+          <div class="reviews-slider" id="reviewsSlider">
+            <div class="review-slide">
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"The quality of SereNya's abayas is exceptional. I love how they combine traditional elegance with modern comfort. The fabrics are luxurious and the fit is perfect!"</p>
+                <p class="testimonial-author">- Fatima Ahmed, Karachi</p>
+              </div>
+            </div>
+            
+            <div class="review-slide">
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Beautiful hijabs with amazing quality! The chiffon collection is my favorite. Fast delivery and excellent customer service. Highly recommended!"</p>
+                <p class="testimonial-author">- Aisha Khan, Lahore</p>
+              </div>
+            </div>
+            
+            <div class="review-slide">
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"SereNya has become my go-to for modest fashion. The scarves are gorgeous and the abayas fit perfectly. Love the attention to detail in every piece."</p>
+                <p class="testimonial-author">- Mariam Ali, Islamabad</p>
+              </div>
+            </div>
+            
+            <div class="review-slide">
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Excellent quality and beautiful designs! The georgette abayas are so comfortable and elegant. Perfect for both casual and formal occasions."</p>
+                <p class="testimonial-author">- Zara Sheikh, Faisalabad</p>
+              </div>
+            </div>
+            
+            <div class="review-slide">
+              <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">"Amazing collection! The silk scarves are absolutely beautiful and the customer service is outstanding. Will definitely order again!"</p>
+                <p class="testimonial-author">- Hira Malik, Multan</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="slider-controls">
+            <button class="slider-btn" onclick="previousReview()">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn" onclick="nextReview()">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          
+          <div class="slider-dots">
+            <span class="dot active" onclick="currentReview(1)"></span>
+            <span class="dot" onclick="currentReview(2)"></span>
+            <span class="dot" onclick="currentReview(3)"></span>
+            <span class="dot" onclick="currentReview(4)"></span>
+            <span class="dot" onclick="currentReview(5)"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="newsletter fade-in">
+        <h2>Stay Updated</h2>
+        <p class="font-inter">Subscribe to our newsletter for exclusive offers and new arrivals</p>
+        <form class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Enter your email address"
+          style="color: #2d2d2d; background: white; border: none; padding: 12px 20px; border-radius: 25px; font-family: 'Inter', sans-serif; width: 100%;">
+          <button type="submit" class="newsletter-button">Subscribe</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div id="silkProducts" class="silk-products-section">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <button class="back-button" onclick="showHomepage()">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+      </button>
+      
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h1 class="font-playfair" style="font-size: 3rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem;">Silk Collection</h1>
+        <p class="font-inter" style="color: var(--text-light); font-size: 1.2rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">Discover our premium silk hijabs and scarves, crafted from the finest materials for ultimate elegance and comfort.</p>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png');">
+            <div class="product-badge">Premium</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Elegant Silk Hijab - Midnight Blue</h3>
+            <div class="product-price">Rs. 2,500</div>
+            <p class="product-description">Luxurious silk hijab in deep midnight blue. Perfect for formal occasions and everyday elegance.</p>
+            <div class="product-colors">
+              <div class="color-swatch" style="background-color: #191970;"></div>
+              <div class="color-swatch" style="background-color: #000080;"></div>
+              <div class="color-swatch" style="background-color: #4169E1;"></div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addProductToCart({ id: 'silk-midnight-blue', name: 'Elegant Silk Hijab - Midnight Blue', price: 2500, color: 'Midnight Blue', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png' })">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400');">
+            <div class="product-badge">Best Seller</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Premium Silk Scarf - Rose Gold</h3>
+            <div class="product-price">Rs. 3,200</div>
+            <p class="product-description">Exquisite silk scarf with subtle rose gold shimmer. A perfect blend of luxury and modesty.</p>
+            <div class="product-colors">
+              <div class="color-swatch" style="background-color: #E8B4B8;"></div>
+              <div class="color-swatch" style="background-color: #D4AF37;"></div>
+              <div class="color-swatch" style="background-color: #F5DEB3;"></div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addProductToCart({ id: 'silk-rose-gold', name: 'Premium Silk Scarf - Rose Gold', price: 3200, color: 'Rose Gold', image: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400' })">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?w=400');">
+            <div class="product-badge">New</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Silk Prayer Scarf - Ivory Pearl</h3>
+            <div class="product-price">Rs. 2,800</div>
+            <p class="product-description">Delicate ivory silk scarf with pearl-like finish. Ideal for prayer and special occasions.</p>
+            <div class="product-colors">
+              <div class="color-swatch" style="background-color: #FFF8DC;"></div>
+              <div class="color-swatch" style="background-color: #F5F5DC;"></div>
+              <div class="color-swatch" style="background-color: #FFFACD;"></div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addProductToCart({ id: 'silk-ivory-pearl', name: 'Silk Prayer Scarf - Ivory Pearl', price: 2800, color: 'Ivory Pearl', image: 'https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?w=400' })">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400');">
+            <div class="product-badge">Limited</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Artisan Silk Hijab - Emerald Green</h3>
+            <div class="product-price">Rs. 3,500</div>
+            <p class="product-description">Hand-crafted silk hijab in rich emerald green. A statement piece for the discerning woman.</p>
+            <div class="product-colors">
+              <div class="color-swatch" style="background-color: #50C878;"></div>
+              <div class="color-swatch" style="background-color: #228B22;"></div>
+              <div class="color-swatch" style="background-color: #006400;"></div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addProductToCart({ id: 'silk-emerald-green', name: 'Artisan Silk Hijab - Emerald Green', price: 3500, color: 'Emerald Green', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400' })">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1544441893-675973e31985?w=400');">
+            <div class="product-badge">Popular</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Silk Abaya Scarf - Dusty Rose</h3>
+            <div class="product-price">Rs. 2,900</div>
+            <p class="product-description">Soft dusty rose silk scarf, perfect for pairing with abayas. Elegant and versatile.</p>
+            <div class="product-colors">
+              <div class="color-swatch" style="background-color: #DCAE96;"></div>
+              <div class="color-swatch" style="background-color: #D2B48C;"></div>
+              <div class="color-swatch" style="background-color: #BC9A6A;"></div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addProductToCart({ id: 'silk-dusty-rose', name: 'Silk Abaya Scarf - Dusty Rose', price: 2900, color: 'Dusty Rose', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?w=400' })">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400');">
+            <div class="product-badge">Exclusive</div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Handwoven Silk Hijab - Lavender</h3>
+            <div class="product-price">Rs. 3,800</div>
+            <p class="product-description">Exquisite handwoven silk in soothing lavender. A masterpiece of craftsmanship and beauty.</p>
+            <div class="product-colors">
+              <div class="color-swatch" style="background-color: #E6E6FA;"></div>
+              <div class="color-swatch" style="background-color: #DDA0DD;"></div>
+              <div class="color-swatch" style="background-color: #9370DB;"></div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addProductToCart({ id: 'silk-lavender', name: 'Handwoven Silk Hijab - Lavender', price: 3800, color: 'Lavender', image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400' })">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer" style="background: #000000; color: white;">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3 style="color: white;">About SereNya</h3>
+        <p style="color: #cccccc;">Dedicated to providing elegant and modest fashion for the modern Muslim woman. Quality, comfort, and style in every piece.</p>
+        <div class="social-icons">
+          <i class="fab fa-facebook" style="color: white;"></i>
+          <i class="fab fa-instagram" style="color: white;"></i>
+          <i class="fab fa-twitter" style="color: white;"></i>
+          <i class="fab fa-pinterest" style="color: white;"></i>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3 style="color: white;">Quick Links</h3>
+        <a href="#collections" style="color: #cccccc;">Collections</a>
+        <a href="about.html" style="color: #cccccc;">About Us</a>
+        <a href="#contact" style="color: #cccccc;">Contact</a>
+        <a href="#size-guide" style="color: #cccccc;">Size Guide</a>
+      </div>
+      <div class="footer-section">
+        <h3 style="color: white;">Customer Service</h3>
+        <a href="#shipping" style="color: #cccccc;">Shipping Info</a>
+        <a href="#returns" style="color: #cccccc;">Returns & Exchanges</a>
+        <a href="#faq" style="color: #cccccc;">FAQ</a>
+        <a href="#support" style="color: #cccccc;">Support</a>
+      </div>
+      <div class="footer-section">
+        <h3 style="color: white;">Contact Info</h3>
+        <p style="color: #cccccc;">info@serenya.pk</p>
+        <p style="color: #cccccc;">+92 300 1234567</p>
+        <p style="color: #cccccc;">Lahore, Pakistan</p>
+      </div>
+    </div>
+    <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #333333;">
+      <p class="font-inter" style="color: #cccccc;">&copy; 2025 SereNya.pk. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Load cart.js script -->
+  <script src="cart.js"></script>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 5;
+
+    function toggleSearch() {
+      const searchOverlay = document.getElementById('searchOverlay');
+      const searchInput = document.getElementById('searchInput');
+      
+      if (searchOverlay.classList.contains('active')) {
+        searchOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      } else {
+        searchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+          searchInput.focus();
+        }, 300);
+      }
+    }
+
+    // Function to add products to cart - wraps the SereNyaCart.addProduct method
+    function addProductToCart(product) {
+      if (typeof SereNyaCart !== 'undefined') {
+        SereNyaCart.addProduct(product);
+      } else {
+        console.error('Cart system not loaded');
+      }
+    }
+
+    function showReview(n) {
+      const slider = document.getElementById('reviewsSlider');
+      const dots = document.querySelectorAll('.dot');
+      
+      if (n >= totalSlides) currentSlide = 0;
+      if (n < 0) currentSlide = totalSlides - 1;
+      
+      slider.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
+      
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[currentSlide].classList.add('active');
+    }
+
+    function nextReview() {
+      currentSlide++;
+      showReview(currentSlide);
+    }
+
+    function previousReview() {
+      currentSlide--;
+      showReview(currentSlide);
+    }
+
+    function currentReview(n) {
+      currentSlide = n - 1;
+      showReview(currentSlide);
+    }
+
+    setInterval(nextReview, 5000);
+
+    function openMobileMenu() {
+      const hamburger = document.getElementById('hamburger');
+      const menu = document.getElementById('mobileMenu');
+      const overlay = document.getElementById('mobileMenuOverlay');
+      
+      hamburger.classList.add('active');
+      menu.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      const hamburger = document.getElementById('hamburger');
+      const menu = document.getElementById('mobileMenu');
+      const overlay = document.getElementById('mobileMenuOverlay');
+      
+      hamburger.classList.remove('active');
+      menu.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function showSilkProducts() {
+      document.getElementById('homepage').style.display = 'none';
+      document.getElementById('silkProducts').classList.add('active');
+      window.scrollTo(0, 0);
+      closeMobileMenu();
+    }
+
+    function showHomepage() {
+      document.getElementById('homepage').style.display = 'block';
+      document.getElementById('silkProducts').classList.remove('active');
+      window.scrollTo(0, 0);
+      closeMobileMenu();
+    }
+
+    // Close search on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const searchOverlay = document.getElementById('searchOverlay');
+        if (searchOverlay.classList.contains('active')) {
+          toggleSearch();
+        }
+      }
+    });
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+      animatedElements.forEach(el => observer.observe(el));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - SereNya.pk</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+  
+</head>
+<body>
+  <!-- Decorations -->
+  <div class="bg-decoration"></div>
+  <div class="bg-decoration"></div>
+  <div class="bg-decoration"></div>
+
+  <!-- Back button OUTSIDE card -->
+  <button class="back-button" onclick="window.location.href='index.html'">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+
+  <div class="login-card">
+    <div class="welcome-section">
+      <h1 class="welcome-title">Welcome to <span class="brand-highlight">SereNya</span></h1>
+      <p class="welcome-subtitle">Log in to your handcrafted world</p>
+      <div class="auth-tabs">
+        <div class="tab-slider" id="tabSlider"></div>
+        <button class="auth-tab active" id="loginTab" onclick="switchToLogin()">Log In</button>
+        <button class="auth-tab" id="signupTab" onclick="switchToSignup()">Sign Up</button>
+      </div>
+    </div>
+
+    <!-- Login form -->
+    <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label" for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+        <i class="fas fa-eye toggle-password" onclick="togglePassword('loginPassword', this)"></i>
+      </div>
+
+      <!-- Remember me + forgot password -->
+      <div class="form-options">
+        <label>
+          <input type="checkbox" id="rememberMe"> Remember Me
+        </label>
+        <a href="#">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="submit-button">Log In</button>
+
+      <!-- Or continue with -->
+      <p style="text-align:center; margin:1rem 0; color:#777; font-size:0.9rem;">or continue with</p>
+
+      <!-- Social login options -->
+      <div class="social-buttons">
+        <button type="button" class="social-button">
+          <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="Google logo">
+          Google
+        </button>
+        <button type="button" class="social-button">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_(2019).png" alt="Facebook logo">
+          Facebook
+        </button>
+      </div>
+    </form>
+
+    <!-- Signup form -->
+    <form id="signupForm" class="auth-form" style="display:none;" onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label class="form-label" for="signupName">Full Name</label>
+        <input type="text" id="signupName" class="form-input" placeholder="Enter your full name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" class="form-input" placeholder="Create a password" required>
+        <i class="fas fa-eye toggle-password" onclick="togglePassword('signupPassword', this)"></i>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm password" required>
+        <i class="fas fa-eye toggle-password" onclick="togglePassword('confirmPassword', this)"></i>
+      </div>
+      <button type="submit" class="submit-button">Sign Up</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 SereNya. Made with passion and love.
+  </footer>
+
+  <script>
+    function switchToLogin() {
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('signupForm').style.display = 'none';
+      document.getElementById('loginTab').classList.add('active');
+      document.getElementById('signupTab').classList.remove('active');
+      document.getElementById('tabSlider').classList.remove('signup');
+    }
+    function switchToSignup() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('signupForm').style.display = 'block';
+      document.getElementById('signupTab').classList.add('active');
+      document.getElementById('loginTab').classList.remove('active');
+      document.getElementById('tabSlider').classList.add('signup');
+    }
+    function handleLogin(e){ e.preventDefault(); alert("Logged in!"); }
+    function handleSignup(e){ e.preventDefault(); alert("Signed up!"); }
+
+    // Toggle password
+    function togglePassword(fieldId, icon) {
+      const input = document.getElementById(fieldId);
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silk Collection - SereNya.pk</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #2d2d2d;
+      --accent-color: #e6d7ff;
+      --lilac-light: #f8f5ff;
+      --lilac-subtle: #e6d7ff;
+      --lilac-medium: #d1b3ff;
+      --lilac-dark: #b19cd9;
+      --neutral-light: #ffffff;
+      --neutral-dark: #2d2d2d;
+      --background: #ffffff;
+      --card-bg: #fafafa;
+      --text-dark: #2d2d2d;
+      --text-light: #666666;
+    }
+
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-inter { font-family: 'Inter', sans-serif; }
+
+    .top-bar {
+      width: 100%;
+      height: 40px;
+      background: var(--lilac-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      overflow: hidden;
+    }
+
+    .messages {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .msg1,.msg2,.msg3{
+      position: absolute;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideFade 30s infinite;
+      display: inline-block;
+      white-space: nowrap;
+      text-align: center;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    @keyframes slideFade {
+      0% { opacity: 0; transform: translateY(20px); }
+      5% { opacity: 1; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(0); }
+      35% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 0; }
+    }
+
+    .msg1:nth-child(1) { animation-delay: 0s; }
+    .msg2:nth-child(2) { animation-delay: 10s; }
+    .msg3:nth-child(3) { animation-delay: 20s; }
+
+    .nav-bar {
+      width: 100%;
+      height: 100px;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 40px;
+      left: 0;
+      z-index: 999;
+      padding: 0 40px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-left {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 18px;
+      width: 25px;
+      z-index: 10001;
+      transition: all 0.3s ease;
+    }
+
+    .nav-left span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+
+    .nav-center {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-family: 'Playfair Display', serif;
+      color: var(--text-dark);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      width: 120px;
+    }
+
+    .nav-right i {
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      color: var(--text-dark);
+    }
+
+    .nav-right i:hover {
+      color: #b19cd9;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #b19cd9;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .nav-right .cart-container {
+      position: relative;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-top: 140px;
+      min-height: 100vh;
+    }
+
+    .breadcrumb {
+      padding: 1rem 2rem;
+      background: var(--lilac-light);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .breadcrumb a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .breadcrumb a:hover {
+      color: #b19cd9;
+    }
+
+    .product-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .product-images {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .thumbnail-images {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100px;
+    }
+
+    .thumbnail {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .thumbnail.active {
+      border-color: var(--lilac-subtle);
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main-image {
+      flex: 1;
+      height: 600px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 2rem 0;
+    }
+
+    .product-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .price-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .current-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #b19cd9;
+    }
+
+    .original-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.2rem;
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+
+    .discount {
+      background: #ff4757;
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .shipping-info {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stars {
+      color: #fbbf24;
+      font-size: 1.2rem;
+    }
+
+    .review-count {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .shipping-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .shipping-icon {
+      width: 8px;
+      height: 8px;
+      background: #2ed573;
+      border-radius: 50%;
+    }
+
+    .shipping-text {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .color-selection {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 0.5rem;
+      max-width: 400px;
+    }
+
+    .color-swatch {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid #e0e0e0;
+      position: relative;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .color-swatch.active {
+      border-color: var(--text-dark);
+      transform: scale(1.15);
+    }
+
+    .add-to-cart-section {
+      margin: 2rem 0;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      background: var(--text-dark);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .add-to-cart-btn:hover {
+      background: #b19cd9;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(177, 156, 217, 0.3);
+    }
+
+    .offer-banner {
+      background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+      border: 2px solid #fdcb6e;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .offer-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .offer-description {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .claim-btn {
+      background: var(--text-dark);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .claim-btn:hover {
+      background: #b19cd9;
+    }
+
+    .product-details {
+      margin-top: 2rem;
+    }
+
+    .detail-row {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      width: 120px;
+    }
+
+    .detail-value {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+    }
+
+    .accordion-section {
+      border-top: 1px solid #e0e0e0;
+      margin-top: 2rem;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 1.1rem;
+    }
+
+    .accordion-header:hover {
+      color: #b19cd9;
+    }
+
+    .accordion-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 500px;
+    }
+
+    .accordion-text {
+      padding-bottom: 1.5rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .footer {
+      background: #000000;
+      color: white;
+      padding: 3rem 2rem 1rem;
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .footer-section p, .footer-section a {
+      font-family: 'Inter', sans-serif;
+      color: #cccccc;
+      text-decoration: none;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .footer-section a:hover {
+      color: #b19cd9;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-icons i {
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons i:hover {
+      color: #b19cd9;
+    }
+
+    @media (max-width: 768px) {
+      .product-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem 1rem;
+      }
+
+      .product-images {
+        flex-direction: column-reverse;
+      }
+
+      .thumbnail-images {
+        flex-direction: row;
+        width: auto;
+        justify-content: center;
+      }
+
+      .main-image {
+        height: 400px;
+      }
+
+      .product-title {
+        font-size: 2rem;
+      }
+
+      .color-palette {
+        grid-template-columns: repeat(8, 1fr);
+      }
+
+      .nav-center {
+        font-size: 24px;
+      }
+
+      .nav-bar {
+        padding: 0 20px;
+      }
+    }
+  </style>
+  <!-- Include Cart System -->
+  <link rel="stylesheet" href="cart.css">
+=======
+  <link rel="stylesheet" href="silk.css">
+>>>>>>> 81aa51fa1ee7d56bdf3c1642d238f1aa6e1d1ed6
+</head>
+<body>
+  <div class="top-bar">
+    <div class="messages">
+      <span class="msg1">Free shipping above Rs. 4000</span>
+      <span class="msg2">Use code WELCOME10 for 10% off</span>
+      <span class="msg3">New Silk arrivals — shop now</span>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div class="nav-left" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-center" onclick="window.location.href='index.html'">SereNya</div>
+    <div class="nav-right">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-user" id="userIcon" style="cursor: pointer;"></i>
+      <div class="cart-container">
+        <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
+        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart will be injected here by cart.js -->
+  <div id="cartContainer"></div>
+
+  <main class="main-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> > <a href="#fabric">Shop by Fabric</a> > <span style="color: var(--text-dark);">Silk</span>
+    </div>
+
+    <div class="product-container">
+      <div class="product-images">
+        <div class="thumbnail-images">
+          <div class="thumbnail active" onclick="changeMainImage('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png', this)">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png" alt="Wine Silk Hijab">
+          </div>
+          <div class="thumbnail" onclick="changeMainImage('https://hijabinist.com/cdn/shop/files/maroon_1080x.jpg?v=1738508399', this)">
+            <img src="https://hijabinist.com/cdn/shop/files/maroon_1080x.jpg?v=1738508399" alt="Hijab Detail">
+          </div>
+        </div>
+        <div class="main-image">
+          <img id="mainImage" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png" alt="Georgette Hijab - Wine">
+        </div>
+      </div>
+
+      <div class="product-info">
+        <h1 class="product-title">SILK HIJAB - WINE</h1>
+        
+        <div class="price-section">
+          <span class="current-price">Rs.750</span>
+          <span class="original-price">Rs.780</span>
+          <span class="discount">Save Rs.30</span>
+        </div>
+        
+        <p class="shipping-info">Shipping calculated at checkout.</p>
+        
+        <div class="rating">
+          <div class="stars">★★★★★</div>
+          <span class="review-count">583 reviews</span>
+        </div>
+        
+        <div class="shipping-status">
+          <span class="shipping-icon"></span>
+          <span class="shipping-text">In stock, ready to ship</span>
+        </div>
+
+        <div class="color-selection">
+          <h3 class="section-title">Color: Wine</h3>
+          <div class="color-palette">
+            <!-- Row 1 -->
+            <div class="color-swatch" style="background-color: #2F4F2F;" title="Dark Green" data-color="dark-green"></div>
+            <div class="color-swatch" style="background-color: #F5DEB3;" title="Wheat" data-color="wheat"></div>
+            <div class="color-swatch" style="background-color: #000000;" title="Black" data-color="black"></div>
+            <div class="color-swatch active" style="background-color: #DC143C;" title="Wine" data-color="wine"></div>
+            <div class="color-swatch" style="background-color: #8B4513;" title="Brown" data-color="brown"></div>
+            <div class="color-swatch" style="background-color: #F5DEB3;" title="Beige" data-color="beige"></div>
+            <div class="color-swatch" style="background-color: #191970;" title="Navy" data-color="navy"></div>
+            <div class="color-swatch" style="background-color: #808080;" title="Gray" data-color="gray"></div>
+            <div class="color-swatch" style="background-color: #0000FF;" title="Blue" data-color="blue"></div>
+            <div class="color-swatch" style="background-color: #F0E68C;" title="Khaki" data-color="khaki"></div>
+            
+            <!-- Row 2 -->
+            <div class="color-swatch" style="background-color: #A0522D;" title="Sienna" data-color="sienna"></div>
+            <div class="color-swatch" style="background-color: #D2B48C;" title="Tan" data-color="tan"></div>
+            <div class="color-swatch" style="background-color: #800080;" title="Purple" data-color="purple"></div>
+            <div class="color-swatch" style="background-color: #FF69B4;" title="Hot Pink" data-color="hot-pink"></div>
+            <div class="color-swatch" style="background-color: #556B2F;" title="Olive" data-color="olive"></div>
+            <div class="color-swatch" style="background-color: #F0E68C;" title="Light Yellow" data-color="light-yellow"></div>
+            <div class="color-swatch" style="background-color: #708090;" title="Slate Gray" data-color="slate-gray"></div>
+            <div class="color-swatch" style="background-color: #DDA0DD;" title="Plum" data-color="plum"></div>
+            <div class="color-swatch" style="background-color: #BC8F8F;" title="Rosy Brown" data-color="rosy-brown"></div>
+            <div class="color-swatch" style="background-color: #98FB98;" title="Pale Green" data-color="pale-green"></div>
+            
+            <!-- Row 3 -->
+            <div class="color-swatch" style="background-color: #FFD700;" title="Gold" data-color="gold"></div>
+            <div class="color-swatch" style="background-color: #F4A460;" title="Sandy Brown" data-color="sandy-brown"></div>
+            <div class="color-swatch" style="background-color: #800000;" title="Maroon" data-color="maroon"></div>
+            <div class="color-swatch" style="background-color: #008B8B;" title="Dark Cyan" data-color="dark-cyan"></div>
+            <div class="color-swatch" style="background-color: #A0522D;" title="Saddle Brown" data-color="saddle-brown"></div>
+            <div class="color-swatch" style="background-color: #CD853F;" title="Peru" data-color="peru"></div>
+            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Red" data-color="dark-red"></div>
+            <div class="color-swatch" style="background-color: #2E8B57;" title="Sea Green" data-color="sea-green"></div>
+            <div class="color-swatch" style="background-color: #D2691E;" title="Chocolate" data-color="chocolate"></div>
+            <div class="color-swatch" style="background-color: #4682B4;" title="Steel Blue" data-color="steel-blue"></div>
+            
+            <!-- Row 4 -->
+            <div class="color-swatch" style="background-color: #D2B48C;" title="Light Brown" data-color="light-brown"></div>
+            <div class="color-swatch" style="background-color: #F5DEB3;" title="Light Beige" data-color="light-beige"></div>
+            <div class="color-swatch" style="background-color: #FFFFFF; border: 2px solid #ddd;" title="White" data-color="white"></div>
+            <div class="color-swatch" style="background-color: #8B0000;" title="Dark Wine" data-color="dark-wine"></div>
+          </div>
+        </div>
+
+        <div class="add-to-cart-section">
+          <button class="add-to-cart-btn" onclick="addToCartFromPage()">ADD TO CART</button>
+        </div>
+
+        <div class="offer-banner">
+          <h4 class="offer-title">LIMITED TIME OFFER!</h4>
+          <p class="offer-description">Get 6 Georgette hijabs for the price of 5</p>
+          <button class="claim-btn" onclick="claimOffer()">Claim Your Free Hijab Now!</button>
+        </div>
+
+        <div class="product-details">
+          <div class="detail-row">
+            <span class="detail-label">Size:</span>
+            <span class="detail-value">Approximately 70 x 30 inches</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Material:</span>
+            <span class="detail-value">Georgette</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Touch and Feel:</span>
+            <span class="detail-value">Soft and lightweight</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Weather:</span>
+            <span class="detail-value">Suitable for any season (Spring, Summer, Autumn, Winter)</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Use:</span>
+            <span class="detail-value">Complements various outfits and is perfect for any occasion, whether casual or formal</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Accessory:</span>
+            <span class="detail-value">Requires magnets or pins to keep in place. Hijab tape is also preferred</span>
+          </div>
+        </div>
+
+        <p style="font-family: 'Inter', sans-serif; color: var(--text-light); line-height: 1.6; margin-top: 1.5rem;">
+          Our Hijabs are made from a luxurious georgette material with a crepe texture. 
+          The unique texture of our Hijabs makes these the perfect go-to for everyday or 
+          evening outfits!
+        </p>
+      </div>
+    </div>
+
+    <div class="accordion-section" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span>SHIPPING AND RETURNS</span>
+          <i class="fas fa-chevron-down accordion-icon"></i>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-text">
+            <strong>Shipping Policy:</strong><br>
+            • Free shipping on orders above Rs. 4000<br>
+            • Standard delivery: 3-5 business days<br>
+            • Express delivery: 1-2 business days (additional charges apply)<br>
+            • International shipping available<br><br>
+            
+            <strong>Return Policy:</strong><br>
+            • 30-day return policy<br>
+            • Items must be in original condition<br>
+            • Return shipping costs may apply<br>
+            • Refund processed within 5-7 business days<br>
+            • Exchange available for different colors/sizes
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          <span>ASK A QUESTION</span>
+          <i class="fas fa-chevron-down accordion-icon"></i>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-text">
+            <form id="questionForm" onsubmit="submitQuestion(event)">
+              <div style="margin-bottom: 1rem;">
+                <label for="customerName" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Name:</label>
+                <input type="text" id="customerName" name="customerName" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 5px; font-family: 'Inter', sans-serif;">
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label for="customerEmail" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Email:</label>
+                <input type="email" id="customerEmail" name="customerEmail" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 5px; font-family: 'Inter', sans-serif;">
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label for="customerQuestion" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Question:</label>
+                <textarea id="customerQuestion" name="customerQuestion" required rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 5px; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+              </div>
+              <button type="submit" style="background: var(--text-dark); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 5px; font-family: 'Inter', sans-serif; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">Submit Question</button>
+            </form>
+            <div id="questionSuccess" style="display: none; color: #2ed573; margin-top: 1rem; font-weight: 600;">Thank you! We'll get back to you within 24 hours.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About SereNya</h3>
+        <p>Dedicated to providing elegant and modest fashion for the modern Muslim woman. Quality, comfort, and style in every piece.</p>
+        <div class="social-icons">
+          <i class="fab fa-facebook"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-pinterest"></i>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="#collections">Collections</a>
+        <a href="about.html">About Us</a>
+        <a href="#contact">Contact</a>
+        <a href="#size-guide">Size Guide</a>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <a href="#shipping">Shipping Info</a>
+        <a href="#returns">Returns & Exchanges</a>
+        <a href="#faq">FAQ</a>
+        <a href="#support">Support</a>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <p>info@serenya.pk</p>
+        <p>+92 300 1234567</p>
+        <p>Lahore, Pakistan</p>
+      </div>
+    </div>
+    <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #333333;">
+      <p class="font-inter" style="color: #cccccc;">&copy; 2025 SereNya.pk. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Include Cart JavaScript -->
+  <script src="cart.js"></script>
+  
+  <script>
+    // Page-specific functions
+    function changeMainImage(src, element) {
+      const mainImage = document.getElementById('mainImage');
+      if (mainImage) mainImage.src = src;
+      
+      document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+      });
+      
+      element.classList.add('active');
+    }
+
+    function claimOffer() {
+      const btn = document.querySelector('.claim-btn');
+      if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = 'Offer Claimed!';
+        btn.style.background = '#2ed573';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--text-dark)';
+        }, 3000);
+      }
+    }
+
+    function toggleAccordion(header) {
+      const item = header.parentElement;
+      item.classList.toggle('active');
+    }
+
+    function submitQuestion(event) {
+      event.preventDefault();
+      
+      const form = document.getElementById('questionForm');
+      const successMsg = document.getElementById('questionSuccess');
+      
+      if (successMsg) successMsg.style.display = 'block';
+      if (form) form.reset();
+      
+      setTimeout(() => {
+        if (successMsg) successMsg.style.display = 'none';
+      }, 5000);
+    }
+
+    // Add to cart function for this page
+    function addToCartFromPage() {
+      const selectedColorElement = document.querySelector('.color-swatch.active');
+      const selectedColor = selectedColorElement ? selectedColorElement.getAttribute('title') : 'Wine';
+      const selectedColorId = selectedColorElement ? selectedColorElement.getAttribute('data-color') : 'wine';
+      
+      const product = {
+        id: `silk-hijab-${selectedColorId}`,
+        name: 'Silk Hijab',
+        color: selectedColor,
+        price: 750,
+        image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xF6noqketf6uAwB9Klrk3tH8RQIWIU.png',
+        quantity: 1
+      };
+      
+      // Use the global cart system
+      if (typeof SereNyaCart !== 'undefined') {
+        SereNyaCart.addProduct(product);
+        
+        // Show success feedback
+        const btn = document.querySelector('.add-to-cart-btn');
+        if (btn) {
+          const originalText = btn.textContent;
+          btn.textContent = 'ADDED TO CART!';
+          btn.style.background = '#2ed573';
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = 'var(--text-dark)';
+          }, 2000);
+        }
+      }
+    }
+
+    // Color swatch selection
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.color-swatch').forEach(swatch => {
+        swatch.addEventListener('click', function() {
+          document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+          this.classList.add('active');
+          const colorName = this.getAttribute('title');
+          const sectionTitle = document.querySelector('.section-title');
+          if (sectionTitle) sectionTitle.textContent = `Color: ${colorName}`;
+        });
+      });
+
+      // User icon click
+      const userIcon = document.getElementById("userIcon");
+      if (userIcon) {
+        userIcon.addEventListener("click", function() {
+          window.location.href = "login.html"; 
+        });
+      }
+    });
+  </script>
+</body>
+</html>
