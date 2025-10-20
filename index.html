@@ -10,6 +10,7 @@
   
   <!-- Link to cart.css -->
   <link rel="stylesheet" href="cart.css">
+  <meta name="google-site-verification" content="GC9VTbwgBOU8wHZabj8ZPw1TqQ12smSfuiXN5BjVnAY" />
 
   <style>
     /* variables */
@@ -96,37 +97,6 @@
       z-index: 999;
       padding: 0 40px;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .nav-left {
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 18px;
-      width: 25px;
-      z-index: 10001;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-left span {
-      display: block;
-      width: 25px;
-      height: 2px;
-      background: var(--text-dark);
-      transition: all 0.3s ease;
-    }
-
-    .nav-left.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    
-    .nav-left.active span:nth-child(2) {
-      opacity: 0;
-    }
-    
-    .nav-left.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
     }
 
     .nav-center {
@@ -743,97 +713,6 @@
       color: #b19cd9;
     }
 
-    .mobile-menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(5px);
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .mobile-menu-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .mobile-menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 320px;
-      max-width: 80vw;
-      height: 100%;
-      background: white;
-      z-index: 10000;
-      padding: 1rem;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      overflow-y: auto;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .mobile-menu.active {
-      transform: translateX(0);
-    }
-
-    .mobile-menu-header {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--text-dark);
-      cursor: pointer;
-      padding: 0.25rem;
-    }
-
-    .mobile-menu-items {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .mobile-menu-item {
-      border-bottom: 1px solid #f0f0f0;
-      padding: 0.75rem 0;
-    }
-
-    .mobile-menu-item:last-child {
-      border-bottom: none;
-    }
-
-    .mobile-menu-link {
-      font-family: 'Inter', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: var(--text-dark);
-      text-decoration: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .mobile-menu-link:hover {
-      color: #b19cd9;
-    }
-
-    .dropdown-arrow {
-      font-size: 0.8rem;
-      color: var(--text-light);
-    }
-
     .silk-products-section {
       display: none;
       min-height: 100vh;
@@ -981,21 +860,155 @@
       transform: scale(0.95);
     }
 
+    /* --- NEW HAMBURGER MENU STYLES --- */
+    /* Mobile Menu Overlay */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    /* Mobile Menu Sidebar */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 300px;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      transition: left 0.3s ease;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-menu.active {
+      left: 0;
+    }
+    .mobile-menu-header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1.5rem 1.5rem 1rem 1.5rem;
+      border-bottom: 1px solid #eee;
+      flex-shrink: 0; /* Prevent header from shrinking */
+    }
+    .hamburger-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: color 0.3s ease;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hamburger-close-btn:hover {
+      color: #b19cd9;
+    }
+    .mobile-menu-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1; /* Take remaining space */
+      padding-top: 5rem; /* Add space below header */
+    }
+    .mobile-menu-item {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .mobile-menu-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 1.5rem;
+      color: var(--text-dark);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .mobile-menu-link:hover {
+      background: var(--lilac-light);
+      color: #b19cd9;
+    }
+    .dropdown-arrow {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      transition: transform 0.3s ease;
+      margin-left: 0.5rem;
+    }
+    /* Hamburger Icon Animation */
+    .nav-left {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 18px;
+      width: 25px;
+      z-index: 10001;
+      transition: all 0.3s ease;
+    }
+    .nav-left span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+    .nav-left.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    .nav-left.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-left.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+    /* Prevent body scroll when menu is open */
+    body.menu-open {
+      overflow: hidden;
+    }
+    /* Responsive adjustments */
     @media (max-width: 768px) {
       .nav-bar { height: 72px; padding: 0 16px; }
       .nav-center { position: static; transform: none; margin: 0 auto; font-size: 24px; }
       .nav-right { width: auto; gap: 14px; }
       .top-bar { height: 36px; }
     }
+    @media (max-width: 480px) {
+      .mobile-menu {
+        width: 280px;
+      }
+      .mobile-menu-link {
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
+      }
+    }
   </style>
 </head>
-<meta name="google-site-verification" content="GC9VTbwgBOU8wHZabj8ZPw1TqQ12smSfuiXN5BjVnAY" />
+
 <body>
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
   
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
-      <button class="close-btn" onclick="closeMobileMenu()">
+      <!-- NOTE: Changed class to 'hamburger-close-btn' for the new JS to work -->
+      <button class="hamburger-close-btn">
         <i class="fas fa-times"></i>
       </button>
     </div>
@@ -1026,28 +1039,7 @@
         </a>
       </li>
       <li class="mobile-menu-item">
-        <a href="#" class="mobile-menu-link">
-          Apparel
-          <span class="dropdown-arrow">▼</span>
-        </a>
-      </li>
-      <li class="mobile-menu-item">
         <a href="#" class="mobile-menu-link">Gift Boxes</a>
-      </li>
-      <li class="mobile-menu-item">
-        <a href="#" class="mobile-menu-link">
-          Accessories
-          <span class="dropdown-arrow">▼</span>
-        </a>
-      </li>
-      <li class="mobile-menu-item">
-        <a href="#" class="mobile-menu-link">
-          Brands
-          <span class="dropdown-arrow">▼</span>
-        </a>
-      </li>
-      <li class="mobile-menu-item">
-        <a href="#" class="mobile-menu-link">Reviews</a>
       </li>
     </ul>
   </div>
@@ -1061,7 +1053,8 @@
   </div>
 
   <div class="nav-bar">
-    <div class="nav-left" id="hamburger" onclick="openMobileMenu()">
+    <!-- NOTE: Removed onclick attribute, new JS will handle it -->
+    <div class="nav-left" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
@@ -1199,27 +1192,29 @@
         </div>
 
         <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
-           
+            
           <div style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;" onclick="window.location.href='magnets.html'">
             <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
               <img src="https://image.made-in-china.com/318f0j00vEMfeGklHWoq/%E5%A4%B4%E5%B7%BE%E7%A3%81%E9%93%81.mp4.webp" alt="Hijab Magnets and Pins" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Magnets and Pins</h4>
           </div>
-
+        <a href="underscarves.html">
           <div style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
             <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
               <img src="https://kefpk.com/cdn/shop/collections/underscarves_900x.jpg?v=1758197234" alt="Underscarves" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Underscarves</h4>
           </div>
-
+        </a>
+        <a href="niqab.html">
           <div style="text-align: center; cursor: pointer; transition: all 0.3s ease; min-width: 180px; flex: 1; max-width: 220px;">
             <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 250px; margin-bottom: 1rem;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(177, 156, 217, 0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.05)'">
               <img src="https://ibnezafar.com/wp-content/uploads/2022/02/NIQAB-3.jpg" alt="Niqab" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <h4 class="font-playfair" style="font-weight: 600; color: var(--text-dark); font-size: 1.2rem;">Niqab</h4>
           </div>
+        </a>
         </div>
       </section>
 
@@ -1515,7 +1510,8 @@
       if (n >= totalSlides) currentSlide = 0;
       if (n < 0) currentSlide = totalSlides - 1;
       
-      slider.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
+      // Note: The original slider logic was slightly off for multiple items. Correcting it.
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
       
       dots.forEach(dot => dot.classList.remove('active'));
       dots[currentSlide].classList.add('active');
@@ -1523,11 +1519,17 @@
 
     function nextReview() {
       currentSlide++;
+      if (currentSlide >= totalSlides) {
+        currentSlide = 0;
+      }
       showReview(currentSlide);
     }
 
     function previousReview() {
       currentSlide--;
+       if (currentSlide < 0) {
+        currentSlide = totalSlides - 1;
+      }
       showReview(currentSlide);
     }
 
@@ -1538,40 +1540,18 @@
 
     setInterval(nextReview, 5000);
 
-    function openMobileMenu() {
-      const hamburger = document.getElementById('hamburger');
-      const menu = document.getElementById('mobileMenu');
-      const overlay = document.getElementById('mobileMenuOverlay');
-      
-      hamburger.classList.add('active');
-      menu.classList.add('active');
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeMobileMenu() {
-      const hamburger = document.getElementById('hamburger');
-      const menu = document.getElementById('mobileMenu');
-      const overlay = document.getElementById('mobileMenuOverlay');
-      
-      hamburger.classList.remove('active');
-      menu.classList.remove('active');
-      overlay.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
     function showSilkProducts() {
       document.getElementById('homepage').style.display = 'none';
       document.getElementById('silkProducts').classList.add('active');
       window.scrollTo(0, 0);
-      closeMobileMenu();
+      // Hamburger menu will be closed by its own new script
     }
 
     function showHomepage() {
       document.getElementById('homepage').style.display = 'block';
       document.getElementById('silkProducts').classList.remove('active');
       window.scrollTo(0, 0);
-      closeMobileMenu();
+      // Hamburger menu will be closed by its own new script
     }
 
     // Close search on Escape key
@@ -1600,6 +1580,93 @@
     document.addEventListener('DOMContentLoaded', function() {
       const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
       animatedElements.forEach(el => observer.observe(el));
+    });
+  </script>
+
+  <!-- NEW HAMBURGER MENU SCRIPT -->
+  <script>
+    // Hamburger Menu Functionality
+    class HamburgerMenu {
+      constructor() {
+        this.hamburger = document.getElementById('hamburger');
+        this.menu = document.getElementById('mobileMenu');
+        this.overlay = document.getElementById('mobileMenuOverlay');
+        this.closeBtn = document.querySelector('.hamburger-close-btn');
+        
+        this.init();
+      }
+      
+      init() {
+        // Hamburger icon click
+        if (this.hamburger) {
+          this.hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleMenu();
+          });
+        }
+        
+        // Close button click
+        if (this.closeBtn) {
+          this.closeBtn.addEventListener('click', () => {
+            this.closeMenu();
+          });
+        }
+        
+        // Overlay click
+        if (this.overlay) {
+          this.overlay.addEventListener('click', () => {
+            this.closeMenu();
+          });
+        }
+        
+        // Close menu when clicking on links
+        const menuLinks = document.querySelectorAll('.mobile-menu-link');
+        menuLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            // Adding a small delay to allow navigation/scrolling to happen before closing
+            setTimeout(() => {
+                this.closeMenu();
+            }, 150);
+          });
+        });
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.isMenuOpen()) {
+            this.closeMenu();
+          }
+        });
+      }
+      
+      toggleMenu() {
+        if (this.isMenuOpen()) {
+          this.closeMenu();
+        } else {
+          this.openMenu();
+        }
+      }
+      
+      openMenu() {
+        if (this.hamburger) this.hamburger.classList.add('active');
+        if (this.menu) this.menu.classList.add('active');
+        if (this.overlay) this.overlay.classList.add('active');
+        document.body.classList.add('menu-open');
+      }
+      
+      closeMenu() {
+        if (this.hamburger) this.hamburger.classList.remove('active');
+        if (this.menu) this.menu.classList.remove('active');
+        if (this.overlay) this.overlay.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      }
+      
+      isMenuOpen() {
+        return this.menu && this.menu.classList.contains('active');
+      }
+    }
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new HamburgerMenu();
     });
   </script>
 </body>

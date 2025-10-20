@@ -1,0 +1,151 @@
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Mobile Menu Sidebar */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mobile-menu.active {
+    left: 0;
+  }
+  
+  .mobile-menu-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0; /* Prevent header from shrinking */
+  }
+  
+  .hamburger-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hamburger-close-btn:hover {
+    color: #b19cd9;
+  }
+  
+  .mobile-menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1; /* Take remaining space */
+    padding-top: 5rem; /* Add space below header */
+  }
+  
+  .mobile-menu-item {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .mobile-menu-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-menu-link:hover {
+    background: var(--lilac-light);
+    color: #b19cd9;
+  }
+  
+  .dropdown-arrow {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    transition: transform 0.3s ease;
+    margin-left: 0.5rem;
+  }
+  
+  /* Hamburger Icon Animation */
+  .nav-left {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 18px;
+    width: 25px;
+    z-index: 10001;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-left span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--text-dark);
+    transition: all 0.3s ease;
+  }
+  
+  .nav-left.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+  
+  .nav-left.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .nav-left.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+  
+  /* Prevent body scroll when menu is open */
+  body.menu-open {
+    overflow: hidden;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .mobile-menu {
+      width: 280px;
+    }
+    
+    .mobile-menu-link {
+      padding: 1rem 1.5rem;
+      font-size: 0.95rem;
+    }
+  }

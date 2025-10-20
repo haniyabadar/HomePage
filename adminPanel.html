@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SereNya Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2d2d2d;
+            --accent-color: #e6d7ff;
+            --lilac-light: #f8f5ff;
+            --lilac-subtle: #e6d7ff;
+            --lilac-dark: #b19cd9;
+            --text-dark: #2d2d2d;
+            --text-light: #666666;
+        }
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: #f8f5ff;
+            color: var(--text-dark);
+        }
+
+        /* Added smooth animations and transitions */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(177, 156, 217, 0.1);
+            }
+            50% {
+                box-shadow: 0 8px 25px rgba(177, 156, 217, 0.25);
+            }
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+            color: white;
+            transition: all 0.3s ease;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        .sidebar-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .sidebar-item:hover {
+            background-color: rgba(230, 215, 255, 0.1);
+            border-left-color: var(--lilac-dark);
+            transform: translateX(5px);
+        }
+
+        .sidebar-item.active {
+            background-color: var(--lilac-dark);
+            border-left-color: var(--accent-color);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--lilac-dark);
+            animation: slideUp 0.6s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(177, 156, 217, 0.2);
+            animation: pulse-glow 2s ease infinite;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--lilac-dark);
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-value {
+            transform: scale(1.05);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .header-bar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--lilac-dark), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            animation: slideUp 0.6s ease;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: var(--lilac-light);
+            border-bottom: 2px solid var(--lilac-subtle);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #fafafa;
+            transform: scale(1.01);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .status-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-processing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background-color: var(--lilac-dark);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #a08cc8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(177, 156, 217, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--lilac-light);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--lilac-subtle);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            animation: slideUp 0.6s ease;
+        }
+
+        .chart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+            height: 250px;
+            margin-top: 1rem;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--lilac-dark), var(--lilac-subtle));
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            opacity: 0.9;
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(177, 156, 217, 0.3);
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 600;
+            color: var(--lilac-dark);
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--lilac-dark);
+        }
+
+        .tab-btn.active {
+            color: var(--lilac-dark);
+            border-bottom-color: var(--lilac-dark);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Added modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+            transform: rotate(90deg);
+        }
+
+        /* Added notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            animation: slideInLeft 0.4s ease;
+            border-left: 4px solid var(--lilac-dark);
+        }
+
+        .notification.success {
+            border-left-color: #28a745;
+        }
+
+        .notification.error {
+            border-left-color: #dc3545;
+        }
+
+        .notification.info {
+            border-left-color: var(--lilac-dark);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flex h-screen bg-gray-50">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 overflow-y-auto" id="sidebar">
+            <div class="p-6 border-b border-gray-700">
+                <h1 class="font-playfair text-2xl font-bold text-white">SereNya</h1>
+                <p class="text-gray-400 text-sm mt-1">Admin Panel</p>
+            </div>
+
+            <nav class="mt-6">
+                <div class="sidebar-item active" onclick="switchTab('dashboard')">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTab('products')">
+                    <i class="fas fa-box w-5"></i>
+                    <span>Products</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTab('orders')">
+                    <i class="fas fa-shopping-cart w-5"></i>
+                    <span>Orders</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTab('customers')">
+                    <i class="fas fa-users w-5"></i>
+                    <span>Customers</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTab('analytics')">
+                    <i class="fas fa-chart-bar w-5"></i>
+                    <span>Analytics</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTab('settings')">
+                    <i class="fas fa-cog w-5"></i>
+                    <span>Settings</span>
+                </div>
+            </nav>
+
+            <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700">
+                <div class="flex items-center gap-3">
+                    <div class="avatar">
+                        <span>AD</span>
+                    </div>
+                    <div>
+                        <p class="text-white font-semibold text-sm">Admin</p>
+                        <p class="text-gray-400 text-xs">admin@serenya.pk</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="header-bar">
+                <div class="flex items-center gap-4">
+                    <button class="mobile-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 class="header-title" id="pageTitle">Dashboard</h2>
+                </div>
+                <div class="user-profile">
+                    <div class="text-right">
+                        <p class="font-semibold text-sm">Welcome back!</p>
+                        <p class="text-gray-500 text-xs">Last login: Today at 10:30 AM</p>
+                    </div>
+                    <div class="avatar">
+                        <span>AD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="flex-1 overflow-auto p-6">
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="stat-label">Total Revenue</p>
+                                    <p class="stat-value">Rs. 2,45,000</p>
+                                </div>
+                                <i class="fas fa-coins text-3xl text-gray-200"></i>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">↑ 12% from last month</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="stat-label">Total Orders</p>
+                                    <p class="stat-value">1,234</p>
+                                </div>
+                                <i class="fas fa-shopping-bag text-3xl text-gray-200"></i>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">↑ 8% from last month</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="stat-label">Total Customers</p>
+                                    <p class="stat-value">856</p>
+                                </div>
+                                <i class="fas fa-users text-3xl text-gray-200"></i>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">↑ 5% from last month</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="stat-label">Avg Order Value</p>
+                                    <p class="stat-value">Rs. 1,980</p>
+                                </div>
+                                <i class="fas fa-chart-line text-3xl text-gray-200"></i>
+                            </div>
+                            <p class="text-green-600 text-sm mt-2">↑ 3% from last month</p>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- Sales Chart -->
+                        <div class="chart-container">
+                            <h3 class="chart-title">Monthly Sales</h3>
+                            <div class="bar-chart">
+                                <div class="bar" style="height: 60%;"><span class="bar-value">45K</span><span class="bar-label">Jan</span></div>
+                                <div class="bar" style="height: 75%;"><span class="bar-value">56K</span><span class="bar-label">Feb</span></div>
+                                <div class="bar" style="height: 85%;"><span class="bar-value">64K</span><span class="bar-label">Mar</span></div>
+                                <div class="bar" style="height: 70%;"><span class="bar-value">52K</span><span class="bar-label">Apr</span></div>
+                                <div class="bar" style="height: 90%;"><span class="bar-value">68K</span><span class="bar-label">May</span></div>
+                                <div class="bar" style="height: 95%;"><span class="bar-value">72K</span><span class="bar-label">Jun</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Top Products -->
+                        <div class="chart-container">
+                            <h3 class="chart-title">Top Products</h3>
+                            <div class="space-y-4 mt-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-sm">Silk Hijab - Midnight Blue</p>
+                                        <p class="text-gray-500 text-xs">245 sold</p>
+                                    </div>
+                                    <div class="w-24 bg-gray-200 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-purple-400 to-purple-600 h-2 rounded-full" style="width: 95%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-sm">Premium Abaya - Black</p>
+                                        <p class="text-gray-500 text-xs">198 sold</p>
+                                    </div>
+                                    <div class="w-24 bg-gray-200 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-purple-400 to-purple-600 h-2 rounded-full" style="width: 78%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-sm">Georgette Scarf - Rose</p>
+                                        <p class="text-gray-500 text-xs">156 sold</p>
+                                    </div>
+                                    <div class="w-24 bg-gray-200 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-purple-400 to-purple-600 h-2 rounded-full" style="width: 62%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-sm">Cotton Hijab - Navy</p>
+                                        <p class="text-gray-500 text-xs">134 sold</p>
+                                    </div>
+                                    <div class="w-24 bg-gray-200 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-purple-400 to-purple-600 h-2 rounded-full" style="width: 53%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders -->
+                    <div class="chart-container">
+                        <h3 class="chart-title mb-4">Recent Orders</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#ORD-2025-001</td>
+                                        <td>Fatima Ahmed</td>
+                                        <td>Silk Hijab - Midnight Blue</td>
+                                        <td>Rs. 2,500</td>
+                                        <td><span class="status-badge status-completed">Completed</span></td>
+                                        <td>2025-01-15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD-2025-002</td>
+                                        <td>Aisha Khan</td>
+                                        <td>Premium Abaya - Black</td>
+                                        <td>Rs. 4,200</td>
+                                        <td><span class="status-badge status-processing">Processing</span></td>
+                                        <td>2025-01-14</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD-2025-003</td>
+                                        <td>Mariam Ali</td>
+                                        <td>Georgette Scarf - Rose</td>
+                                        <td>Rs. 1,800</td>
+                                        <td><span class="status-badge status-pending">Pending</span></td>
+                                        <td>2025-01-13</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD-2025-004</td>
+                                        <td>Zara Sheikh</td>
+                                        <td>Cotton Hijab - Navy</td>
+                                        <td>Rs. 1,200</td>
+                                        <td><span class="status-badge status-completed">Completed</span></td>
+                                        <td>2025-01-12</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Tab -->
+                <div id="products" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-playfair text-xl font-semibold">Product Inventory</h3>
+                        <button class="btn btn-primary" onclick="openModal('addProductModal')">
+                            <i class="fas fa-plus mr-2"></i>Add Product
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>SKU</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Silk Hijab - Midnight Blue</td>
+                                    <td>SH-MB-001</td>
+                                    <td>Hijabs</td>
+                                    <td>Rs. 2,500</td>
+                                    <td><span class="text-green-600 font-semibold">245</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary text-xs mr-2" onclick="openModal('editProductModal')">Edit</button>
+                                        <button class="btn btn-danger text-xs" onclick="confirmDelete('product')">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Premium Abaya - Black</td>
+                                    <td>AB-BK-002</td>
+                                    <td>Abayas</td>
+                                    <td>Rs. 4,200</td>
+                                    <td><span class="text-green-600 font-semibold">89</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary text-xs mr-2" onclick="openModal('editProductModal')">Edit</button>
+                                        <button class="btn btn-danger text-xs" onclick="confirmDelete('product')">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Georgette Scarf - Rose</td>
+                                    <td>SC-RS-003</td>
+                                    <td>Scarves</td>
+                                    <td>Rs. 1,800</td>
+                                    <td><span class="text-orange-600 font-semibold">12</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary text-xs mr-2" onclick="openModal('editProductModal')">Edit</button>
+                                        <button class="btn btn-danger text-xs" onclick="confirmDelete('product')">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Cotton Hijab - Navy</td>
+                                    <td>HJ-NV-004</td>
+                                    <td>Hijabs</td>
+                                    <td>Rs. 1,200</td>
+                                    <td><span class="text-red-600 font-semibold">3</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary text-xs mr-2" onclick="openModal('editProductModal')">Edit</button>
+                                        <button class="btn btn-danger text-xs" onclick="confirmDelete('product')">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Orders Tab -->
+                <div id="orders" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-playfair text-xl font-semibold">All Orders</h3>
+                        <div class="flex gap-2">
+                            <button class="btn btn-secondary" onclick="showNotification('Export started!', 'info')">Export</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-2025-001</td>
+                                    <td>Fatima Ahmed</td>
+                                    <td>2</td>
+                                    <td>Rs. 6,500</td>
+                                    <td><span class="status-badge status-completed">Completed</span></td>
+                                    <td>2025-01-15</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Order details loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-2025-002</td>
+                                    <td>Aisha Khan</td>
+                                    <td>1</td>
+                                    <td>Rs. 4,200</td>
+                                    <td><span class="status-badge status-processing">Processing</span></td>
+                                    <td>2025-01-14</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Order details loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-2025-003</td>
+                                    <td>Mariam Ali</td>
+                                    <td>3</td>
+                                    <td>Rs. 8,900</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td>2025-01-13</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Order details loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-2025-004</td>
+                                    <td>Zara Sheikh</td>
+                                    <td>1</td>
+                                    <td>Rs. 1,200</td>
+                                    <td><span class="status-badge status-completed">Completed</span></td>
+                                    <td>2025-01-12</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Order details loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-2025-005</td>
+                                    <td>Hira Malik</td>
+                                    <td>2</td>
+                                    <td>Rs. 5,400</td>
+                                    <td><span class="status-badge status-completed">Completed</span></td>
+                                    <td>2025-01-11</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Order details loaded!', 'info')">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Customers Tab -->
+                <div id="customers" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-playfair text-xl font-semibold">Customer Management</h3>
+                        <button class="btn btn-primary" onclick="openModal('addCustomerModal')">
+                            <i class="fas fa-user-plus mr-2"></i>Add Customer
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Total Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Fatima Ahmed</td>
+                                    <td>fatima@email.com</td>
+                                    <td>+92 300 1234567</td>
+                                    <td>12</td>
+                                    <td>Rs. 28,500</td>
+                                    <td>2024-06-15</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Customer profile loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Aisha Khan</td>
+                                    <td>aisha@email.com</td>
+                                    <td>+92 300 2345678</td>
+                                    <td>8</td>
+                                    <td>Rs. 19,200</td>
+                                    <td>2024-07-20</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Customer profile loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Mariam Ali</td>
+                                    <td>mariam@email.com</td>
+                                    <td>+92 300 3456789</td>
+                                    <td>15</td>
+                                    <td>Rs. 35,800</td>
+                                    <td>2024-05-10</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Customer profile loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Zara Sheikh</td>
+                                    <td>zara@email.com</td>
+                                    <td>+92 300 4567890</td>
+                                    <td>5</td>
+                                    <td>Rs. 9,800</td>
+                                    <td>2024-09-03</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Customer profile loaded!', 'info')">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Hira Malik</td>
+                                    <td>hira@email.com</td>
+                                    <td>+92 300 5678901</td>
+                                    <td>10</td>
+                                    <td>Rs. 24,500</td>
+                                    <td>2024-08-12</td>
+                                    <td><button class="btn btn-secondary text-xs" onclick="showNotification('Customer profile loaded!', 'info')">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="chart-container">
+                            <h3 class="chart-title">Sales by Category</h3>
+                            <div class="space-y-4 mt-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-3 h-3 rounded-full" style="background-color: var(--lilac-dark);"></div>
+                                        <span class="text-sm">Hijabs</span>
+                                    </div>
+                                    <span class="font-semibold">45%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-3 h-3 rounded-full" style="background-color: var(--accent-color);"></div>
+                                        <span class="text-sm">Abayas</span>
+                                    </div>
+                                    <span class="font-semibold">30%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-3 h-3 rounded-full" style="background-color: #d1b3ff;"></div>
+                                        <span class="text-sm">Scarves</span>
+                                    </div>
+                                    <span class="font-semibold">15%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-3 h-3 rounded-full" style="background-color: #e6c9ff;"></div>
+                                        <span class="text-sm">Accessories</span>
+                                    </div>
+                                    <span class="font-semibold">10%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <h3 class="chart-title">Customer Insights</h3>
+                            <div class="space-y-4 mt-4">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">New Customers</span>
+                                    <span class="font-semibold text-lg">156</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">Repeat Customers</span>
+                                    <span class="font-semibold text-lg">234</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">Avg Customer Value</span>
+                                    <span class="font-semibold text-lg">Rs. 8,450</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">Customer Retention</span>
+                                    <span class="font-semibold text-lg">78%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div id="settings" class="tab-content">
+                    <div class="max-w-2xl">
+                        <h3 class="font-playfair text-xl font-semibold mb-6">Admin Settings</h3>
+                        
+                        <div class="chart-container mb-6">
+                            <h4 class="font-semibold mb-4">Store Information</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Store Name</label>
+                                    <input type="text" value="SereNya.pk" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Email</label>
+                                    <input type="email" value="info@serenya.pk" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Phone</label>
+                                    <input type="tel" value="+92 300 1234567" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Address</label>
+                                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition" rows="3">Lahore, Pakistan</textarea>
+                                </div>
+                                <button class="btn btn-primary mt-4" onclick="showNotification('Settings saved successfully!', 'success')">Save Changes</button>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <h4 class="font-semibold mb-4">Security</h4>
+                            <div class="space-y-4">
+                                <button class="w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition" onclick="showNotification('Password change initiated!', 'info')">
+                                    <p class="font-semibold text-sm">Change Password</p>
+                                    <p class="text-gray-500 text-xs">Update your admin password</p>
+                                </button>
+                                <button class="w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition" onclick="showNotification('2FA setup started!', 'info')">
+                                    <p class="font-semibold text-sm">Two-Factor Authentication</p>
+                                    <p class="text-gray-500 text-xs">Enable 2FA for added security</p>
+                                </button>
+                                <button class="w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition" onclick="showNotification('Active sessions loaded!', 'info')">
+                                    <p class="font-semibold text-sm">Active Sessions</p>
+                                    <p class="text-gray-500 text-xs">Manage your active login sessions</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Added modals for add/edit functionality -->
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('addProductModal')">&times;</span>
+            <h2 class="modal-header">Add New Product</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Product Name</label>
+                    <input type="text" placeholder="Enter product name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">SKU</label>
+                    <input type="text" placeholder="Enter SKU" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Price</label>
+                    <input type="number" placeholder="Enter price" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Stock</label>
+                    <input type="number" placeholder="Enter stock quantity" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button class="btn btn-primary flex-1" onclick="closeModal('addProductModal'); showNotification('Product added successfully!', 'success')">Add Product</button>
+                    <button class="btn btn-secondary flex-1" onclick="closeModal('addProductModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('editProductModal')">&times;</span>
+            <h2 class="modal-header">Edit Product</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Product Name</label>
+                    <input type="text" value="Silk Hijab - Midnight Blue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">SKU</label>
+                    <input type="text" value="SH-MB-001" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Price</label>
+                    <input type="number" value="2500" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Stock</label>
+                    <input type="number" value="245" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button class="btn btn-primary flex-1" onclick="closeModal('editProductModal'); showNotification('Product updated successfully!', 'success')">Update Product</button>
+                    <button class="btn btn-secondary flex-1" onclick="closeModal('editProductModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Customer Modal -->
+    <div id="addCustomerModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('addCustomerModal')">&times;</span>
+            <h2 class="modal-header">Add New Customer</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Full Name</label>
+                    <input type="text" placeholder="Enter customer name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Email</label>
+                    <input type="email" placeholder="Enter email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Phone</label>
+                    <input type="tel" placeholder="Enter phone number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button class="btn btn-primary flex-1" onclick="closeModal('addCustomerModal'); showNotification('Customer added successfully!', 'success')">Add Customer</button>
+                    <button class="btn btn-secondary flex-1" onclick="closeModal('addCustomerModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Update sidebar active state
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => item.classList.remove('active'));
+            event.target.closest('.sidebar-item').classList.add('active');
+
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'products': 'Products',
+                'orders': 'Orders',
+                'customers': 'Customers',
+                'analytics': 'Analytics',
+                'settings': 'Settings'
+            };
+            document.getElementById('pageTitle').textContent = titles[tabName];
+
+            // Close mobile sidebar
+            closeSidebar();
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('active');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideInLeft 0.4s ease reverse';
+                setTimeout(() => notification.remove(), 400);
+            }, 3000);
+        }
+
+        function confirmDelete(type) {
+            if (confirm(`Are you sure you want to delete this ${type}?`)) {
+                showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully!`, 'success');
+            }
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !toggle.contains(event.target) &&
+                sidebar.classList.contains('active')) {
+                closeSidebar();
+            }
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
