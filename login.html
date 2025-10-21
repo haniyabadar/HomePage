@@ -8,7 +8,32 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="login.css">
-  
+  <style>
+    /* Custom Notification Styles */
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(150%);
+      background-color: #2d2d2d;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 10002;
+      transition: transform 0.4s ease-in-out;
+      font-family: 'Inter', sans-serif;
+    }
+    .notification.success {
+        background-color: #2ed573;
+    }
+    .notification.error {
+        background-color: #ff4757;
+    }
+    .notification.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
 </head>
 <body>
   <!-- Decorations -->
@@ -98,6 +123,12 @@
   <footer>
     © 2025 SereNya. Made with passion and love.
   </footer>
+  
+  <!-- Notification Element -->
+  <div id="notification" class="notification">
+    <p id="notificationMessage"></p>
+  </div>
+
 
   <script>
     function switchToLogin() {
@@ -114,8 +145,10 @@
       document.getElementById('loginTab').classList.remove('active');
       document.getElementById('tabSlider').classList.add('signup');
     }
-    function handleLogin(e){ e.preventDefault(); alert("Logged in!"); }
-    function handleSignup(e){ e.preventDefault(); alert("Signed up!"); }
+    
+    // --- ALERT REPLACED ---
+    function handleLogin(e){ e.preventDefault(); showNotification("Logged in successfully!", "success"); }
+    function handleSignup(e){ e.preventDefault(); showNotification("Signed up successfully!", "success"); }
 
     // Toggle password
     function togglePassword(fieldId, icon) {
@@ -129,6 +162,27 @@
         icon.classList.remove("fa-eye-slash");
         icon.classList.add("fa-eye");
       }
+    }
+
+    // --- NEW NOTIFICATION FUNCTION ---
+    function showNotification(message, type = 'default') {
+      const notification = document.getElementById('notification');
+      const messageElement = document.getElementById('notificationMessage');
+      if (!notification || !messageElement) return;
+
+      messageElement.textContent = message;
+      notification.className = 'notification'; // Reset classes
+      if (type === 'success') {
+        notification.classList.add('success');
+      } else if (type === 'error') {
+        notification.classList.add('error');
+      }
+      
+      notification.classList.add('show');
+
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000); // Hide after 3 seconds
     }
   </script>
 </body>

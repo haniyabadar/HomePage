@@ -7,7 +7,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="hamburger.css">
+
+  <!-- Include Cart System -->
+  <link rel="stylesheet" href="cart.css">
+
 
   <style>
     :root {
@@ -23,6 +28,11 @@
       --card-bg: #fafafa;
       --text-dark: #2d2d2d;
       --text-light: #666666;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'Inter', sans-serif;
     }
 
     .font-playfair { font-family: 'Playfair Display', serif; }
@@ -57,10 +67,6 @@
       opacity: 0;
       transform: translateY(20px);
       animation: slideFade 30s infinite;
-      display: inline-block;
-      white-space: nowrap;
-      text-align: center;
-      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -95,25 +101,6 @@
       z-index: 999;
       padding: 0 40px;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .nav-left {
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 18px;
-      width: 25px;
-      z-index: 10001;
-      transition: all 0.3s ease;
-    }
-
-    .nav-left span {
-      display: block;
-      width: 25px;
-      height: 2px;
-      background: var(--text-dark);
-      transition: all 0.3s ease;
     }
 
     .nav-center {
@@ -596,43 +583,154 @@
       color: #b19cd9;
     }
 
+    /* --- HAMBURGER MENU STYLES --- */
+    /* Mobile Menu Overlay */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    /* Mobile Menu Sidebar */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 300px;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      transition: left 0.3s ease;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-menu.active {
+      left: 0;
+    }
+    .mobile-menu-header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1.5rem 1.5rem 1rem 1.5rem;
+      border-bottom: 1px solid #eee;
+      flex-shrink: 0;
+    }
+    .hamburger-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: color 0.3s ease;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hamburger-close-btn:hover {
+      color: #b19cd9;
+    }
+    .mobile-menu-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1;
+      padding-top: 5rem;
+    }
+    .mobile-menu-item {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .mobile-menu-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 1.5rem;
+      color: var(--text-dark);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .mobile-menu-link:hover {
+      background: var(--lilac-light);
+      color: #b19cd9;
+    }
+    .dropdown-arrow {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      transition: transform 0.3s ease;
+      margin-left: 0.5rem;
+    }
+    /* Hamburger Icon Animation */
+    .nav-left {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 18px;
+      width: 25px;
+      z-index: 10001;
+      transition: all 0.3s ease;
+    }
+    .nav-left span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+    .nav-left.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    .nav-left.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-left.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+    /* Prevent body scroll when menu is open */
+    body.menu-open {
+      overflow: hidden;
+    }
+
     @media (max-width: 768px) {
       .product-container {
         grid-template-columns: 1fr;
         gap: 2rem;
         padding: 2rem 1rem;
       }
-
-      .product-images {
-        flex-direction: column-reverse;
+      .product-images { flex-direction: column-reverse; }
+      .thumbnail-images { flex-direction: row; width: auto; justify-content: center; }
+      .main-image { height: 400px; }
+      .product-title { font-size: 2rem; }
+      .color-palette { grid-template-columns: repeat(8, 1fr); }
+      .nav-center { font-size: 24px; }
+      .nav-bar { padding: 0 20px; }
+    }
+     @media (max-width: 480px) {
+      .mobile-menu {
+        width: 280px;
       }
-
-      .thumbnail-images {
-        flex-direction: row;
-        width: auto;
-        justify-content: center;
-      }
-
-      .main-image {
-        height: 400px;
-      }
-
-      .product-title {
-        font-size: 2rem;
-      }
-
-      .color-palette {
-        grid-template-columns: repeat(8, 1fr);
-      }
-
-      .nav-center {
-        font-size: 24px;
-      }
-
-      .nav-bar {
-        padding: 0 20px;
+      .mobile-menu-link {
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
       }
     }
+
   </style>
   <!-- Include Cart System -->
   <link rel="stylesheet" href="cart.css">
@@ -640,6 +738,46 @@
 </head>
 <body>
   
+=======
+</head>
+<body>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <button class="hamburger-close-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-menu-items">
+      <li class="mobile-menu-item">
+        <a href="index.html" class="mobile-menu-link">Home</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="index.html#fabric" class="mobile-menu-link">
+          Shop by Colour
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Umrah/Hajj</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          New Arrivals
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Hijabs
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Gift Boxes</a>
+      </li>
+    </ul>
+  </div>
   <div class="top-bar">
     <div class="messages">
       <span class="msg1">Free shipping above Rs. 4000</span>
@@ -722,7 +860,7 @@
 
   <main class="main-content">
     <div class="breadcrumb">
-      <a href="index.html">Home</a> > <a href="#fabric">Shop by Fabric</a> > <span style="color: var(--text-dark);">Silk</span>
+      <a href="index.html">Home</a> > <a href="index.html#fabric">Shop by Fabric</a> > <span style="color: var(--text-dark);">Silk</span>
     </div>
 
     <div class="product-container">
@@ -1084,6 +1222,7 @@
       });
     });
 
+
     // User icon click
     const userIcon = document.getElementById("userIcon");
     if (userIcon) {
@@ -1093,5 +1232,90 @@
     }
   });
 </script>
+</body>
+</html>
+<script>
+    // Hamburger Menu Functionality
+    class HamburgerMenu {
+      constructor() {
+        this.hamburger = document.getElementById('hamburger');
+        this.menu = document.getElementById('mobileMenu');
+        this.overlay = document.getElementById('mobileMenuOverlay');
+        this.closeBtn = document.querySelector('.hamburger-close-btn');
+        
+        this.init();
+      }
+      
+      init() {
+        // Hamburger icon click
+        if (this.hamburger) {
+          this.hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleMenu();
+          });
+        }
+        
+        // Close button click
+        if (this.closeBtn) {
+          this.closeBtn.addEventListener('click', () => {
+            this.closeMenu();
+          });
+        }
+        
+        // Overlay click
+        if (this.overlay) {
+          this.overlay.addEventListener('click', () => {
+            this.closeMenu();
+          });
+        }
+        
+        // Close menu when clicking on links
+        const menuLinks = document.querySelectorAll('.mobile-menu-link');
+        menuLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            this.closeMenu();
+          });
+        });
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.isMenuOpen()) {
+            this.closeMenu();
+          }
+        });
+      }
+      
+      toggleMenu() {
+        if (this.isMenuOpen()) {
+          this.closeMenu();
+        } else {
+          this.openMenu();
+        }
+      }
+      
+      openMenu() {
+        if (this.hamburger) this.hamburger.classList.add('active');
+        if (this.menu) this.menu.classList.add('active');
+        if (this.overlay) this.overlay.classList.add('active');
+        document.body.classList.add('menu-open');
+      }
+      
+      closeMenu() {
+        if (this.hamburger) this.hamburger.classList.remove('active');
+        if (this.menu) this.menu.classList.remove('active');
+        if (this.overlay) this.overlay.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      }
+      
+      isMenuOpen() {
+        return this.menu && this.menu.classList.contains('active');
+      }
+    }
+  
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new HamburgerMenu();
+    });
+  </script>
 </body>
 </html>
