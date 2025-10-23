@@ -12,6 +12,8 @@
 
   <!-- Include Cart System -->
   <link rel="stylesheet" href="cart.css">
+  <!-- Link external Hamburger CSS -->
+  <link rel="stylesheet" href="hamburger.css">
 
 
   <style>
@@ -102,6 +104,11 @@
       padding: 0 40px;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
     }
+    
+    /* Ensure nav-left and nav-right have a defined width for proper spacing */
+    .nav-left, .nav-right {
+        width: 120px; /* Adjust as needed */
+    }
 
     .nav-center {
       font-size: 32px;
@@ -118,9 +125,8 @@
     .nav-right {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: flex-end; /* Align icons to the right end */
       gap: 20px;
-      width: 120px;
     }
 
     .nav-right i {
@@ -144,7 +150,7 @@
       width: 20px;
       height: 20px;
       font-size: 0.8rem;
-      display: flex;
+      display: none; /* Hide initially */
       align-items: center;
       justify-content: center;
       font-family: 'Inter', sans-serif;
@@ -174,6 +180,67 @@
     .nav-right .cart-container {
       position: relative;
     }
+    
+    /* Search Overlay Styles */
+    .search-overlay {
+      position: fixed;
+      top: 140px; /* Below nav bar */
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 998;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden; /* Add visibility control */
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      padding: 2rem;
+    }
+
+    .search-overlay.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible; /* Show when active */
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem 3rem 1rem 1.5rem;
+      border: 2px solid var(--lilac-subtle);
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: #b19cd9;
+    }
+
+    .search-close {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .search-close:hover {
+      color: var(--text-dark);
+    }
+
 
     /* Main Content */
     .main-content {
@@ -473,6 +540,31 @@
       color: var(--text-light);
       flex: 1;
     }
+    
+    /* Style for the size dropdown */
+    .size-select {
+        width: 100%; /* Take full width within its container */
+        max-width: 250px; /* Limit max width */
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--lilac-subtle);
+        border-radius: 8px;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        color: var(--text-dark);
+        background-color: white;
+        cursor: pointer;
+        appearance: none; /* Remove default arrow */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666666' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1em;
+        transition: border-color 0.3s ease;
+    }
+    .size-select:focus {
+        outline: none;
+        border-color: var(--lilac-dark);
+        box-shadow: 0 0 0 3px rgba(177, 156, 217, 0.1);
+    }
 
     .accordion-section {
       border-top: 1px solid #e0e0e0;
@@ -583,130 +675,8 @@
       color: #b19cd9;
     }
 
-    /* --- HAMBURGER MENU STYLES --- */
-    /* Mobile Menu Overlay */
-    .mobile-menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 9998;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    .mobile-menu-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    /* Mobile Menu Sidebar */
-    .mobile-menu {
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 300px;
-      height: 100%;
-      background: white;
-      z-index: 9999;
-      transition: left 0.3s ease;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    .mobile-menu.active {
-      left: 0;
-    }
-    .mobile-menu-header {
-      display: flex;
-      justify-content: flex-end;
-      padding: 1.5rem 1.5rem 1rem 1.5rem;
-      border-bottom: 1px solid #eee;
-      flex-shrink: 0;
-    }
-    .hamburger-close-btn {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--text-dark);
-      cursor: pointer;
-      padding: 0.5rem;
-      transition: color 0.3s ease;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hamburger-close-btn:hover {
-      color: #b19cd9;
-    }
-    .mobile-menu-items {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      flex: 1;
-      padding-top: 5rem;
-    }
-    .mobile-menu-item {
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .mobile-menu-link {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 1.5rem;
-      color: var(--text-dark);
-      text-decoration: none;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    .mobile-menu-link:hover {
-      background: var(--lilac-light);
-      color: #b19cd9;
-    }
-    .dropdown-arrow {
-      font-size: 0.7rem;
-      color: var(--text-light);
-      transition: transform 0.3s ease;
-      margin-left: 0.5rem;
-    }
-    /* Hamburger Icon Animation */
-    .nav-left {
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 18px;
-      width: 25px;
-      z-index: 10001;
-      transition: all 0.3s ease;
-    }
-    .nav-left span {
-      display: block;
-      width: 25px;
-      height: 2px;
-      background: var(--text-dark);
-      transition: all 0.3s ease;
-    }
-    .nav-left.active span:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
-    }
-    .nav-left.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .nav-left.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
-    }
-    /* Prevent body scroll when menu is open */
-    body.menu-open {
-      overflow: hidden;
-    }
-
+    /* --- HAMBURGER MENU STYLES MOVED TO hamburger.css --- */
+    
     @media (max-width: 768px) {
       .product-container {
         grid-template-columns: 1fr;
@@ -718,17 +688,13 @@
       .main-image { height: 400px; }
       .product-title { font-size: 2rem; }
       .color-palette { grid-template-columns: repeat(8, 1fr); }
-      .nav-center { font-size: 24px; }
+      .nav-center { font-size: 24px; position: static; transform: none; } /* Center on mobile */
       .nav-bar { padding: 0 20px; }
+       .nav-left, .nav-right { width: auto; } /* Allow shrink on mobile */
     }
      @media (max-width: 480px) {
-      .mobile-menu {
-        width: 280px;
-      }
-      .mobile-menu-link {
-        padding: 1rem 1.5rem;
-        font-size: 0.95rem;
-      }
+      .nav-bar { padding: 0 15px; } /* Adjust padding */
+       .size-select { max-width: 100%; } /* Full width dropdown on small screens */
     }
 
   </style>
@@ -740,6 +706,7 @@
 
 </head>
 <body>
+  <!-- Mobile Menu Overlay & Sidebar HTML (from hamburger.css/js) -->
   <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
   <div id="hamburger" class="nav-left">
   <span></span>
@@ -863,6 +830,16 @@
   <!-- Cart will be injected here by cart.js -->
   <div id="cartContainer"></div>
 
+  <!-- Search Overlay HTML -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search for silk products..." id="searchInput">
+      <button class="search-close" onclick="toggleSearch()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
   <main class="main-content">
     <div class="breadcrumb">
       <a href="index.html">Home</a> > <a href="index.html#fabric">Shop by Fabric</a> > <span style="color: var(--text-dark);">Silk</span>
@@ -945,9 +922,14 @@
         </div>
 
         <div class="product-details">
+          <!-- Size Dropdown -->
           <div class="detail-row">
-            <span class="detail-label">Size:</span>
-            <span class="detail-value">Approximately 70 x 30 inches</span>
+            <label for="size-select" class="detail-label">Size:</label>
+            <select id="size-select" class="size-select detail-value">
+                <option value="small">Small (65 x 30 inches)</option>
+                <option value="medium">Medium (75 x 35 inches)</option>
+                <option value="large">Large (80 x 40 inches)</option>
+            </select>
           </div>
           <div class="detail-row">
             <span class="detail-label">Material:</span>

@@ -150,6 +150,7 @@
       justify-content:center;
       color:var(--text-light);
       font-size:3rem;
+      object-fit: cover;
       border-bottom:1px solid var(--lilac-subtle);
     }
     .card-body{padding:1.25rem}
@@ -215,6 +216,9 @@
         grid-template-columns: 60px 1fr 100px; /* Adjust for mobile */
       }
       .nav-center{font-size:24px}
+      }
+      .nav-center{font-size:24px; position: static; transform: none; }
+      .nav-left, .nav-right { width: auto; }
       .nav-right{gap:14px}
       .grid{grid-template-columns:repeat(2,1fr);gap:1rem}
       .card-image{height:200px}
@@ -267,6 +271,7 @@
     <div class="nav-right">
       <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()"></i>
       <i class="fa-solid fa-user" onclick="window.location.href='login.html'"></i>
+      <i class="fa-solid fa-user" id="userIcon"></i>
       <div class="cart-container">
         <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
         <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
@@ -323,6 +328,11 @@
           
           <p class="price">Rs. 3,799</p>
           <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-silk-charcoal', 'Silk Charcoal Abaya', 'Charcoal', 3799)">
+        <img class="card-image" src="https://cdn.salla.sa/PbQgG/13b5a7c2-a39b-4348-a00c-c1a453858f49-666.2830840046x1000-7EBIMX7Pxv17Ke9Wrpny8O5J8QfnMVcXPj06ETqa.jpg" alt="Silk Charcoal Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Silk Charcoal Abaya</h3>
+          <p class="price">Rs. 3,799</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-silk-charcoal', 'Silk Charcoal Abaya', 'Charcoal', 3799, 'https://cdn.salla.sa/PbQgG/13b5a7c2-a39b-4348-a00c-c1a453858f49-666.2830840046x1000-7EBIMX7Pxv17Ke9Wrpny8O5J8QfnMVcXPj06ETqa.jpg')">
             Add to Cart
           </button>
         </div>
@@ -335,6 +345,11 @@
           
           <p class="price">Rs. 3,599</p>
           <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-beaded-maroon', 'Beaded Maroon Abaya', 'Maroon', 3599)">
+        <img class="card-image" src="https://casbasics.com/cdn/shop/files/IMG_6013.heic?crop=center&height=4032&v=1760627345&width=3024" alt="Beaded Maroon Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Beaded Maroon Abaya</h3>
+          <p class="price">Rs. 3,599</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-beaded-maroon', 'Beaded Maroon Abaya', 'Maroon', 3599, 'https://casbasics.com/cdn/shop/files/IMG_6013.heic?crop=center&height=4032&v=1760627345&width=3024')">
             Add to Cart
           </button>
         </div>
@@ -347,6 +362,11 @@
           
           <p class="price">Rs. 2,899</p>
           <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-lace-black', 'Lace Trim Black Abaya', 'Black', 2899)">
+        <img class="card-image" src="https://z.nooncdn.com/products/tr:n-t_400/v1610172732/N41217572V_1.jpg" alt="Lace Trim Black Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Lace Trim Black Abaya</h3>
+          <p class="price">Rs. 2,899</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-lace-black', 'Lace Trim Black Abaya', 'Black', 2899, 'https://z.nooncdn.com/products/tr:n-t_400/v1610172732/N41217572V_1.jpg')">
             Add to Cart
           </button>
         </div>
@@ -359,6 +379,11 @@
          
           <p class="price">Rs. 2,699</p>
           <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-crepe-black', 'Premium Crepe Abaya', 'Black', 2699)">
+        <img class="card-image" src="https://abayah.in/wp-content/uploads/2023/10/1.jpg" alt="Premium Crepe Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Premium Crepe Abaya</h3>
+          <p class="price">Rs. 2,699</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-crepe-black', 'Premium Crepe Abaya', 'Black', 2699, 'https://abayah.in/wp-content/uploads/2023/10/1.jpg')">
             Add to Cart
           </button>
         </div>
@@ -406,6 +431,7 @@
 
   <script src="cart.js"></script>
   <script src="hamburger-menu.js"></script>
+  <script src="hamburger.js"></script>
   
   <script>
     // Toggle search overlay
@@ -425,11 +451,19 @@
     
     // Add abaya to cart
     function addAbayaToCart(id, name, color, price) {
+    // User icon functionality
+    document.getElementById('userIcon').addEventListener('click', function() {
+      window.location.href = 'login.html';
+    });
+    
+    // Add abaya to cart
+    function addAbayaToCart(id, name, color, price, image) {
       const product = {
         id: id,
         name: name,
         color: color,
         price: price,
+        image: image,
         quantity: 1
       };
       
@@ -449,6 +483,20 @@
         }, 1500);
       }
     }
+      } else {
+          console.error("SereNyaCart is not defined. Ensure cart.js is loaded correctly.")
+      }
+    }
+
+    // Close search on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const searchOverlay = document.getElementById('searchOverlay');
+        if (searchOverlay && searchOverlay.classList.contains('active')) { 
+          toggleSearch();
+        }
+      }
+    });
   </script>
 </body>
 </html>

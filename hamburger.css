@@ -42,6 +42,9 @@
   justify-content: flex-end;
   padding: 1.5rem;
   border-bottom: 1px solid #eee;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .hamburger-close-btn {
@@ -68,6 +71,9 @@
   padding: 0;
   margin: 0;
   flex: 1;
+  flex: 1; /* Take remaining space */
+  /* REMOVED: padding-top: 1rem; Removed top padding entirely */
+  padding-top: 0; 
 }
 
 .mobile-menu-item {
@@ -100,6 +106,8 @@
 }
 
 /* FIXED Hamburger Icon Animation */
+
+/* Hamburger Icon Animation */
 .nav-left {
   cursor: pointer;
   display: flex;
@@ -109,7 +117,9 @@
   width: 25px;
   z-index: 10001;
   transition: all 0.3s ease;
+
   position: relative;
+
 }
 
 .nav-left span {
@@ -118,21 +128,35 @@
   height: 2px;
   background: var(--text-dark);
   transition: all 0.3s ease;
+
   transform-origin: center;
 }
 
 /* CORRECTED Transformations */
 .nav-left.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
+
+}
+
+.nav-left.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+
 }
 
 .nav-left.active span:nth-child(2) {
   opacity: 0;
+
   transform: translateX(-10px);
 }
 
 .nav-left.active span:nth-child(3) {
   transform: rotate(-45deg) translate(5px, -5px);
+
+}
+
+.nav-left.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+
 }
 
 /* Prevent body scroll when menu is open */
@@ -150,4 +174,9 @@ body.menu-open {
     padding: 1rem 1.5rem;
     font-size: 0.95rem;
   }
+
 }
+
+
+
+
