@@ -7,17 +7,26 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   
-  <link rel="stylesheet" href="hamburger-menu.css">
+  <!-- Link external CSS files -->
+  <link rel="stylesheet" href="hamburger.css"> 
   <link rel="stylesheet" href="cart.css">
   
   <style>
+    /* Base styles - Keep these */
     :root{
       --lilac-light:#f8f5ff;--lilac-subtle:#e6d7ff;--lilac-medium:#d1b3ff;--lilac-dark:#b19cd9;
       --text-dark:#2d2d2d;--text-light:#666;--card-bg:#fafafa;
     }
+    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0;}
     .font-playfair{font-family:'Playfair Display',serif} 
     .font-inter{font-family:'Inter',sans-serif}
-    .top-bar{height:40px;position:fixed;top:0;left:0;right:0;background:var(--lilac-subtle);display:flex;align-items:center;justify-content:center;z-index:1000}
+    
+    /* Top Bar with rotating messages */
+    .top-bar{height:40px;position:fixed;top:0;left:0;right:0;background:var(--lilac-subtle);display:flex;align-items:center;justify-content:center;z-index:1000; font-size: 14px; color: var(--text-dark); overflow: hidden;}
+    .messages { position: relative; height: 100%; display: flex; align-items: center; }
+    .msg1, .msg2, .msg3 { position: absolute; opacity: 0; animation: slideFade 30s infinite; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; white-space: nowrap; font-weight: 500; }
+    @keyframes slideFade { 0% { opacity: 0; transform: translateY(20px); } 5% { opacity: 1; transform: translateY(0); } 30% { opacity: 1; transform: translateY(0); } 35% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 0; } }
+    .msg1 { animation-delay: 0s; } .msg2 { animation-delay: 10s; } .msg3 { animation-delay: 20s; }
     
     /* FIXED NAV BAR - Proper 3-column layout */
     .nav-bar{
@@ -27,33 +36,20 @@
       left:0;
       right:0;
       background:#fff;
-      display:grid;
-      grid-template-columns: 120px 1fr 120px; /* Left: 120px, Center: flexible, Right: 120px */
+      display:flex;
       align-items:center;
+      justify-content:space-between;
       padding:0 40px;
       box-shadow:0 2px 10px rgba(0,0,0,.05);
       z-index:999;
     }
-    
-    /* Hamburger on the left */
-    .nav-left{
-      cursor:pointer;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      width: 25px;
-    }
-    .nav-left span{
-      display:block;
-      width:25px;
-      height:2px;
-      background:var(--text-dark);
-      transition:all .3s ease;
-    }
+    .nav-left, .nav-right { width: 120px; }
     
     /* Logo in center */
     .nav-center{
-      text-align: center;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
       font-size:32px;
       font-weight:700;
       letter-spacing:2px;
@@ -144,12 +140,6 @@
     .card-image{
       width:100%;
       height:280px;
-      background:linear-gradient(135deg, var(--lilac-light) 0%, var(--lilac-subtle) 100%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:var(--text-light);
-      font-size:3rem;
       object-fit: cover;
       border-bottom:1px solid var(--lilac-subtle);
     }
@@ -213,9 +203,6 @@
       .nav-bar{
         padding:0 16px;
         height:72px;
-        grid-template-columns: 60px 1fr 100px; /* Adjust for mobile */
-      }
-      .nav-center{font-size:24px}
       }
       .nav-center{font-size:24px; position: static; transform: none; }
       .nav-left, .nav-right { width: auto; }
@@ -225,36 +212,56 @@
     }
     @media(max-width:480px){
       .grid{grid-template-columns:1fr}
-      .nav-bar{
-        grid-template-columns: 50px 1fr 90px;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Mobile Menu Overlay -->
+  <!-- Mobile Menu Overlay & Sidebar - Same as Silk Page -->
   <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
-  
-  <!-- Mobile Menu -->
-  <!-- <div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
-      <button class="hamburger-close-btn" aria-label="Close menu">
+      <button class="hamburger-close-btn">
         <i class="fas fa-times"></i>
       </button>
-    </div> -->
-    <!-- <ul class="mobile-menu-items">
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="index.html">Home</a></li>
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="index.html#collections">Featured</a></li>
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="abayas.html">Abayas</a></li>
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="silk.html">Silk Collection</a></li>
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="magnets.html">Magnets & Pins</a></li>
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="underscarves.html">Underscarves</a></li>
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="niqab.html">Niqab</a></li>
-      <li class="mobile-menu-item"><a class="mobile-menu-link" href="about.html">About Us</a></li>
-    </ul> -->
+    </div>
+    <ul class="mobile-menu-items">
+      <li class="mobile-menu-item">
+        <a href="index.html" class="mobile-menu-link">Home</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="index.html#fabric" class="mobile-menu-link">
+          Shop by Colour
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Umrah/Hajj</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          New Arrivals
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Hijabs
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Gift Boxes</a>
+      </li>
+    </ul>
   </div>
 
-  <div class="top-bar"><span class="font-inter">Use code WELCOME10 for 10% off</span></div>
+  <div class="top-bar">
+    <div class="messages">
+      <span class="msg1">Free shipping above Rs. 4000</span>
+      <span class="msg2">Use code WELCOME10 for 10% off</span>
+      <span class="msg3">New Abaya arrivals — shop now</span>
+    </div>
+  </div>
 
   <div class="nav-bar">
     <!-- Left: Hamburger -->
@@ -270,7 +277,6 @@
     <!-- Right: Icons -->
     <div class="nav-right">
       <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()"></i>
-      <i class="fa-solid fa-user" onclick="window.location.href='login.html'"></i>
       <i class="fa-solid fa-user" id="userIcon"></i>
       <div class="cart-container">
         <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
@@ -298,36 +304,28 @@
 
     <section class="grid" style="max-width:1200px;margin:0 auto">
       <article class="card">
-        <div class="card-image"><i class="fas fa-image"></i></div>
+        <img class="card-image" src="https://hijabi.pk/cdn/shop/files/2_720x_59def139-2cb5-4412-a13d-98af7d5c47ca.jpg?v=1712139789&width=720" alt="Classic Black Abaya">
         <div class="card-body">
           <h3 class="card-title">Classic Black Abaya</h3>
-          
           <p class="price">Rs. 2,499</p>
-          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-classic-black', 'Classic Black Abaya', 'Black', 2499)">
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-classic-black', 'Classic Black Abaya', 'Black', 2499, 'https://hijabi.pk/cdn/shop/files/2_720x_59def139-2cb5-4412-a13d-98af7d5c47ca.jpg?v=1712139789&width=720')">
             Add to Cart
           </button>
         </div>
       </article>
 
       <article class="card">
-        <div class="card-image"><i class="fas fa-image"></i></div>
+        <img class="card-image" src="https://www.sefamerve.com/image/cache/data/202402/02/mdphntukx_8185_0020sgs_inci_islemeli_ferace_lacivert_1706861414_4-752x1152.jpg" alt="Embroidered Navy Abaya">
         <div class="card-body">
           <h3 class="card-title">Embroidered Navy Abaya</h3>
-          
           <p class="price">Rs. 3,299</p>
-          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-embroidered-navy', 'Embroidered Navy Abaya', 'Navy', 3299)">
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-embroidered-navy', 'Embroidered Navy Abaya', 'Navy', 3299, 'https://www.sefamerve.com/image/cache/data/202402/02/mdphntukx_8185_0020sgs_inci_islemeli_ferace_lacivert_1706861414_4-752x1152.jpg')">
             Add to Cart
           </button>
         </div>
       </article>
 
       <article class="card">
-        <div class="card-image"><i class="fas fa-image"></i></div>
-        <div class="card-body">
-          <h3 class="card-title">Silk Charcoal Abaya</h3>
-          
-          <p class="price">Rs. 3,799</p>
-          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-silk-charcoal', 'Silk Charcoal Abaya', 'Charcoal', 3799)">
         <img class="card-image" src="https://cdn.salla.sa/PbQgG/13b5a7c2-a39b-4348-a00c-c1a453858f49-666.2830840046x1000-7EBIMX7Pxv17Ke9Wrpny8O5J8QfnMVcXPj06ETqa.jpg" alt="Silk Charcoal Abaya">
         <div class="card-body">
           <h3 class="card-title">Silk Charcoal Abaya</h3>
@@ -339,12 +337,6 @@
       </article>
 
       <article class="card">
-        <div class="card-image"><i class="fas fa-image"></i></div>
-        <div class="card-body">
-          <h3 class="card-title">Beaded Maroon Abaya</h3>
-          
-          <p class="price">Rs. 3,599</p>
-          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-beaded-maroon', 'Beaded Maroon Abaya', 'Maroon', 3599)">
         <img class="card-image" src="https://casbasics.com/cdn/shop/files/IMG_6013.heic?crop=center&height=4032&v=1760627345&width=3024" alt="Beaded Maroon Abaya">
         <div class="card-body">
           <h3 class="card-title">Beaded Maroon Abaya</h3>
@@ -356,12 +348,6 @@
       </article>
 
       <article class="card">
-        <div class="card-image"><i class="fas fa-image"></i></div>
-        <div class="card-body">
-          <h3 class="card-title">Lace Trim Black Abaya</h3>
-          
-          <p class="price">Rs. 2,899</p>
-          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-lace-black', 'Lace Trim Black Abaya', 'Black', 2899)">
         <img class="card-image" src="https://z.nooncdn.com/products/tr:n-t_400/v1610172732/N41217572V_1.jpg" alt="Lace Trim Black Abaya">
         <div class="card-body">
           <h3 class="card-title">Lace Trim Black Abaya</h3>
@@ -373,12 +359,6 @@
       </article>
 
       <article class="card">
-        <div class="card-image"><i class="fas fa-image"></i></div>
-        <div class="card-body">
-          <h3 class="card-title">Premium Crepe Abaya</h3>
-         
-          <p class="price">Rs. 2,699</p>
-          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-crepe-black', 'Premium Crepe Abaya', 'Black', 2699)">
         <img class="card-image" src="https://abayah.in/wp-content/uploads/2023/10/1.jpg" alt="Premium Crepe Abaya">
         <div class="card-body">
           <h3 class="card-title">Premium Crepe Abaya</h3>
@@ -430,7 +410,6 @@
   </footer>
 
   <script src="cart.js"></script>
-  <script src="hamburger-menu.js"></script>
   <script src="hamburger.js"></script>
   
   <script>
@@ -449,8 +428,6 @@
       }
     }
     
-    // Add abaya to cart
-    function addAbayaToCart(id, name, color, price) {
     // User icon functionality
     document.getElementById('userIcon').addEventListener('click', function() {
       window.location.href = 'login.html';
@@ -481,8 +458,6 @@
           btn.textContent = originalText;
           btn.style.background = 'var(--text-dark)';
         }, 1500);
-      }
-    }
       } else {
           console.error("SereNyaCart is not defined. Ensure cart.js is loaded correctly.")
       }
