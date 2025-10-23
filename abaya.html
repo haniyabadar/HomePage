@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abayas - SereNya.pk</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  
+  <!-- Link external CSS files -->
+  <link rel="stylesheet" href="hamburger.css"> 
+  <link rel="stylesheet" href="cart.css">
+  
+  <style>
+    /* Base styles - Keep these */
+    :root{
+      --lilac-light:#f8f5ff;--lilac-subtle:#e6d7ff;--lilac-medium:#d1b3ff;--lilac-dark:#b19cd9;
+      --text-dark:#2d2d2d;--text-light:#666;--card-bg:#fafafa;
+    }
+    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0;}
+    .font-playfair{font-family:'Playfair Display',serif} 
+    .font-inter{font-family:'Inter',sans-serif}
+    
+    /* Top Bar with rotating messages */
+    .top-bar{height:40px;position:fixed;top:0;left:0;right:0;background:var(--lilac-subtle);display:flex;align-items:center;justify-content:center;z-index:1000; font-size: 14px; color: var(--text-dark); overflow: hidden;}
+    .messages { position: relative; height: 100%; display: flex; align-items: center; }
+    .msg1, .msg2, .msg3 { position: absolute; opacity: 0; animation: slideFade 30s infinite; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; white-space: nowrap; font-weight: 500; }
+    @keyframes slideFade { 0% { opacity: 0; transform: translateY(20px); } 5% { opacity: 1; transform: translateY(0); } 30% { opacity: 1; transform: translateY(0); } 35% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 0; } }
+    .msg1 { animation-delay: 0s; } .msg2 { animation-delay: 10s; } .msg3 { animation-delay: 20s; }
+    
+    /* FIXED NAV BAR - Proper 3-column layout */
+    .nav-bar{
+      height:100px;
+      position:fixed;
+      top:40px;
+      left:0;
+      right:0;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 40px;
+      box-shadow:0 2px 10px rgba(0,0,0,.05);
+      z-index:999;
+    }
+    .nav-left, .nav-right { width: 120px; }
+    
+    /* Logo in center */
+    .nav-center{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:32px;
+      font-weight:700;
+      letter-spacing:2px;
+      cursor:pointer;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    /* Icons on the right */
+    .nav-right{
+      display:flex;
+      align-items:center;
+      justify-content: flex-end;
+      gap:20px;
+    }
+    .nav-right i{
+      font-size:22px;
+      cursor:pointer;
+      color:var(--text-dark);
+      transition:color .3s ease;
+    }
+    .nav-right i:hover{color:var(--lilac-dark)}
+    
+    .cart-badge{
+      position:absolute;
+      top:-8px;
+      right:-8px;
+      background:var(--lilac-dark);
+      color:#fff;
+      border-radius:50%;
+      width:20px;
+      height:20px;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      font-size:.8rem;
+      font-weight:600;
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+    .nav-right .cart-container{position:relative}
+    
+    .search-overlay{
+      position:fixed;
+      top:140px;
+      left:0;
+      right:0;
+      background:#fff;
+      box-shadow:0 4px 20px rgba(0,0,0,.1);
+      z-index:998;
+      transform:translateY(-100%);
+      opacity:0;
+      transition:all .3s ease;
+      padding:2rem;
+    }
+    .search-overlay.active{transform:translateY(0);opacity:1}
+    .search-container{max-width:800px;margin:0 auto;position:relative}
+    .search-input{
+      width:100%;
+      padding:1rem 3rem 1rem 1.5rem;
+      border:2px solid var(--lilac-subtle);
+      border-radius:50px;
+      font-family:'Inter',sans-serif;
+      font-size:1rem;
+    }
+    .search-close{
+      position:absolute;
+      right:1rem;
+      top:50%;
+      transform:translateY(-50%);
+      background:none;
+      border:none;
+      font-size:1.5rem;
+      color:var(--text-light);
+      cursor:pointer;
+    }
+    
+    .main-content{margin-top:140px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .card{
+      background:#fff;
+      border:1px solid var(--lilac-subtle);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+      transition:all .3s ease;
+    }
+    .card:hover{transform:translateY(-5px);box-shadow:0 12px 24px rgba(177,156,217,.15)}
+    .card-image{
+      width:100%;
+      height:280px;
+      object-fit: cover;
+      border-bottom:1px solid var(--lilac-subtle);
+    }
+    .card-body{padding:1.25rem}
+    .card-title{
+      font-family:'Playfair Display',serif;
+      font-size:1.2rem;
+      margin-bottom:.5rem;
+      color:var(--text-dark);
+    }
+    .card-description{
+      font-size:.9rem;
+      color:var(--text-light);
+      margin-bottom:.75rem;
+      line-height:1.4;
+    }
+    .price{color:var(--lilac-dark);font-weight:700;font-size:1.3rem;margin-bottom:1rem}
+    .add-to-cart-btn{
+      width:100%;
+      padding:.8rem;
+      border:none;
+      border-radius:8px;
+      background:var(--text-dark);
+      color:#fff;
+      font-weight:600;
+      font-family:'Inter',sans-serif;
+      cursor:pointer;
+      transition:all .3s ease;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+    .add-to-cart-btn:hover{
+      background:var(--lilac-dark);
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(177,156,217,.3);
+    }
+    
+    .footer{background:#000;color:#fff;padding:3rem 2rem 1rem;text-align:center;margin-top:4rem}
+    .footer-content{
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:2rem;
+      margin-bottom:2rem;
+    }
+    .footer-section h3{font-size:1.25rem;font-weight:700;margin-bottom:.75rem}
+    .footer-section a{
+      display:block;
+      margin-bottom:.4rem;
+      text-decoration:none;
+      color:#ccc;
+      transition:color .3s ease;
+    }
+    .footer-section a:hover{color:#fff}
+    .social-icons{display:flex;justify-content:center;gap:1rem;margin-top:1rem}
+    .social-icons i{font-size:1.2rem;cursor:pointer;transition:color .3s ease}
+    .social-icons i:hover{color:var(--lilac-medium)}
+    
+    @media(max-width:768px){
+      .nav-bar{
+        padding:0 16px;
+        height:72px;
+      }
+      .nav-center{font-size:24px; position: static; transform: none; }
+      .nav-left, .nav-right { width: auto; }
+      .nav-right{gap:14px}
+      .grid{grid-template-columns:repeat(2,1fr);gap:1rem}
+      .card-image{height:200px}
+    }
+    @media(max-width:480px){
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile Menu Overlay & Sidebar - Same as Silk Page -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <button class="hamburger-close-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-menu-items">
+      <li class="mobile-menu-item">
+        <a href="index.html" class="mobile-menu-link">Home</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="index.html#fabric" class="mobile-menu-link">
+          Shop by Colour
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Umrah/Hajj</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          New Arrivals
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Hijabs
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Gift Boxes</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="top-bar">
+    <div class="messages">
+      <span class="msg1">Free shipping above Rs. 4000</span>
+      <span class="msg2">Use code WELCOME10 for 10% off</span>
+      <span class="msg3">New Abaya arrivals — shop now</span>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <!-- Left: Hamburger -->
+    <div class="nav-left" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    
+    <!-- Center: Logo -->
+    <div class="nav-center" onclick="window.location.href='index.html'">SereNya</div>
+    
+    <!-- Right: Icons -->
+    <div class="nav-right">
+      <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()"></i>
+      <i class="fa-solid fa-user" id="userIcon"></i>
+      <div class="cart-container">
+        <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
+        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search for abayas..." id="searchInput">
+      <button class="search-close" onclick="toggleSearch()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="cartContainer"></div>
+
+  <main class="main-content" style="padding:2rem">
+    <header style="text-align:center;margin-bottom:3rem">
+      <h1 class="font-playfair" style="font-size:2.5rem;margin-bottom:.5rem">Elegant Abayas</h1>
+      <p class="font-inter" style="color:var(--text-light);font-size:1.1rem">Discover our collection of beautifully crafted abayas, designed for comfort and elegance.</p>
+    </header>
+
+    <section class="grid" style="max-width:1200px;margin:0 auto">
+      <article class="card">
+        <img class="card-image" src="https://hijabi.pk/cdn/shop/files/2_720x_59def139-2cb5-4412-a13d-98af7d5c47ca.jpg?v=1712139789&width=720" alt="Classic Black Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Classic Black Abaya</h3>
+          <p class="price">Rs. 2,499</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-classic-black', 'Classic Black Abaya', 'Black', 2499, 'https://hijabi.pk/cdn/shop/files/2_720x_59def139-2cb5-4412-a13d-98af7d5c47ca.jpg?v=1712139789&width=720')">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-image" src="https://www.sefamerve.com/image/cache/data/202402/02/mdphntukx_8185_0020sgs_inci_islemeli_ferace_lacivert_1706861414_4-752x1152.jpg" alt="Embroidered Navy Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Embroidered Navy Abaya</h3>
+          <p class="price">Rs. 3,299</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-embroidered-navy', 'Embroidered Navy Abaya', 'Navy', 3299, 'https://www.sefamerve.com/image/cache/data/202402/02/mdphntukx_8185_0020sgs_inci_islemeli_ferace_lacivert_1706861414_4-752x1152.jpg')">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-image" src="https://cdn.salla.sa/PbQgG/13b5a7c2-a39b-4348-a00c-c1a453858f49-666.2830840046x1000-7EBIMX7Pxv17Ke9Wrpny8O5J8QfnMVcXPj06ETqa.jpg" alt="Silk Charcoal Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Silk Charcoal Abaya</h3>
+          <p class="price">Rs. 3,799</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-silk-charcoal', 'Silk Charcoal Abaya', 'Charcoal', 3799, 'https://cdn.salla.sa/PbQgG/13b5a7c2-a39b-4348-a00c-c1a453858f49-666.2830840046x1000-7EBIMX7Pxv17Ke9Wrpny8O5J8QfnMVcXPj06ETqa.jpg')">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-image" src="https://casbasics.com/cdn/shop/files/IMG_6013.heic?crop=center&height=4032&v=1760627345&width=3024" alt="Beaded Maroon Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Beaded Maroon Abaya</h3>
+          <p class="price">Rs. 3,599</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-beaded-maroon', 'Beaded Maroon Abaya', 'Maroon', 3599, 'https://casbasics.com/cdn/shop/files/IMG_6013.heic?crop=center&height=4032&v=1760627345&width=3024')">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-image" src="https://z.nooncdn.com/products/tr:n-t_400/v1610172732/N41217572V_1.jpg" alt="Lace Trim Black Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Lace Trim Black Abaya</h3>
+          <p class="price">Rs. 2,899</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-lace-black', 'Lace Trim Black Abaya', 'Black', 2899, 'https://z.nooncdn.com/products/tr:n-t_400/v1610172732/N41217572V_1.jpg')">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-image" src="https://abayah.in/wp-content/uploads/2023/10/1.jpg" alt="Premium Crepe Abaya">
+        <div class="card-body">
+          <h3 class="card-title">Premium Crepe Abaya</h3>
+          <p class="price">Rs. 2,699</p>
+          <button class="add-to-cart-btn" onclick="addAbayaToCart('abaya-crepe-black', 'Premium Crepe Abaya', 'Black', 2699, 'https://abayah.in/wp-content/uploads/2023/10/1.jpg')">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About SereNya</h3>
+        <p style="color:#ccc;line-height:1.6">Dedicated to providing elegant and modest fashion for the modern Muslim woman. Quality, comfort, and style in every piece.</p>
+        <div class="social-icons">
+          <i class="fab fa-facebook"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-pinterest"></i>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="index.html#collections">Collections</a>
+        <a href="about.html">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Size Guide</a>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <a href="#">Shipping Info</a>
+        <a href="#">Returns & Exchanges</a>
+        <a href="#">FAQ</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <p style="color:#ccc">info@serenya.pk</p>
+        <p style="color:#ccc">+92 300 1234567</p>
+        <p style="color:#ccc">Lahore, Pakistan</p>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:2rem;border-top:1px solid #333">
+      <p class="font-inter" style="color:#ccc">&copy; 2025 SereNya.pk. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="cart.js"></script>
+  <script src="hamburger.js"></script>
+  
+  <script>
+    // Toggle search overlay
+    function toggleSearch() {
+      const overlay = document.getElementById('searchOverlay');
+      const input = document.getElementById('searchInput');
+      
+      if (overlay.classList.contains('active')) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      } else {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => input && input.focus(), 200);
+      }
+    }
+    
+    // User icon functionality
+    document.getElementById('userIcon').addEventListener('click', function() {
+      window.location.href = 'login.html';
+    });
+    
+    // Add abaya to cart
+    function addAbayaToCart(id, name, color, price, image) {
+      const product = {
+        id: id,
+        name: name,
+        color: color,
+        price: price,
+        image: image,
+        quantity: 1
+      };
+      
+      // Use the global cart system
+      if (typeof SereNyaCart !== 'undefined') {
+        SereNyaCart.addProduct(product);
+        
+        // Visual feedback on button
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Added!';
+        btn.style.background = '#2ed573';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--text-dark)';
+        }, 1500);
+      } else {
+          console.error("SereNyaCart is not defined. Ensure cart.js is loaded correctly.")
+      }
+    }
+
+    // Close search on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const searchOverlay = document.getElementById('searchOverlay');
+        if (searchOverlay && searchOverlay.classList.contains('active')) { 
+          toggleSearch();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

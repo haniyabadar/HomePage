@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Include Cart CSS -->
+  <link rel="stylesheet" href="cart.css">
+  <!-- Include Hamburger CSS -->
+  <link rel="stylesheet" href="hamburger.css">
+  
   <style>
     :root {
       --primary-color: #2d2d2d;
@@ -93,12 +99,9 @@
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
     }
 
-    .nav-left span {
-      display: block;
-      width: 25px;
-      height: 2px;
-      background: var(--text-dark);
-      margin: 4px 0;
+    /* Ensure nav-left and nav-right have a defined width for proper spacing */
+    .nav-left, .nav-right {
+        width: 120px;
     }
 
     .nav-center {
@@ -107,6 +110,10 @@
       letter-spacing: 2px;
       font-family: 'Playfair Display', serif;
       color: var(--text-dark);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
     }
 
     .nav-right {
@@ -119,7 +126,12 @@
     .nav-right i {
       font-size: 22px;
       cursor: pointer;
+      transition: color 0.3s ease;
       color: var(--text-dark);
+    }
+
+    .nav-right i:hover {
+      color: #b19cd9;
     }
 
     .cart-badge {
@@ -132,10 +144,82 @@
       width: 20px;
       height: 20px;
       font-size: 0.8rem;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
+      font-family: 'Inter', sans-serif;
       font-weight: 600;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .nav-right .cart-container {
+      position: relative;
+    }
+    
+    /* Search Overlay Styles */
+    .search-overlay {
+      position: fixed;
+      top: 140px;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 998;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 2rem;
+    }
+
+    .search-overlay.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem 3rem 1rem 1.5rem;
+      border: 2px solid var(--lilac-subtle);
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: #b19cd9;
+    }
+
+    .search-close {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .search-close:hover {
+      color: var(--text-dark);
     }
 
     .main-content {
@@ -364,15 +448,67 @@
       }
     }
 
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .mobile-menu {
+        width: 280px;
+      }
+      
+      .mobile-menu-link {
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
+      }
+    }
+
     @media (max-width: 768px) {
       .nav-bar { padding: 0 16px; height: 72px; }
-      .nav-center { font-size: 24px; }
+      .nav-center { font-size: 24px; position: static; transform: none; }
+      .nav-left, .nav-right { width: auto; }
       .section-header h1 { font-size: 2rem; }
       .products-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
     }
   </style>
 </head>
 <body>
+  <!-- Mobile Menu Overlay & Sidebar - Same as Silk Page -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <button class="hamburger-close-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-menu-items">
+      <li class="mobile-menu-item">
+        <a href="index.html" class="mobile-menu-link">Home</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="index.html#fabric" class="mobile-menu-link">
+          Shop by Colour
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Umrah/Hajj</a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          New Arrivals
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">
+          Hijabs
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="#" class="mobile-menu-link">Gift Boxes</a>
+      </li>
+    </ul>
+  </div>
+
   <div class="top-bar">
     <div class="messages">
       <span class="msg1">Free shipping above Rs. 4000</span>
@@ -382,21 +518,34 @@
   </div>
 
   <div class="nav-bar">
-    <div class="nav-left">
+    <div class="nav-left" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <div class="nav-center" onclick="window.location.href='index.html'" style="cursor: pointer;">SereNya</div>
+    <div class="nav-center" onclick="window.location.href='index.html'">SereNya</div>
     <div class="nav-right">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <i class="fa-solid fa-user"></i>
-      <div style="position: relative;">
-        <i id="cartIcon" class="fa-solid fa-bag-shopping"></i>
-        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+      <i class="fa-solid fa-magnifying-glass" onclick="toggleSearch()"></i>
+      <i class="fa-solid fa-user" id="userIcon"></i>
+      <div class="cart-container">
+        <i class="fa-solid fa-bag-shopping" id="cartIcon"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
       </div>
     </div>
   </div>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search for underscarves..." id="searchInput">
+      <button class="search-close" onclick="toggleSearch()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cart Container (will be injected by cart.js) -->
+  <div id="cartContainer"></div>
 
   <div class="main-content">
     <div class="products-container">
@@ -408,64 +557,55 @@
 
       <div class="products-grid fade-in" style="animation-delay: 0.2s;">
         <div class="product-card">
-          <div class="product-image" style="background-image: url('https://kefpk.com/cdn/shop/collections/underscarves_900x.jpg?v=1758197234');">
+          <div class="product-image" style="background-image: url('https://sc04.alicdn.com/kf/HTB11b1cblHH8KJjy0Fbq6AqlpXah.jpg');">
             <div class="product-badge">Best Seller</div>
           </div>
           <div class="product-info">
             <h3 class="product-title">Classic Cotton Underscarf</h3>
             <div class="product-price">Rs. 450</div>
-            <!-- <p class="product-description">Breathable cotton underscarf with elastic band. Perfect for daily wear and all skin types.</p> -->
             <div class="product-colors">
               <div class="color-swatch" style="background-color: #000000;"></div>
               <div class="color-swatch" style="background-color: #ffffff; border: 2px solid #000;"></div>
               <div class="color-swatch" style="background-color: #8B7355;"></div>
               <div class="color-swatch" style="background-color: #808080;"></div>
             </div>
-            <button class="add-to-cart-btn" onclick="addToCart({ name: 'Classic Cotton Underscarf', price: 450, color: 'Black' })">Add to Cart</button>
+            <button class="add-to-cart-btn" onclick="addUnderscarfToCart('underscarf-cotton-classic', 'Classic Cotton Underscarf', 'Black', 450, 'https://sc04.alicdn.com/kf/HTB11b1cblHH8KJjy0Fbq6AqlpXah.jpg')">Add to Cart</button>
           </div>
         </div>
 
         <div class="product-card">
-          <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400');">
+          <div class="product-image" style="background-image: url('https://veiled.com/cdn/shop/files/bamboo-jersey-undercap-natural-654583.jpg?crop=center&height=1200&v=1709969087&width=1200');">
             <div class="product-badge">Premium</div>
           </div>
           <div class="product-info">
             <h3 class="product-title">Bamboo Silk Underscarf</h3>
             <div class="product-price">Rs. 750</div>
-            <!-- <p class="product-description">Luxurious bamboo silk blend. Ultra-soft, hypoallergenic, and moisture-wicking properties.</p> -->
             <div class="product-colors">
               <div class="color-swatch" style="background-color: #F5DEB3;"></div>
               <div class="color-swatch" style="background-color: #D2B48C;"></div>
               <div class="color-swatch" style="background-color: #CD853F;"></div>
               <div class="color-swatch" style="background-color: #696969;"></div>
             </div>
-            <button class="add-to-cart-btn" onclick="addToCart({ name: 'Bamboo Silk Underscarf', price: 750, color: 'Beige' })">Add to Cart</button>
+            <button class="add-to-cart-btn" onclick="addUnderscarfToCart('underscarf-bamboo-silk', 'Bamboo Silk Underscarf', 'Beige', 750, 'https://veiled.com/cdn/shop/files/bamboo-jersey-undercap-natural-654583.jpg?crop=center&height=1200&v=1709969087&width=1200')">Add to Cart</button>
           </div>
         </div>
 
         <div class="product-card">
-          <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1591886572738-8e6e81b63b12?w=400');">
+          <div class="product-image" style="background-image: url('https://kefpk.com/cdn/shop/collections/underscarves.jpg?v=1758197234');">
             <div class="product-badge">New</div>
           </div>
           <div class="product-info">
             <h3 class="product-title">Stretchy Georgette Underscarf</h3>
             <div class="product-price">Rs. 550</div>
-            <!-- <p class="product-description">Lightweight georgette with elastic edges. Stays in place all day, gentle on hair.</p> -->
             <div class="product-colors">
               <div class="color-swatch" style="background-color: #FFB6C1;"></div>
               <div class="color-swatch" style="background-color: #FFC0CB;"></div>
               <div class="color-swatch" style="background-color: #FFB0C4;"></div>
               <div class="color-swatch" style="background-color: #FFE4E1;"></div>
             </div>
-            <button class="add-to-cart-btn" onclick="addToCart({ name: 'Stretchy Georgette Underscarf', price: 550, color: 'Pink' })">Add to Cart</button>
+            <button class="add-to-cart-btn" onclick="addUnderscarfToCart('underscarf-georgette-stretchy', 'Stretchy Georgette Underscarf', 'Pink', 550, 'https://kefpk.com/cdn/shop/collections/underscarves.jpg?v=1758197234')">Add to Cart</button>
           </div>
         </div>
-
-        
-
-        
-
-        
       </div>
     </div>
   </div>
@@ -508,13 +648,73 @@
     </div>
   </footer>
 
+  <!-- Include Cart JavaScript -->
+  <script src="cart.js"></script>
+  <!-- Include Hamburger JavaScript -->
+  <script src="hamburger.js"></script>
+  
   <script>
-    function addToCart(productData) {
-      const cartBadge = document.getElementById('cartBadge');
-      let currentCount = parseInt(cartBadge.textContent) || 0;
-      cartBadge.textContent = currentCount + 1;
-      cartBadge.style.display = 'flex';
+    // Search functionality
+    function toggleSearch() {
+      const searchOverlay = document.getElementById('searchOverlay');
+      const searchInput = document.getElementById('searchInput');
+      
+      if (searchOverlay.classList.contains('active')) {
+        searchOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      } else {
+        searchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => searchInput.focus(), 300);
+      }
     }
+
+    // Close search on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const searchOverlay = document.getElementById('searchOverlay');
+        if (searchOverlay.classList.contains('active')) {
+          toggleSearch();
+        }
+      }
+    });
+
+    // User icon functionality
+    document.getElementById('userIcon').addEventListener('click', function() {
+      window.location.href = 'login.html';
+    });
+
+    // Add underscarf to cart function - Same as silk page
+    function addUnderscarfToCart(id, name, color, price, image) {
+      const product = {
+        id: id,
+        name: name,
+        color: color,
+        price: price,
+        image: image,
+        quantity: 1
+      };
+      
+      // Use the global cart system
+      if (typeof SereNyaCart !== 'undefined') {
+        SereNyaCart.addProduct(product);
+        
+        // Show success feedback
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'ADDED TO CART!';
+        btn.style.background = '#2ed573';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'var(--text-dark)';
+        }, 2000);
+      } else {
+        console.error("SereNyaCart is not defined. Ensure cart.js is loaded correctly.");
+      }
+    }
+
+    // NOTE: Hamburger menu functionality is handled by hamburger.js
   </script>
 </body>
 </html>

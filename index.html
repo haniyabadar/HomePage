@@ -7,10 +7,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
-  <!-- Link to cart.css -->
+ 
+  <!-- Link external CSS files -->
   <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="hamburger.css"> 
   
+  <!-- Google Verification Tag - Correct Placement -->
+  <meta name="google-site-verification" content="GC9VTbwgBOU8wHZabj8ZPw1TqQ12smSfuiXN5BjVnAY" />
+
   <style>
     /* variables */
     :root {
@@ -29,6 +33,7 @@
     }
 
     html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; } /* Added default body font */
 
     .font-playfair { font-family: 'Playfair Display', serif; }
     .font-inter { font-family: 'Inter', sans-serif; }
@@ -87,9 +92,9 @@
       width: 100%;
       height: 100px;
       background-color: white;
-      display: flex;
+      display: flex; 
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-between; 
       position: fixed;
       top: 40px;
       left: 0;
@@ -104,17 +109,21 @@
       letter-spacing: 2px;
       font-family: 'Playfair Display', serif;
       color: var(--text-dark);
-      position: absolute;
+      position: absolute; 
       left: 50%;
       transform: translateX(-50%);
+      cursor: pointer;
     }
-
+    
+    /* Ensure nav-left and nav-right have a defined width for proper spacing */
+    .nav-left, .nav-right {
+        width: 120px; /* Adjust as needed */
+    }
     .nav-right {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: flex-end; /* Align icons to the right end */
       gap: 20px;
-      width: 120px;
     }
 
     .nav-right i {
@@ -128,9 +137,10 @@
       color: #b19cd9;
     }
 
+    /* Search Overlay Styles */
     .search-overlay {
       position: fixed;
-      top: 140px;
+      top: 140px; 
       left: 0;
       right: 0;
       background: white;
@@ -138,13 +148,15 @@
       z-index: 998;
       transform: translateY(-100%);
       opacity: 0;
-      transition: all 0.3s ease;
+      visibility: hidden; 
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
       padding: 2rem;
     }
 
     .search-overlay.active {
       transform: translateY(0);
       opacity: 1;
+      visibility: visible; 
     }
 
     .search-container {
@@ -195,7 +207,7 @@
       width: 20px;
       height: 20px;
       font-size: 0.8rem;
-      display: flex;
+      display: none; /* Hide initially */
       align-items: center;
       justify-content: center;
       font-family: 'Inter', sans-serif;
@@ -640,6 +652,7 @@
       border: none;
       border-radius: 25px;
       font-family: 'Inter', sans-serif;
+      color: #333; 
     }
 
     .newsletter-button {
@@ -713,14 +726,14 @@
     }
 
     .silk-products-section {
-      display: none;
+      display: none; 
       min-height: 100vh;
       background: linear-gradient(to bottom, var(--lilac-light), white);
       padding: 2rem;
     }
 
     .silk-products-section.active {
-      display: block;
+      display: block; 
     }
 
     .back-button {
@@ -859,165 +872,46 @@
       transform: scale(0.95);
     }
 
-    /* --- NEW HAMBURGER MENU STYLES --- */
-    /* Mobile Menu Overlay */
-    .mobile-menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 9998;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    .mobile-menu-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    /* Mobile Menu Sidebar */
-    .mobile-menu {
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 300px;
-      height: 100%;
-      background: white;
-      z-index: 9999;
-      transition: left 0.3s ease;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    .mobile-menu.active {
-      left: 0;
-    }
-    .mobile-menu-header {
-      display: flex;
-      justify-content: flex-end;
-      padding: 1.5rem 1.5rem 1rem 1.5rem;
-      border-bottom: 1px solid #eee;
-      flex-shrink: 0; /* Prevent header from shrinking */
-    }
-    .hamburger-close-btn {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--text-dark);
-      cursor: pointer;
-      padding: 0.5rem;
-      transition: color 0.3s ease;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hamburger-close-btn:hover {
-      color: #b19cd9;
-    }
-    .mobile-menu-items {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      flex: 1; /* Take remaining space */
-      padding-top: 5rem; /* Add space below header */
-    }
-    .mobile-menu-item {
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .mobile-menu-link {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 1.5rem;
-      color: var(--text-dark);
-      text-decoration: none;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    .mobile-menu-link:hover {
-      background: var(--lilac-light);
-      color: #b19cd9;
-    }
-    .dropdown-arrow {
-      font-size: 0.7rem;
-      color: var(--text-light);
-      transition: transform 0.3s ease;
-      margin-left: 0.5rem;
-    }
-    /* Hamburger Icon Animation */
-    .nav-left {
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 18px;
-      width: 25px;
-      z-index: 10001;
-      transition: all 0.3s ease;
-    }
-    .nav-left span {
-      display: block;
-      width: 25px;
-      height: 2px;
-      background: var(--text-dark);
-      transition: all 0.3s ease;
-    }
-    .nav-left.active span:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
-    }
-    .nav-left.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .nav-left.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
-    }
-    /* Prevent body scroll when menu is open */
-    body.menu-open {
-      overflow: hidden;
-    }
+    /* --- HAMBURGER MENU STYLES ARE NOW IN hamburger.css --- */
+    
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .nav-bar { height: 72px; padding: 0 16px; }
       .nav-center { position: static; transform: none; margin: 0 auto; font-size: 24px; }
       .nav-right { width: auto; gap: 14px; }
       .top-bar { height: 36px; }
+      .product-categories { grid-template-columns: 1fr; } 
     }
     @media (max-width: 480px) {
-      .mobile-menu {
-        width: 280px;
-      }
-      .mobile-menu-link {
-        padding: 1rem 1.5rem;
-        font-size: 0.95rem;
+       .hero-content h1 { font-size: 2.5rem; }
+       .hero-content p { font-size: 1rem; }
+       .cta-button { padding: 12px 30px; font-size: 1rem;}
+       .review-slide { padding: 0 1rem; } 
+       .testimonial-card { padding: 1.5rem; }
+       .nav-bar {
+         padding: 0 15px; /* Adjust padding for smaller mobile */
       }
     }
   </style>
 </head>
 
 <body>
+  <!-- Mobile Menu Overlay -->
   <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
   
+  <!-- Mobile Menu Sidebar -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
-      <!-- NOTE: Changed class to 'hamburger-close-btn' for the new JS to work -->
-      <button class="hamburger-close-btn">
+      <button class="hamburger-close-btn" aria-label="Close menu">
         <i class="fas fa-times"></i>
       </button>
     </div>
-    
     <ul class="mobile-menu-items">
       <li class="mobile-menu-item">
-        <a href="#" class="mobile-menu-link" onclick="showHomepage()">Home</a>
+        <a href="index.html" class="mobile-menu-link">Home</a>
       </li>
       <li class="mobile-menu-item">
-        <a href="#" class="mobile-menu-link" onclick="document.getElementById('fabric').scrollIntoView({ behavior: 'smooth' })">
+        <a href="#fabric" class="mobile-menu-link" onclick="document.getElementById('fabric').scrollIntoView({ behavior: 'smooth' })">
           Shop by Colour
           <span class="dropdown-arrow">▼</span>
         </a>
@@ -1052,8 +946,7 @@
   </div>
 
   <div class="nav-bar">
-    <!-- NOTE: Removed onclick attribute, new JS will handle it -->
-    <div class="nav-left" id="hamburger">
+    <div class="nav-left" id="hamburger"> <!-- ID added for JS -->
       <span></span>
       <span></span>
       <span></span>
@@ -1072,6 +965,7 @@
   <!-- Cart Container - will be populated by cart.js -->
   <div id="cartContainer"></div>
 
+  <!-- Search Overlay -->
   <div class="search-overlay" id="searchOverlay">
     <div class="search-container">
       <input type="text" class="search-input" placeholder="Search for hijabs, abayas, scarves..." id="searchInput">
@@ -1098,7 +992,8 @@
         </div>
         
         <div class="collections-grid">
-          <div class="collection-card slide-in-left">
+          <!-- Abayas Card with Link -->
+          <div class="collection-card slide-in-left" onclick="window.location.href='abaya.html'">
             <div class="collection-image" style="background-image: url(https://modern-abayati.com/cdn/shop/files/Screenshot_2025-03-09_at_1.26.07_PM.png?height=1200&v=1741541190);">
               <div class="collection-overlay">
                 <h4 class="font-playfair" style="font-weight: 600; font-size: 1.3rem; margin-bottom: 0.5rem;">Premium Abayas</h4>
@@ -1110,7 +1005,8 @@
             </div>
           </div>
 
-          <div class="collection-card scale-in">
+          <!-- Scarves Card with Link -->
+          <div class="collection-card scale-in" onclick="window.location.href='scarves.html'">
             <div class="collection-image" style="background-image: url(https://img.fruugo.com/product/6/37/330001376_max.jpg);">
               <div class="collection-overlay">
                 <h4 class="font-playfair" style="font-weight: 600; font-size: 1.3rem; margin-bottom: 0.5rem;">Luxury Scarves</h4>
@@ -1122,6 +1018,7 @@
             </div>
           </div>
 
+          <!-- Hijabs Card -->
           <div class="collection-card slide-in-right"
                onclick="document.getElementById('fabric').scrollIntoView({ behavior: 'smooth' })"
                role="button" tabindex="0"
@@ -1472,23 +1369,28 @@
 
   <!-- Load cart.js script -->
   <script src="cart.js"></script>
+  <!-- Link external hamburger JS -->
+  <script src="hamburger.js"></script> 
 
   <script>
     let currentSlide = 0;
     const totalSlides = 5;
 
+    // Search function - moved here
     function toggleSearch() {
       const searchOverlay = document.getElementById('searchOverlay');
       const searchInput = document.getElementById('searchInput');
       
+      if (!searchOverlay || !searchInput) return; // Add checks for elements
+
       if (searchOverlay.classList.contains('active')) {
         searchOverlay.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'auto'; // Restore scroll
       } else {
         searchOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden'; // Prevent scroll
         setTimeout(() => {
-          searchInput.focus();
+          searchInput.focus(); // Focus input after transition
         }, 300);
       }
     }
@@ -1502,67 +1404,83 @@
       }
     }
 
+    // Testimonial slider functions
     function showReview(n) {
       const slider = document.getElementById('reviewsSlider');
       const dots = document.querySelectorAll('.dot');
       
-      if (n >= totalSlides) currentSlide = 0;
-      if (n < 0) currentSlide = totalSlides - 1;
+      if (!slider || !dots.length) return; 
+
+      // Adjust index based on boundaries
+      currentSlide = n; // Update global currentSlide
+      if (currentSlide >= totalSlides) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = totalSlides - 1;
       
-      // Note: The original slider logic was slightly off for multiple items. Correcting it.
       slider.style.transform = `translateX(-${currentSlide * 100}%)`;
       
-      dots.forEach(dot => dot.classList.remove('active'));
-      dots[currentSlide].classList.add('active');
+      dots.forEach((dot, index) => {
+        if (index === currentSlide) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+      });
     }
 
     function nextReview() {
-      currentSlide++;
-      if (currentSlide >= totalSlides) {
-        currentSlide = 0;
-      }
-      showReview(currentSlide);
+      showReview(currentSlide + 1);
     }
 
     function previousReview() {
-      currentSlide--;
-       if (currentSlide < 0) {
-        currentSlide = totalSlides - 1;
-      }
-      showReview(currentSlide);
+      showReview(currentSlide - 1);
     }
 
     function currentReview(n) {
-      currentSlide = n - 1;
-      showReview(currentSlide);
+      showReview(n - 1);
+    }
+    
+    // Auto-advance slider only if slider exists
+    let sliderInterval;
+    if (document.getElementById('reviewsSlider')) {
+        sliderInterval = setInterval(nextReview, 5000);
     }
 
-    setInterval(nextReview, 5000);
 
+    // Functions to show/hide silk products section
     function showSilkProducts() {
-      document.getElementById('homepage').style.display = 'none';
-      document.getElementById('silkProducts').classList.add('active');
+      const homepage = document.getElementById('homepage');
+      const silkProducts = document.getElementById('silkProducts');
+      if (homepage) homepage.style.display = 'none';
+      if (silkProducts) silkProducts.classList.add('active');
       window.scrollTo(0, 0);
-      // Hamburger menu will be closed by its own new script
+      // Hamburger menu will be closed by its own script
     }
 
     function showHomepage() {
-      document.getElementById('homepage').style.display = 'block';
-      document.getElementById('silkProducts').classList.remove('active');
+      // Intended for index.html, might cause issues if called elsewhere without #homepage
+      const homepage = document.getElementById('homepage');
+      const silkProducts = document.getElementById('silkProducts');
+      if (homepage) homepage.style.display = 'block';
+      if (silkProducts) silkProducts.classList.remove('active');
       window.scrollTo(0, 0);
-      // Hamburger menu will be closed by its own new script
+      // Redirect to index if not on index page
+      if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('index.html')) {
+          window.location.href = 'index.html';
+      }
+       // Hamburger menu will be closed by its own script
     }
 
     // Close search on Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         const searchOverlay = document.getElementById('searchOverlay');
-        if (searchOverlay.classList.contains('active')) {
+        if (searchOverlay && searchOverlay.classList.contains('active')) { 
           toggleSearch();
         }
       }
     });
 
+    // Intersection Observer for animations
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -1579,94 +1497,14 @@
     document.addEventListener('DOMContentLoaded', function() {
       const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
       animatedElements.forEach(el => observer.observe(el));
+      
+      // Initialize slider if it exists
+      if (document.getElementById('reviewsSlider')) {
+           showReview(currentSlide); 
+      }
     });
-  </script>
 
-  <!-- NEW HAMBURGER MENU SCRIPT -->
-  <script>
-    // Hamburger Menu Functionality
-    class HamburgerMenu {
-      constructor() {
-        this.hamburger = document.getElementById('hamburger');
-        this.menu = document.getElementById('mobileMenu');
-        this.overlay = document.getElementById('mobileMenuOverlay');
-        this.closeBtn = document.querySelector('.hamburger-close-btn');
-        
-        this.init();
-      }
-      
-      init() {
-        // Hamburger icon click
-        if (this.hamburger) {
-          this.hamburger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleMenu();
-          });
-        }
-        
-        // Close button click
-        if (this.closeBtn) {
-          this.closeBtn.addEventListener('click', () => {
-            this.closeMenu();
-          });
-        }
-        
-        // Overlay click
-        if (this.overlay) {
-          this.overlay.addEventListener('click', () => {
-            this.closeMenu();
-          });
-        }
-        
-        // Close menu when clicking on links
-        const menuLinks = document.querySelectorAll('.mobile-menu-link');
-        menuLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            // Adding a small delay to allow navigation/scrolling to happen before closing
-            setTimeout(() => {
-                this.closeMenu();
-            }, 150);
-          });
-        });
-        
-        // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && this.isMenuOpen()) {
-            this.closeMenu();
-          }
-        });
-      }
-      
-      toggleMenu() {
-        if (this.isMenuOpen()) {
-          this.closeMenu();
-        } else {
-          this.openMenu();
-        }
-      }
-      
-      openMenu() {
-        if (this.hamburger) this.hamburger.classList.add('active');
-        if (this.menu) this.menu.classList.add('active');
-        if (this.overlay) this.overlay.classList.add('active');
-        document.body.classList.add('menu-open');
-      }
-      
-      closeMenu() {
-        if (this.hamburger) this.hamburger.classList.remove('active');
-        if (this.menu) this.menu.classList.remove('active');
-        if (this.overlay) this.overlay.classList.remove('active');
-        document.body.classList.remove('menu-open');
-      }
-      
-      isMenuOpen() {
-        return this.menu && this.menu.classList.contains('active');
-      }
-    }
-    // Initialize when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      new HamburgerMenu();
-    });
+    // NOTE: Hamburger Menu script is now external in hamburger.js
   </script>
 </body>
 </html>
